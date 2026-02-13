@@ -73,11 +73,11 @@ export const RARITY_TIERS = {
 
 export const FISH_DATA = [
     // Tier 1: Dull
-    { id: 'algae', name: 'Algae', description: 'Slimy green stuff.', rarityId: 1, difficulty: 0.2, value: 1, image: algae },
-    { id: 'boot', name: 'Old Boot', description: 'Soleless.', rarityId: 1, difficulty: 0.2, value: 1, image: boot },
-    { id: 'shell', name: 'Seashell', description: 'Pretty common shell.', rarityId: 1, difficulty: 0.3, value: 2, image: shell },
-    { id: 'batteries', name: 'Batteries', description: 'Who threw these in?', rarityId: 1, difficulty: 0.2, value: 1, image: batteries },
-    { id: 'bottle', name: 'Glass Bottle', description: 'Empty. No message.', rarityId: 1, difficulty: 0.2, value: 1, image: bottle },
+    { id: 'algae', name: 'Algae', description: 'Slimy green stuff.', rarityId: 1, difficulty: 0.2, value: 2, image: algae },
+    { id: 'boot', name: 'Old Boot', description: 'Soleless.', rarityId: 1, difficulty: 0.2, value: 2, image: boot },
+    { id: 'shell', name: 'Seashell', description: 'Pretty common shell.', rarityId: 1, difficulty: 0.3, value: 4, image: shell },
+    { id: 'batteries', name: 'Batteries', description: 'Who threw these in?', rarityId: 1, difficulty: 0.2, value: 2, image: batteries },
+    { id: 'bottle', name: 'Glass Bottle', description: 'Empty. No message.', rarityId: 1, difficulty: 0.2, value: 2, image: bottle },
 
     // Tier 2: Common
     { id: 'anchovy', name: 'Anchovy', description: 'Tiny but tasty.', rarityId: 2, difficulty: 0.4, value: 5, image: fishBasic },

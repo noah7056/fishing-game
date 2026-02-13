@@ -30,12 +30,19 @@ const RodShop = ({
     };
 
     const handleCollectReward = (rodId, amount) => {
+        if (!amount || amount <= 0) return;
         if (collectedRewards.has(rodId)) return;
 
+        // Use functional updates for both states to ensure consistency
+        setWallet(prevWallet => prevWallet + amount);
+        setCollectedRewards(prevRewards => {
+            const newRewards = new Set(prevRewards);
+            newRewards.add(rodId);
+            return newRewards;
+        });
+
         playSound('button');
-        playSound('buyRod'); // Use buying sound as requested
-        setWallet(prev => prev + amount);
-        setCollectedRewards(prev => new Set([...prev, rodId]));
+        playSound('buyRod'); // Using the satisfying 'buy rod' sound for the reward
     };
 
     return (
