@@ -175,7 +175,7 @@ const GameScreen = () => {
         gameLoopRef.current = setTimeout(() => {
             setGameState(GAME_STATES.HOOKED);
             showFloatingText("!");
-            setTimeout(() => playSound('hook'), 1000);
+            playSound('hook');
         }, waitTime);
     };
 

@@ -43,7 +43,7 @@ const sounds = {
     newItem: { src: sfxNewItem, volume: 0.6 },
 };
 
-export function playSound(name) {
+export function playSound(name, delay = 0) {
     if (!sfxEnabled) return;
     const entry = sounds[name];
     if (!entry) return;
@@ -52,7 +52,7 @@ export function playSound(name) {
     if (entry.delay) {
         setTimeout(() => {
             audio.play().catch(() => { });
-        }, entry.delay);
+        }, entry.delay + delay);
     } else {
         audio.play().catch(() => { });
     }
