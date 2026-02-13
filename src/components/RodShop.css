@@ -1,0 +1,160 @@
+.rod-shop-container {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    font-family: 'Courier Prime', monospace;
+    overflow-y: auto;
+}
+
+.rod-shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+}
+
+.rod-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.rod-card {
+    background: #050510;
+    border: 1px solid #333;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    /* transition: border 0.2s; */
+}
+
+.rod-card.owned {
+    border-color: #2ecc71;
+}
+
+.rod-card.unlockable {
+    border-color: #f1c40f;
+}
+
+.rod-card.locked {
+    border-color: #333;
+    opacity: 0.6;
+}
+
+.rod-info-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.rod-image {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    border: 1px solid #333;
+    background: #000;
+}
+
+.rod-details h3 {
+    margin: 0;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.rod-tier {
+    margin: 5px 0;
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.rod-price {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: gold;
+    font-weight: bold;
+}
+
+.rod-actions {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.status-owned {
+    color: #2ecc71;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.status-locked {
+    color: #888;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.buy-btn {
+    background: #222;
+    border: 1px solid gold;
+    color: gold;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-family: inherit;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.buy-btn:hover {
+    background: gold;
+    color: #000;
+}
+
+.buy-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #555;
+    color: #555;
+}
+
+/* Progress Section */
+.rod-progress-section {
+    margin-top: 10px;
+    border-top: 1px solid #222;
+    padding-top: 10px;
+}
+
+.progress-label {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.progress-track {
+    width: 100%;
+    height: 8px;
+    background: #111;
+    border: 1px solid #333;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #3498db;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.lock-reason {
+    font-size: 0.8rem;
+    color: #e74c3c;
+    font-style: italic;
+    margin-top: 5px;
+}

@@ -1,0 +1,120 @@
+.potion-shop-container {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    font-family: 'Courier Prime', monospace;
+    overflow-y: auto;
+}
+
+.potion-shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+}
+
+.potion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding-bottom: 20px;
+}
+
+.potion-card {
+    background: #050510;
+    border: 2px solid #333;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: border-color 0.2s;
+}
+
+.potion-card:hover {
+    border-color: #666;
+}
+
+.potion-card.active {
+    border-color: #2ecc71;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+}
+
+.potion-image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    margin-bottom: 10px;
+}
+
+.potion-info h3 {
+    margin: 5px 0;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.potion-description {
+    font-size: 0.8rem;
+    color: #aaa;
+    margin: 8px 0;
+    min-height: 40px;
+}
+
+.potion-duration {
+    font-size: 0.75rem;
+    color: #888;
+    margin: 5px 0;
+}
+
+.potion-price {
+    font-size: 1rem;
+    color: gold;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.potion-actions {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.buy-potion-btn {
+    width: 100%;
+    background: #222;
+    border: 1px solid gold;
+    color: gold;
+    padding: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.buy-potion-btn:hover:not(:disabled) {
+    background: gold;
+    color: #000;
+}
+
+.buy-potion-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #555;
+    color: #555;
+}
+
+.active-status {
+    color: #2ecc71;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    padding: 10px;
+    border: 1px solid #2ecc71;
+    background: rgba(46, 204, 113, 0.1);
+}
