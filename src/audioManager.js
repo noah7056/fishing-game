@@ -15,18 +15,24 @@ import wavesLoop from './sfx/sea waves background loop.mp3';
 
 const savedSfx = localStorage.getItem('fishing_sfx_enabled');
 const savedBgm = localStorage.getItem('fishing_bgm_enabled');
+const savedBgmVol = localStorage.getItem('fishing_bgm_volume');
+const savedWaveVol = localStorage.getItem('fishing_waves_volume');
+const savedSfxVol = localStorage.getItem('fishing_sfx_volume');
 
 let sfxEnabled = savedSfx !== null ? JSON.parse(savedSfx) : true;
 let bgmEnabled = savedBgm !== null ? JSON.parse(savedBgm) : true;
+let bgmVolume = savedBgmVol !== null ? parseFloat(savedBgmVol) : 0.3;
+let wavesVolume = savedWaveVol !== null ? parseFloat(savedWaveVol) : 0.15;
+let sfxVolumeScale = savedSfxVol !== null ? parseFloat(savedSfxVol) : 1.0;
 
 // Pre-create looping audio instances
 const bgmAudio = new Audio(bgmLoop);
 bgmAudio.loop = true;
-bgmAudio.volume = 0.3;
+bgmAudio.volume = bgmVolume;
 
 const wavesAudio = new Audio(wavesLoop);
 wavesAudio.loop = true;
-wavesAudio.volume = 0.15;
+wavesAudio.volume = wavesVolume;
 
 const reelingAudio = new Audio(sfxReeling);
 reelingAudio.loop = true;
@@ -34,8 +40,8 @@ reelingAudio.volume = 0.08; // Very low — ambient background during reeling
 
 // Sound map for one-shot effects with per-sound volume
 const sounds = {
-    cast: { src: sfxSplash, volume: 0.5, delay: 1000 },
-    hook: { src: sfxDrop, volume: 0.5 },
+    cast: { src: sfxSplash, volume: 0.8, delay: 1000 },
+    hook: { src: sfxDrop, volume: 0.8 },
     catch: { src: sfxCatch, volume: 0.5 },
     sell: { src: sfxSell, volume: 0.5 },
     buyRod: { src: sfxBuyRod, volume: 0.5 },
@@ -51,7 +57,7 @@ export function playSound(name, delay = 0) {
     const entry = sounds[name];
     if (!entry) return;
     const audio = new Audio(entry.src);
-    audio.volume = entry.volume;
+    audio.volume = entry.volume * sfxVolumeScale;
     if (entry.delay) {
         setTimeout(() => {
             audio.play().catch(() => { });
@@ -64,6 +70,7 @@ export function playSound(name, delay = 0) {
 export function startReeling() {
     if (!sfxEnabled) return;
     reelingAudio.currentTime = 0;
+    reelingAudio.volume = 0.08 * sfxVolumeScale;
     reelingAudio.play().catch(() => { });
 }
 
@@ -90,6 +97,7 @@ export function toggleBGM() {
     } else {
         stopBGM();
     }
+    localStorage.setItem('fishing_bgm_enabled', JSON.stringify(bgmEnabled));
     return bgmEnabled;
 }
 
@@ -98,7 +106,29 @@ export function toggleSFX() {
     if (!sfxEnabled) {
         stopReeling();
     }
+    localStorage.setItem('fishing_sfx_enabled', JSON.stringify(sfxEnabled));
     return sfxEnabled;
+}
+
+export function setBgmVolume(v) {
+    bgmVolume = v;
+    bgmAudio.volume = v;
+    localStorage.setItem('fishing_bgm_volume', v.toString());
+}
+
+export function setWavesVolume(v) {
+    wavesVolume = v;
+    wavesAudio.volume = v;
+    localStorage.setItem('fishing_waves_volume', v.toString());
+}
+
+export function setSfxVolume(v) {
+    sfxVolumeScale = v;
+    localStorage.setItem('fishing_sfx_volume', v.toString());
+}
+
+export function getVolumes() {
+    return { bgm: bgmVolume, waves: wavesVolume, sfx: sfxVolumeScale };
 }
 
 export function isSfxEnabled() { return sfxEnabled; }

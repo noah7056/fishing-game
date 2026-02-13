@@ -9,7 +9,8 @@ import PotionShop from './PotionShop';
 import {
     playSound, startReeling, stopReeling,
     startBGM, toggleBGM, toggleSFX,
-    isSfxEnabled, isBgmEnabled
+    isSfxEnabled, isBgmEnabled,
+    setBgmVolume, setWavesVolume, setSfxVolume, getVolumes
 } from '../audioManager';
 
 // Asset Imports
@@ -49,6 +50,11 @@ const GameScreen = () => {
         const saved = localStorage.getItem('fishing_bgm_enabled');
         return saved !== null ? JSON.parse(saved) : isBgmEnabled();
     });
+
+    // Settings UI State
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [settingsTab, setSettingsTab] = useState('volume'); // 'volume' or 'howto'
+    const [volumes, setVolumes] = useState(() => getVolumes());
 
     // Temp UI/Game State
     const [gameState, setGameState] = useState(GAME_STATES.IDLE);
@@ -301,45 +307,106 @@ const GameScreen = () => {
         setBgmOn(nowOn);
     };
 
+    const handleVolumeChange = (type, value) => {
+        const v = parseFloat(value);
+        if (type === 'bgm') setBgmVolume(v);
+        if (type === 'waves') setWavesVolume(v);
+        if (type === 'sfx') setSfxVolume(v);
+        setVolumes(getVolumes());
+    };
+
     return (
         <div className="game-screen">
             {/* Top-left buttons */}
             <div className="top-buttons">
-                <button className="help-btn" onClick={() => { playSound('button'); setShowHelp(true); }}>?</button>
-                <button className={`toggle-btn ${sfxOn ? 'on' : 'off'}`} onClick={handleToggleSfx}>
-                    {sfxOn ? '🔊' : '🔇'}
-                </button>
-                <button className={`toggle-btn ${bgmOn ? 'on' : 'off'}`} onClick={handleToggleBgm}>
-                    {bgmOn ? '🎵' : '🎵'}
-                </button>
+                <button
+                    className="settings-btn"
+                    onClick={() => { playSound('button'); setIsSettingsOpen(true); }}
+                >⚙️</button>
             </div>
 
-            {/* Help Popup */}
-            {showHelp && (
-                <div className="help-overlay" onClick={() => setShowHelp(false)}>
-                    <div className="help-popup" onClick={(e) => e.stopPropagation()}>
-                        <h2>HOW TO PLAY</h2>
-                        <div className="help-section">
-                            <h3>🎣 CASTING</h3>
-                            <p>Press <strong>[SPACE]</strong> to cast your line into the water.</p>
+            {/* Settings Overlay */}
+            {isSettingsOpen && (
+                <div className="settings-overlay" onClick={() => setIsSettingsOpen(false)}>
+                    <div className="settings-popup" onClick={(e) => e.stopPropagation()}>
+                        <button className="settings-close-x" onClick={() => setIsSettingsOpen(false)}>×</button>
+
+                        <div className="settings-tabs">
+                            <button
+                                className={`settings-tab-btn ${settingsTab === 'volume' ? 'active' : ''}`}
+                                onClick={() => { playSound('button'); setSettingsTab('volume'); }}
+                            >VOLUME</button>
+                            <button
+                                className={`settings-tab-btn ${settingsTab === 'howto' ? 'active' : ''}`}
+                                onClick={() => { playSound('button'); setSettingsTab('howto'); }}
+                            >HOW TO</button>
                         </div>
-                        <div className="help-section">
-                            <h3>⏳ WAITING</h3>
-                            <p>Wait for a fish to bite. A <strong>"!"</strong> will appear when something is hooked.</p>
+
+                        <div className="settings-content">
+                            {settingsTab === 'volume' ? (
+                                <div className="volume-settings">
+                                    <div className="volume-row">
+                                        <div className="volume-label-row">
+                                            <span>Music</span>
+                                            <button
+                                                className={`toggle-icon ${bgmOn ? 'on' : 'off'}`}
+                                                onClick={handleToggleBgm}
+                                            >{bgmOn ? '🔊' : '🔇'}</button>
+                                        </div>
+                                        <input
+                                            type="range" min="0" max="1" step="0.05"
+                                            value={volumes.bgm}
+                                            onChange={(e) => handleVolumeChange('bgm', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="volume-row">
+                                        <span>Sea Waves</span>
+                                        <input
+                                            type="range" min="0" max="0.5" step="0.01"
+                                            value={volumes.waves}
+                                            onChange={(e) => handleVolumeChange('waves', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="volume-row">
+                                        <div className="volume-label-row">
+                                            <span>Sound Effects</span>
+                                            <button
+                                                className={`toggle-icon ${sfxOn ? 'on' : 'off'}`}
+                                                onClick={handleToggleSfx}
+                                            >{sfxOn ? '🔊' : '🔇'}</button>
+                                        </div>
+                                        <input
+                                            type="range" min="0" max="2" step="0.1"
+                                            value={volumes.sfx}
+                                            onChange={(e) => handleVolumeChange('sfx', e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="howto-content">
+                                    <div className="help-section">
+                                        <h3>🎣 CASTING</h3>
+                                        <p>Press <strong>[SPACE]</strong> to cast your line into the water.</p>
+                                    </div>
+                                    <div className="help-section">
+                                        <h3>⏳ WAITING</h3>
+                                        <p>Wait for a fish to bite. A <strong>"!"</strong> will appear when something is hooked.</p>
+                                    </div>
+                                    <div className="help-section">
+                                        <h3>🖱️ HOOKING</h3>
+                                        <p><strong>Click</strong> when the fish bites to start the reeling minigame.</p>
+                                    </div>
+                                    <div className="help-section">
+                                        <h3>🎯 REELING</h3>
+                                        <p>Move your mouse to track the <strong>white spot</strong> with your <strong>green bar</strong>. Hold <strong>left click</strong> while overlapping to fill the progress bar. Reach <strong>100%</strong> to catch the fish!</p>
+                                    </div>
+                                    <div className="help-section">
+                                        <h3>💰 SELLING</h3>
+                                        <p>Switch to the <strong>Inventory</strong> tab to sell your catches for coins.</p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                        <div className="help-section">
-                            <h3>🖱️ HOOKING</h3>
-                            <p><strong>Click</strong> when the fish bites to start the reeling minigame.</p>
-                        </div>
-                        <div className="help-section">
-                            <h3>🎯 REELING</h3>
-                            <p>Move your mouse to track the <strong>white spot</strong> with your <strong>green bar</strong>. Hold <strong>left click</strong> while overlapping to fill the progress bar. Reach <strong>100%</strong> to catch the fish!</p>
-                        </div>
-                        <div className="help-section">
-                            <h3>💰 SELLING</h3>
-                            <p>Switch to the <strong>Inventory</strong> tab to sell your catches for coins.</p>
-                        </div>
-                        <button className="help-close-btn" onClick={() => { playSound('button'); setShowHelp(false); }}>GOT IT!</button>
                     </div>
                 </div>
             )}

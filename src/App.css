@@ -113,7 +113,7 @@ body {
   }
 }
 
-/* --- Help Button & Popup --- */
+/* --- Settings Button & Overlay --- */
 .top-buttons {
   position: fixed;
   top: 15px;
@@ -123,37 +123,29 @@ body {
   z-index: 200;
 }
 
-.help-btn,
-.toggle-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+.settings-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
   border: 2px solid #fff;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: 1.4rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
-  font-family: inherit;
-  transition: background 0.2s, opacity 0.2s;
+  transition: all 0.2s;
 }
 
-.help-btn:hover,
-.toggle-btn:hover {
+.settings-btn:hover {
   background: #fff;
   color: #000;
+  transform: rotate(45deg);
 }
 
-.toggle-btn.off {
-  opacity: 0.4;
-  border-color: #666;
-}
-
-.help-overlay {
+.settings-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -166,30 +158,119 @@ body {
   z-index: 300;
 }
 
-.help-popup {
+.settings-popup {
   background: #0a0a14;
   border: 2px solid #fff;
-  padding: 35px 40px;
   max-width: 500px;
   width: 90%;
-  max-height: 80vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-close-x {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  z-index: 310;
+}
+
+.settings-close-x:hover {
+  color: #f00;
+}
+
+.settings-tabs {
+  display: flex;
+  border-bottom: 1px solid #333;
+}
+
+.settings-tab-btn {
+  flex: 1;
+  padding: 15px;
+  background: #000;
+  color: #666;
+  border: none;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  letter-spacing: 2px;
+}
+
+.settings-tab-btn.active {
+  color: #fff;
+  background: #111;
+  border-bottom: 2px solid #fff;
+}
+
+.settings-content {
+  padding: 25px;
+  max-height: 70vh;
   overflow-y: auto;
 }
 
-.help-popup h2 {
-  margin: 0 0 20px 0;
-  font-size: 1.4rem;
-  text-align: center;
-  letter-spacing: 3px;
+/* Volume Styles */
+.volume-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.volume-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.volume-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.volume-label-row span {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.toggle-icon {
+  background: none;
+  border: 1px solid #333;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  border-radius: 4px;
+}
+
+.toggle-icon.off {
+  opacity: 0.4;
+}
+
+.volume-row input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+  accent-color: #fff;
+}
+
+/* How To Content Styles */
+.howto-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .help-section {
-  margin-bottom: 18px;
   border-bottom: 1px solid #222;
   padding-bottom: 12px;
 }
 
-.help-section:last-of-type {
+.help-section:last-child {
   border-bottom: none;
 }
 
@@ -203,26 +284,6 @@ body {
   font-size: 0.85rem;
   color: #aaa;
   line-height: 1.5;
-}
-
-.help-close-btn {
-  display: block;
-  width: 100%;
-  margin-top: 20px;
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #fff;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
-  font-family: inherit;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-.help-close-btn:hover {
-  background: #fff;
-  color: #000;
 }
 
 /* --- Right Panel: Inventory & Shop --- */
