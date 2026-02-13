@@ -33,6 +33,7 @@ import sellingIcon from '../assets/selling icon.png';
 import saveIcon from '../assets/save.png';
 import warningIcon from '../assets/warning.png';
 import lockIcon from '../assets/lock icon.png';
+import languagesIcon from '../assets/languages icon.png';
 
 const GameScreen = () => {
     // Persistent State Initializers
@@ -565,7 +566,7 @@ const GameScreen = () => {
                             ) : (
                                 <div className="language-settings">
                                     <div className="language-section">
-                                        <h3>🌐 {t.LANGUAGE}</h3>
+                                        <h3><img src={languagesIcon} alt="" className="help-heading-icon" /> {t.LANGUAGE}</h3>
                                         <div className="language-options">
                                             <button
                                                 className={`lang-btn ${language === 'en' ? 'active' : ''}`}
