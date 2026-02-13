@@ -1,5 +1,10 @@
+import React from 'react';
+import { ROD_DATA } from '../data/rodData';
 import { FISH_DATA, RARITY_TIERS } from '../data/fishData';
 import { playSound } from '../audioManager';
+import { TRANSLATIONS } from '../data/translations';
+import moneyIcon from '../assets/money icon.png';
+import './RodShop.css';
 
 const RodShop = ({
     wallet,
