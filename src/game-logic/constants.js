@@ -15,5 +15,5 @@ export const FISHING_CONFIG = {
     REEL_TENSION_LIMIT: 100,
     REEL_DEPLETION_RATE: 10,
     REEL_RECOVERY_RATE: 5,
-    HOOK_TIMEOUT: 1500, // ms player has to click after hook
+    HOOK_TIMEOUT: 4000, // ms player has to click after hook
 };

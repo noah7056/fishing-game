@@ -71,7 +71,7 @@ const GameScreen = () => {
 
     // Game loop refs
     const gameLoopRef = useRef(null);
-    const hookTimeoutRef = useRef(null);
+    const hookTimersRef = useRef([]);
     const prevBuffCountRef = useRef(0);
 
     // Get current rod data for display
@@ -158,9 +158,14 @@ const GameScreen = () => {
     const handleLose = () => {
         showFloatingText("LOST...");
         setGameState(GAME_STATES.LOST);
+        // Automatically go back to idle after 1 second
+        setTimeout(resetGame, 1000);
     };
 
     const resetGame = () => {
+        // Clear any lingering hook timers
+        hookTimersRef.current.forEach(t => clearTimeout(t));
+        hookTimersRef.current = [];
         setGameState(GAME_STATES.IDLE);
     };
 
@@ -205,23 +210,48 @@ const GameScreen = () => {
             showFloatingText("!");
             playSound('hook');
 
-            // Lose the fish if player doesn't react quickly enough
-            hookTimeoutRef.current = setTimeout(() => {
+            // Clear any old timers just in case
+            hookTimersRef.current.forEach(t => clearTimeout(t));
+            hookTimersRef.current = [];
+
+            // Schedule dot sequence
+            const intervals = [1000, 2000, 3000];
+            const dots = [".", "..", "..."];
+
+            intervals.forEach((ms, idx) => {
+                const t = setTimeout(() => {
+                    setGameState(prev => {
+                        if (prev === GAME_STATES.HOOKED) {
+                            showFloatingText(dots[idx]);
+                        }
+                        return prev;
+                    });
+                }, ms);
+                hookTimersRef.current.push(t);
+            });
+
+            // Final Fail Timeout
+            const failT = setTimeout(() => {
                 setGameState(prev => {
                     if (prev === GAME_STATES.HOOKED) {
-                        showFloatingText("...");
+                        showFloatingText("...!");
                         playSound('hook');
+                        setTimeout(resetGame, 1000);
                         return GAME_STATES.LOST;
                     }
                     return prev;
                 });
             }, FISHING_CONFIG.HOOK_TIMEOUT);
+            hookTimersRef.current.push(failT);
         }, waitTime);
     };
 
     const handleHook = () => {
         if (gameState === GAME_STATES.HOOKED) {
-            if (hookTimeoutRef.current) clearTimeout(hookTimeoutRef.current);
+            // Clear all dot/fail timers
+            hookTimersRef.current.forEach(t => clearTimeout(t));
+            hookTimersRef.current = [];
+
             setGameState(GAME_STATES.REELING);
             showFloatingText("HOOKED!");
         }
@@ -396,8 +426,8 @@ const GameScreen = () => {
                     )}
                 </div>
 
-                {/* Result Overlay */}
-                {(gameState === GAME_STATES.CAUGHT || gameState === GAME_STATES.LOST) && (
+                {/* Result Overlay - Only for success now */}
+                {(gameState === GAME_STATES.CAUGHT) && (
                     <div className="result-overlay">
                         <div className="result-content">
                             <h2>{gameState === GAME_STATES.CAUGHT ? "FISH CAUGHT!" : "FISH LOST!"}</h2>
