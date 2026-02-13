@@ -73,8 +73,8 @@ export const TRANSLATIONS = {
         NEW_FISH_TYPES: 'New Fish Types',
         CATCHABLE_RARITIES: 'Catchable Rarities',
         COLLECTION_REWARD: 'Collection Reward',
-        COLLECT: 'COLLECT',
-        REWARD_COLLECTED: 'COLLECTED',
+        REDEEM: 'REDEEM',
+        REWARD_COLLECTED: 'REDEEMED',
         REQ_CATCH_ALL: 'Catch all {rarity} fish',
 
         // Status
@@ -261,8 +261,8 @@ export const TRANSLATIONS = {
         NEW_FISH_TYPES: '新鱼类',
         CATCHABLE_RARITIES: '可捕获品级',
         COLLECTION_REWARD: '收集奖励',
-        COLLECT: '领取',
-        REWARD_COLLECTED: '已领取',
+        REDEEM: '领奖',
+        REWARD_COLLECTED: '已领奖',
         REQ_CATCH_ALL: '捕获所有 {rarity} 鱼类',
 
         // Status
@@ -446,8 +446,8 @@ export const TRANSLATIONS = {
         NEW_FISH_TYPES: 'Nuevos Tipos de Peces',
         CATCHABLE_RARITIES: 'Rarezas Capturables',
         COLLECTION_REWARD: 'Recompensa de Colección',
-        COLLECT: 'RECOGER',
-        REWARD_COLLECTED: 'RECOGIDO',
+        REDEEM: 'CANJEAR',
+        REWARD_COLLECTED: 'CANJEADO',
         REQ_CATCH_ALL: 'Atrapa todos los peces {rarity}',
 
         // Status
@@ -631,7 +631,7 @@ export const TRANSLATIONS = {
         NEW_FISH_TYPES: '新しい魚種',
         CATCHABLE_RARITIES: '釣れるレア度',
         COLLECTION_REWARD: 'コレクション報酬',
-        COLLECT: '受け取る',
+        REDEEM: '報酬を受け取る',
         REWARD_COLLECTED: '受取済み',
         REQ_CATCH_ALL: 'すべての {rarity} 魚を釣る',
 
@@ -816,8 +816,8 @@ export const TRANSLATIONS = {
         NEW_FISH_TYPES: 'Neue Fischarten',
         CATCHABLE_RARITIES: 'Fangbare Seltenheiten',
         COLLECTION_REWARD: 'Sammelbelohnung',
-        COLLECT: 'EINSAMMELN',
-        REWARD_COLLECTED: 'GESAMMELT',
+        REDEEM: 'EINLÖSEN',
+        REWARD_COLLECTED: 'EINGELÖST',
         REQ_CATCH_ALL: 'Fange alle {rarity}-Fische',
 
         // Status
@@ -1001,7 +1001,7 @@ export const TRANSLATIONS = {
         NEW_FISH_TYPES: '새로운 물고기 종류',
         CATCHABLE_RARITIES: '포획 가능한 희귀도',
         COLLECTION_REWARD: '수집 보상',
-        COLLECT: '수령',
+        REDEEM: '보상 수령',
         REWARD_COLLECTED: '수령 완료',
         REQ_CATCH_ALL: '모든 {rarity} 물고기 포획',
 
@@ -1186,8 +1186,8 @@ export const TRANSLATIONS = {
         NEW_FISH_TYPES: 'Nouveaux Poissons',
         CATCHABLE_RARITIES: 'Raretés Capturables',
         COLLECTION_REWARD: 'Récompense de Collection',
-        COLLECT: 'RÉCUPÉRER',
-        REWARD_COLLECTED: 'RÉCUPÉRÉ',
+        REDEEM: 'ÉCHANGER',
+        REWARD_COLLECTED: 'ÉCHANGÉ',
         REQ_CATCH_ALL: 'Attrapez tous les poissons {rarity}',
 
         // Status
@@ -1371,8 +1371,8 @@ export const TRANSLATIONS = {
         NEW_FISH_TYPES: 'أنواع أسماك جديدة',
         CATCHABLE_RARITIES: 'الندرة القابلة للصيد',
         COLLECTION_REWARD: 'مكافأة المجموعة',
-        COLLECT: 'تحصيل',
-        REWARD_COLLECTED: 'تم التحصيل',
+        REDEEM: 'استرداد',
+        REWARD_COLLECTED: 'تم الاسترداد',
         REQ_CATCH_ALL: 'اصطد كل أسماك فئة {rarity}',
 
         // Status
