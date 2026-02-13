@@ -67,8 +67,10 @@ const GameScreen = () => {
 
     // Settings UI State
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const [settingsTab, setSettingsTab] = useState('volume'); // 'volume' or 'howto'
+    const [settingsTab, setSettingsTab] = useState('volume'); // 'volume', 'howto', or 'progress'
     const [volumes, setVolumes] = useState(() => getVolumes());
+    const [importString, setImportString] = useState('');
+    const [progressMessage, setProgressMessage] = useState('');
 
     // Temp UI/Game State
     const [gameState, setGameState] = useState(GAME_STATES.IDLE);
@@ -335,6 +337,70 @@ const GameScreen = () => {
         setVolumes(getVolumes());
     };
 
+    const handleResetProgress = () => {
+        const confirmText = "ARE YOU SURE? THIS WILL DELETE ALL YOUR PROGRESS, FISH, DISCOVERIES, AND COINS FOREVER.";
+        if (window.confirm(confirmText)) {
+            localStorage.clear();
+            setCaughtFishIds([]);
+            setWallet(0);
+            setCurrentRodLevel(1);
+            setRodProgress(0);
+            setDiscoveredFishIds(new Set());
+            setActiveBuffs([]);
+            setGameState(GAME_STATES.IDLE);
+            setProgressMessage("PROGRESS RESET SUCCESSFULLY.");
+            playSound('button');
+            setTimeout(() => setProgressMessage(''), 3000);
+        }
+    };
+
+    const handleExportSave = () => {
+        const saveData = {
+            inventory: caughtFishIds,
+            wallet: wallet,
+            rodLevel: currentRodLevel,
+            rodProgress: rodProgress,
+            discovered: [...discoveredFishIds],
+            timestamp: Date.now()
+        };
+        const encoded = btoa(JSON.stringify(saveData));
+        navigator.clipboard.writeText(encoded);
+        setProgressMessage("SAVE STRING COPIED TO CLIPBOARD!");
+        playSound('button');
+        setTimeout(() => setProgressMessage(''), 3000);
+    };
+
+    const handleImportSave = () => {
+        if (!importString) return;
+        try {
+            const decoded = JSON.parse(atob(importString));
+            const hasExistingProgress = wallet > 0 || currentRodLevel > 1 || caughtFishIds.length > 0;
+
+            const apply = () => {
+                setCaughtFishIds(decoded.inventory || []);
+                setWallet(decoded.wallet || 0);
+                setCurrentRodLevel(decoded.rodLevel || 1);
+                setRodProgress(decoded.rodProgress || 0);
+                setDiscoveredFishIds(new Set(decoded.discovered || []));
+                setImportString('');
+                setProgressMessage("SAVE STATE APPLIED SUCCESSFULLY!");
+                playSound('buyRod');
+                setTimeout(() => setProgressMessage(''), 3000);
+            };
+
+            if (hasExistingProgress) {
+                if (window.confirm("IMPORTING WILL OVERWRITE YOUR CURRENT PROGRESS. CONTINUE?")) {
+                    apply();
+                }
+            } else {
+                apply();
+            }
+        } catch (e) {
+            setProgressMessage("INVALID SAVE STRING!");
+            setTimeout(() => setProgressMessage(''), 3000);
+        }
+    };
+
     return (
         <div className="game-screen">
             {/* Top-left buttons */}
@@ -360,6 +426,10 @@ const GameScreen = () => {
                                 className={`settings-tab-btn ${settingsTab === 'howto' ? 'active' : ''}`}
                                 onClick={() => { playSound('button'); setSettingsTab('howto'); }}
                             >HOW TO</button>
+                            <button
+                                className={`settings-tab-btn ${settingsTab === 'progress' ? 'active' : ''}`}
+                                onClick={() => { playSound('button'); setSettingsTab('progress'); }}
+                            >PROGRESS</button>
                             <button className="settings-tab-close-x" onClick={() => setIsSettingsOpen(false)}>×</button>
                         </div>
 
@@ -415,7 +485,7 @@ const GameScreen = () => {
                                         />
                                     </div>
                                 </div>
-                            ) : (
+                            ) : settingsTab === 'howto' ? (
                                 <div className="howto-content">
                                     <div className="help-section">
                                         <h3><img src={castingIcon} alt="" className="help-heading-icon" /> CASTING</h3>
@@ -437,6 +507,35 @@ const GameScreen = () => {
                                         <h3><img src={sellingIcon} alt="" className="help-heading-icon" /> SELLING</h3>
                                         <p>Switch to the <strong>Inventory</strong> tab to sell your catches for coins.</p>
                                     </div>
+                                </div>
+                            ) : (
+                                <div className="progress-settings">
+                                    <div className="progress-section">
+                                        <h3>💾 SAVE STATE</h3>
+                                        <p>Export your progress to a string or import an existing one.</p>
+                                        <div className="progress-actions">
+                                            <button className="export-btn" onClick={handleExportSave}>EXPORT TO CLIPBOARD</button>
+                                            <div className="import-row">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Paste save string here..."
+                                                    value={importString}
+                                                    onChange={(e) => setImportString(e.target.value)}
+                                                />
+                                                <button className="import-btn" onClick={handleImportSave}>IMPORT</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="progress-section danger">
+                                        <h3>⚠️ RESET PROGRESS</h3>
+                                        <p>Completely clear all game data and start fresh.</p>
+                                        <button className="reset-btn" onClick={handleResetProgress}>RESET ALL DATA</button>
+                                    </div>
+
+                                    {progressMessage && (
+                                        <div className="progress-status-message">{progressMessage}</div>
+                                    )}
                                 </div>
                             )}
                         </div>
