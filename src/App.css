@@ -145,12 +145,15 @@ body {
 
 .settings-btn:hover {
   transform: rotate(45deg) scale(1.1);
+  background: none !important;
+  border: none !important;
 }
 
 .settings-btn:focus,
 .settings-btn:active {
   outline: none;
-  background: none;
+  background: none !important;
+  border: none !important;
 }
 
 /* (optional) give it a slight white glow/outline if it's too dark on dark backgrounds */
@@ -279,9 +282,11 @@ body {
 }
 
 .toggle-icon-btn:focus,
-.toggle-icon-btn:active {
+.toggle-icon-btn:active,
+.toggle-icon-btn:hover {
   outline: none;
-  background: none;
+  background: none !important;
+  border: none !important;
 }
 
 .toggle-icon-btn img {
