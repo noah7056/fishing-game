@@ -12,6 +12,7 @@ import {
     isSfxEnabled, isBgmEnabled, isWavesEnabled,
     setBgmVolume, setWavesVolume, setSfxVolume, getVolumes
 } from '../audioManager';
+import { TRANSLATIONS } from '../data/translations';
 
 // Asset Imports
 import idleImg from '../assets/idle.png';
@@ -66,10 +67,14 @@ const GameScreen = () => {
         const saved = localStorage.getItem('fishing_waves_enabled');
         return saved !== null ? JSON.parse(saved) : isWavesEnabled();
     });
+    const [language, setLanguage] = useState(() => {
+        const saved = localStorage.getItem('fishing_language');
+        return saved || 'en';
+    });
 
     // Settings UI State
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const [settingsTab, setSettingsTab] = useState('volume'); // 'volume', 'howto', or 'progress'
+    const [settingsTab, setSettingsTab] = useState('volume'); // 'volume', 'howto', 'progress', or 'language'
     const [volumes, setVolumes] = useState(() => getVolumes());
     const [importString, setImportString] = useState('');
     const [progressMessage, setProgressMessage] = useState('');
@@ -91,7 +96,8 @@ const GameScreen = () => {
         localStorage.setItem('fishing_discovered', JSON.stringify([...discoveredFishIds]));
         localStorage.setItem('fishing_sfx_enabled', JSON.stringify(sfxOn));
         localStorage.setItem('fishing_bgm_enabled', JSON.stringify(bgmOn));
-    }, [caughtFishIds, wallet, currentRodLevel, rodProgress, discoveredFishIds, sfxOn, bgmOn]);
+        localStorage.setItem('fishing_language', language);
+    }, [caughtFishIds, wallet, currentRodLevel, rodProgress, discoveredFishIds, sfxOn, bgmOn, language]);
 
     // Game loop refs
     const gameLoopRef = useRef(null);
@@ -100,6 +106,7 @@ const GameScreen = () => {
 
     // Get current rod data for display
     const currentRod = ROD_DATA.find(r => r.id === currentRodLevel);
+    const t = TRANSLATIONS[language];
 
     // Start BGM on first user interaction
     useEffect(() => {
@@ -151,7 +158,7 @@ const GameScreen = () => {
     const handleLevelUp = (newLevel) => {
         setCurrentRodLevel(newLevel);
         setRodProgress(0);
-        showFloatingText("ROD UPGRADED!");
+        showFloatingText(t.ROD_LABEL + " UPGRADED!");
         playSound('buyRod');
     };
 
@@ -163,9 +170,9 @@ const GameScreen = () => {
             if (!discoveredFishIds.has(lastCaughtFish.id)) {
                 setDiscoveredFishIds(prev => new Set([...prev, lastCaughtFish.id]));
                 playSound('newItem');
-                showFloatingText('✨ NEW DISCOVERY!');
+                showFloatingText(t.NEW_DISCOVERY);
             } else {
-                showFloatingText('CAUGHT!');
+                showFloatingText(t.CAUGHT_LABEL);
             }
 
             const doubleLootBuff = activeBuffs.find(b => b.effect.type === 'double_loot');
@@ -180,7 +187,7 @@ const GameScreen = () => {
     };
 
     const handleLose = () => {
-        showFloatingText("LOST...");
+        showFloatingText(t.LOST_LABEL);
         setGameState(GAME_STATES.LOST);
         // Automatically go back to idle after 1 second
         setTimeout(resetGame, 1000);
@@ -196,7 +203,7 @@ const GameScreen = () => {
     const handleCast = () => {
         if (gameState === GAME_STATES.IDLE) {
             setGameState(GAME_STATES.CASTING);
-            showFloatingText("CASTING...");
+            showFloatingText(t.CASTING + "...");
             playSound('cast');
             setTimeout(() => {
                 setGameState(GAME_STATES.WAITING);
@@ -340,7 +347,7 @@ const GameScreen = () => {
     };
 
     const handleResetProgress = () => {
-        const confirmText = "ARE YOU SURE? THIS WILL DELETE ALL YOUR PROGRESS, FISH, DISCOVERIES, AND COINS FOREVER.";
+        const confirmText = t.ARE_YOU_SURE;
         if (window.confirm(confirmText)) {
             localStorage.clear();
             setCaughtFishIds([]);
@@ -350,7 +357,7 @@ const GameScreen = () => {
             setDiscoveredFishIds(new Set());
             setActiveBuffs([]);
             setGameState(GAME_STATES.IDLE);
-            setProgressMessage("PROGRESS RESET SUCCESSFULLY.");
+            setProgressMessage(t.RESET_SUCCESS);
             playSound('button');
             setTimeout(() => setProgressMessage(''), 3000);
         }
@@ -367,7 +374,7 @@ const GameScreen = () => {
         };
         const encoded = btoa(JSON.stringify(saveData));
         navigator.clipboard.writeText(encoded);
-        setProgressMessage("SAVE STRING COPIED TO CLIPBOARD!");
+        setProgressMessage(t.SAVE_COPIED);
         playSound('button');
         setTimeout(() => setProgressMessage(''), 3000);
     };
@@ -385,20 +392,20 @@ const GameScreen = () => {
                 setRodProgress(decoded.rodProgress || 0);
                 setDiscoveredFishIds(new Set(decoded.discovered || []));
                 setImportString('');
-                setProgressMessage("SAVE STATE APPLIED SUCCESSFULLY!");
+                setProgressMessage(t.SAVE_APPLIED);
                 playSound('buyRod');
                 setTimeout(() => setProgressMessage(''), 3000);
             };
 
             if (hasExistingProgress) {
-                if (window.confirm("IMPORTING WILL OVERWRITE YOUR CURRENT PROGRESS. CONTINUE?")) {
+                if (window.confirm(t.IMPORT_CONFIRM)) {
                     apply();
                 }
             } else {
                 apply();
             }
         } catch (e) {
-            setProgressMessage("INVALID SAVE STRING!");
+            setProgressMessage(t.INVALID_SAVE);
             setTimeout(() => setProgressMessage(''), 3000);
         }
     };
@@ -423,15 +430,19 @@ const GameScreen = () => {
                             <button
                                 className={`settings-tab-btn ${settingsTab === 'volume' ? 'active' : ''}`}
                                 onClick={() => { playSound('button'); setSettingsTab('volume'); }}
-                            >VOLUME</button>
+                            >{t.VOLUME}</button>
                             <button
                                 className={`settings-tab-btn ${settingsTab === 'howto' ? 'active' : ''}`}
                                 onClick={() => { playSound('button'); setSettingsTab('howto'); }}
-                            >HOW TO</button>
+                            >{t.HOW_TO}</button>
                             <button
                                 className={`settings-tab-btn ${settingsTab === 'progress' ? 'active' : ''}`}
                                 onClick={() => { playSound('button'); setSettingsTab('progress'); }}
-                            >PROGRESS</button>
+                            >{t.PROGRESS}</button>
+                            <button
+                                className={`settings-tab-btn ${settingsTab === 'language' ? 'active' : ''}`}
+                                onClick={() => { playSound('button'); setSettingsTab('language'); }}
+                            >{t.LANGUAGE}</button>
                             <button className="settings-tab-close-x" onClick={() => setIsSettingsOpen(false)}>×</button>
                         </div>
 
@@ -440,7 +451,7 @@ const GameScreen = () => {
                                 <div className="volume-settings">
                                     <div className="volume-row">
                                         <div className="volume-label-row">
-                                            <span>Music</span>
+                                            <span>{t.MUSIC}</span>
                                             <button
                                                 className={`toggle-icon-btn ${bgmOn ? 'on' : 'off'}`}
                                                 onClick={handleToggleBgm}
@@ -456,7 +467,7 @@ const GameScreen = () => {
                                     </div>
                                     <div className="volume-row">
                                         <div className="volume-label-row">
-                                            <span>Sea Waves</span>
+                                            <span>{t.SEA_WAVES}</span>
                                             <button
                                                 className={`toggle-icon-btn ${wavesOn ? 'on' : 'off'}`}
                                                 onClick={handleToggleWaves}
@@ -472,7 +483,7 @@ const GameScreen = () => {
                                     </div>
                                     <div className="volume-row">
                                         <div className="volume-label-row">
-                                            <span>Sound Effects</span>
+                                            <span>{t.SOUND_EFFECTS}</span>
                                             <button
                                                 className={`toggle-icon-btn ${sfxOn ? 'on' : 'off'}`}
                                                 onClick={handleToggleSfx}
@@ -490,54 +501,70 @@ const GameScreen = () => {
                             ) : settingsTab === 'howto' ? (
                                 <div className="howto-content">
                                     <div className="help-section">
-                                        <h3><img src={castingIcon} alt="" className="help-heading-icon" /> CASTING</h3>
-                                        <p>Press <strong>[SPACE]</strong> to cast your line into the water.</p>
+                                        <h3><img src={castingIcon} alt="" className="help-heading-icon" /> {t.CASTING}</h3>
+                                        <p>{t.CAST_DESC}</p>
                                     </div>
                                     <div className="help-section">
-                                        <h3><img src={waitingIcon} alt="" className="help-heading-icon" /> WAITING</h3>
-                                        <p>Wait for a fish to bite. A <strong>"!"</strong> will appear when something is hooked.</p>
+                                        <h3><img src={waitingIcon} alt="" className="help-heading-icon" /> {t.WAITING}</h3>
+                                        <p>{t.WAIT_DESC}</p>
                                     </div>
                                     <div className="help-section">
-                                        <h3><img src={hookingIcon} alt="" className="help-heading-icon" /> HOOKING</h3>
-                                        <p><strong>Click</strong> when the fish bites to start the reeling minigame.</p>
+                                        <h3><img src={hookingIcon} alt="" className="help-heading-icon" /> {t.HOOKING}</h3>
+                                        <p>{t.HOOK_DESC}</p>
                                     </div>
                                     <div className="help-section">
-                                        <h3><img src={reelingIcon} alt="" className="help-heading-icon" /> REELING</h3>
-                                        <p>Move your mouse to track the <strong>white spot</strong> with your <strong>green bar</strong>. Hold <strong>left click</strong> while overlapping to fill the progress bar. Reach <strong>100%</strong> to catch the fish!</p>
+                                        <h3><img src={reelingIcon} alt="" className="help-heading-icon" /> {t.REELING}</h3>
+                                        <p>{t.REEL_DESC}</p>
                                     </div>
                                     <div className="help-section">
-                                        <h3><img src={sellingIcon} alt="" className="help-heading-icon" /> SELLING</h3>
-                                        <p>Switch to the <strong>Inventory</strong> tab to sell your catches for coins.</p>
+                                        <h3><img src={sellingIcon} alt="" className="help-heading-icon" /> {t.SELLING}</h3>
+                                        <p>{t.SELL_DESC}</p>
                                     </div>
                                 </div>
-                            ) : (
+                            ) : settingsTab === 'progress' ? (
                                 <div className="progress-settings">
                                     <div className="progress-section">
-                                        <h3><img src={saveIcon} alt="" className="help-heading-icon" /> SAVE STATE</h3>
-                                        <p>Export your progress to a string or import an existing one.</p>
+                                        <h3><img src={saveIcon} alt="" className="help-heading-icon" /> {t.SAVE_STATE}</h3>
+                                        <p>{t.SAVE_STATE_DESC || 'Export your progress to a string or import an existing one.'}</p>
                                         <div className="progress-actions">
-                                            <button className="export-btn" onClick={handleExportSave}>EXPORT TO CLIPBOARD</button>
+                                            <button className="export-btn" onClick={handleExportSave}>{t.EXPORT_BTN}</button>
                                             <div className="import-row">
                                                 <input
                                                     type="text"
-                                                    placeholder="Paste save string here..."
+                                                    placeholder={t.IMPORT_PLACEHOLDER}
                                                     value={importString}
                                                     onChange={(e) => setImportString(e.target.value)}
                                                 />
-                                                <button className="import-btn" onClick={handleImportSave}>IMPORT</button>
+                                                <button className="import-btn" onClick={handleImportSave}>{t.IMPORT_BTN}</button>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="progress-section danger">
-                                        <h3><img src={warningIcon} alt="" className="help-heading-icon" /> RESET PROGRESS</h3>
-                                        <p>Completely clear all game data and start fresh.</p>
-                                        <button className="reset-btn" onClick={handleResetProgress}>RESET ALL DATA</button>
+                                        <h3><img src={warningIcon} alt="" className="help-heading-icon" /> {t.RESET_PROGRESS}</h3>
+                                        <p>{t.RESET_PROGRESS_DESC || 'Completely clear all game data and start fresh.'}</p>
+                                        <button className="reset-btn" onClick={handleResetProgress}>{t.RESET_BTN}</button>
                                     </div>
 
                                     {progressMessage && (
                                         <div className="progress-status-message">{progressMessage}</div>
                                     )}
+                                </div>
+                            ) : (
+                                <div className="language-settings">
+                                    <div className="language-section">
+                                        <h3>🌐 {t.LANGUAGE}</h3>
+                                        <div className="language-options">
+                                            <button
+                                                className={`lang-btn ${language === 'en' ? 'active' : ''}`}
+                                                onClick={() => { playSound('button'); setLanguage('en'); }}
+                                            >English</button>
+                                            <button
+                                                className={`lang-btn ${language === 'zh' ? 'active' : ''}`}
+                                                onClick={() => { playSound('button'); setLanguage('zh'); }}
+                                            >简体中文</button>
+                                        </div>
+                                    </div>
                                 </div>
                             )}
                         </div>
@@ -563,6 +590,7 @@ const GameScreen = () => {
                             activeBuffs={activeBuffs}
                             onCatch={handleCatch}
                             onLose={handleLose}
+                            language={language}
                         />
                     </div>
                 )}
@@ -572,10 +600,10 @@ const GameScreen = () => {
                         <img src={currentRod.image} alt={currentRod.name} className="equipped-rod-img" />
                     )}
                     <div className="status-display-panel">
-                        <p>STATUS: {gameState}</p>
-                        <p>ROD: {currentRod ? currentRod.name : 'None'}</p>
+                        <p>{t.STATUS}: {gameState}</p>
+                        <p>{t.ROD_LABEL}: {currentRod ? (t[`rod_${currentRod.id}`] || currentRod.name) : 'None'}</p>
                         {activeBuffs.length > 0 && (
-                            <p className="active-buffs-indicator">⚡ BUFFS: {activeBuffs.length}</p>
+                            <p className="active-buffs-indicator">⚡ {t.BUFFS_LABEL}: {activeBuffs.length}</p>
                         )}
                     </div>
                 </div>
@@ -587,15 +615,15 @@ const GameScreen = () => {
                     <button
                         className={`tab-btn ${activeTab === 'inventory' ? 'active' : ''}`}
                         onClick={() => { playSound('button'); setActiveTab('inventory'); }}
-                    >INVENTORY</button>
+                    >{t.INVENTORY}</button>
                     <button
                         className={`tab-btn ${activeTab === 'rod_shop' ? 'active' : ''}`}
                         onClick={() => { playSound('button'); setActiveTab('rod_shop'); }}
-                    >FISHING ROD</button>
+                    >{t.FISHING_ROD}</button>
                     <button
                         className={`tab-btn ${activeTab === 'potion_shop' ? 'active' : ''}`}
                         onClick={() => { playSound('button'); setActiveTab('potion_shop'); }}
-                    >POTIONS</button>
+                    >{t.POTIONS}</button>
                 </div>
 
                 <div className="panel-content">
@@ -606,6 +634,7 @@ const GameScreen = () => {
                             wallet={wallet}
                             setWallet={setWallet}
                             activeBuffs={activeBuffs}
+                            language={language}
                             onClose={() => { }}
                             isAlwaysOpen={true}
                         />
@@ -616,6 +645,7 @@ const GameScreen = () => {
                             currentRodLevel={currentRodLevel}
                             setCurrentRodLevel={handleLevelUp}
                             rodProgress={rodProgress}
+                            language={language}
                         />
                     ) : (
                         <PotionShop
@@ -623,6 +653,7 @@ const GameScreen = () => {
                             setWallet={setWallet}
                             activeBuffs={activeBuffs}
                             setActiveBuffs={setActiveBuffs}
+                            language={language}
                         />
                     )}
                 </div>
@@ -631,15 +662,15 @@ const GameScreen = () => {
                 {(gameState === GAME_STATES.CAUGHT) && (
                     <div className="result-overlay">
                         <div className="result-content">
-                            <h2>{gameState === GAME_STATES.CAUGHT ? "FISH CAUGHT!" : "FISH LOST!"}</h2>
+                            <h2>{gameState === GAME_STATES.CAUGHT ? t.FISH_CAUGHT : t.FISH_LOST}</h2>
                             {gameState === GAME_STATES.CAUGHT && lastCaughtFish && (
                                 <div className="catch-details">
-                                    <p>You caught a {lastCaughtFish.name}!</p>
+                                    <p>{t.CAUGHT_FISH_DESC || 'You caught a'} {t[`fish_${lastCaughtFish.id}`] || lastCaughtFish.name}!</p>
                                     <img src={lastCaughtFish.image} alt={lastCaughtFish.name} className="catch-image" />
-                                    <p>Value: ${lastCaughtFish.value}</p>
+                                    <p>{t.VALUE}: ${lastCaughtFish.value}</p>
                                 </div>
                             )}
-                            <button onClick={() => { playSound('button'); resetGame(); }}>FISH AGAIN</button>
+                            <button onClick={() => { playSound('button'); resetGame(); }}>{t.FISH_AGAIN}</button>
                         </div>
                     </div>
                 )}

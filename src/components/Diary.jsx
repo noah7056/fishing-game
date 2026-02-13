@@ -1,12 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import { FISH_DATA, RARITY_TIERS } from '../data/fishData';
-import { playSound } from '../audioManager';
+import { TRANSLATIONS } from '../data/translations';
 import './Diary.css';
 
 import sellingIcon from '../assets/selling icon.png';
 import moneyIcon from '../assets/money icon.png';
 
-const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs = [], onClose, isAlwaysOpen }) => {
+const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs = [], onClose, isAlwaysOpen, language = 'en' }) => {
+    const t = TRANSLATIONS[language];
     const [sortBy, setSortBy] = useState('rarity'); // 'rarity' or 'name'
 
     // Check for double money buff
@@ -83,33 +84,33 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
         <div className={`diary-overlay ${isAlwaysOpen ? 'always-open' : ''}`}>
             <div className="diary-container">
                 <div className="diary-header">
-                    <h2>Inventory</h2>
+                    <h2>{t.INVENTORY}</h2>
                     <div className="wallet-display">
                         <img src={moneyIcon} alt="Coins" className="wallet-coin-icon" /> {wallet}
                     </div>
                 </div>
 
                 <div className="inventory-controls">
-                    <span>Sort by:</span>
+                    <span>{t.SORT_BY}:</span>
                     <button
                         className={`sort-btn ${sortBy === 'name' ? 'active' : ''}`}
                         onClick={() => { playSound('button'); setSortBy('name'); }}
-                    >Name</button>
+                    >{t.SORT_NAME}</button>
                     <button
                         className={`sort-btn ${sortBy === 'rarity' ? 'active' : ''}`}
                         onClick={() => { playSound('button'); setSortBy('rarity'); }}
-                    >Rarity</button>
+                    >{t.SORT_RARITY}</button>
                 </div>
 
                 {uniqueCaughtFish.length === 0 ? (
                     <div className="empty-state">
-                        <p>No fish caught yet.</p>
+                        <p>{t.NO_FISH_CAUGHT || 'No fish caught yet.'}</p>
                     </div>
                 ) : (
                     <>
                         <div className="inventory-actions">
                             <button className="sell-all-btn" onClick={handleSellEverything}>
-                                SELL ALL (${caughtFishIds.reduce((sum, id) => sum + (FISH_DATA.find(f => f.id === id)?.value || 0), 0)})
+                                {t.SELL_ALL} (${caughtFishIds.reduce((sum, id) => sum + (FISH_DATA.find(f => f.id === id)?.value || 0), 0)})
                             </button>
                         </div>
                         <div className="fish-grid">
@@ -124,13 +125,13 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
                                         <div className="fish-count">x{inventory[fish.id]}</div>
                                         <img src={fish.image} alt={fish.name} className="fish-thumb" />
                                         <div className="fish-info">
-                                            <h3>{fish.name}</h3>
-                                            <p className="fish-rarity" style={{ color: rarity.color }}>{rarity.name}</p>
+                                            <h3>{t[`fish_${fish.id}`] || fish.name}</h3>
+                                            <p className="fish-rarity" style={{ color: rarity.color }}>{t[`RARITY_${fish.rarityId}`] || rarity.name}</p>
                                             <p className="fish-value">${fish.value}</p>
                                         </div>
                                         <div className="fish-actions">
-                                            <button onClick={() => handleSell(fish.id, 1)}>Sell 1</button>
-                                            <button onClick={() => handleSell(fish.id, 'all')}>Sell All</button>
+                                            <button onClick={() => handleSell(fish.id, 1)}>{t.SELL_ONE || 'Sell 1'}</button>
+                                            <button onClick={() => handleSell(fish.id, 'all')}>{t.SELL_ALL_BTN || 'Sell All'}</button>
                                         </div>
                                     </div>
                                 );

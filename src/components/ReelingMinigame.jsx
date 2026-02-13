@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { TRANSLATIONS } from '../data/translations';
 
-const ReelingMinigame = ({ difficulty = 1, rarityId = 1, rodLevel = 1, activeBuffs = [], onCatch, onLose }) => {
+const ReelingMinigame = ({ difficulty = 1, rarityId = 1, rodLevel = 1, activeBuffs = [], onCatch, onLose, language = 'en' }) => {
+    const t = TRANSLATIONS[language];
     const [fishPosition, setFishPosition] = useState(50);
     const [cursorPosition, setCursorPosition] = useState(50);
     const [progress, setProgress] = useState(0);
@@ -167,7 +169,7 @@ const ReelingMinigame = ({ difficulty = 1, rarityId = 1, rodLevel = 1, activeBuf
 
     return (
         <div className="minigame-ui">
-            <p className="minigame-hint">Hold Click & Track the Light!</p>
+            <p className="minigame-hint">{t.REELING_HINT}</p>
             <div className="game-bar-container" ref={barRef}>
                 <div className="game-bar">
                     {/* The "Bright Spot" Fish */}
@@ -190,7 +192,7 @@ const ReelingMinigame = ({ difficulty = 1, rarityId = 1, rodLevel = 1, activeBuf
                 </div>
 
                 <div className="stats-bars">
-                    <div className="bar-label">Progress</div>
+                    <div className="bar-label">{t.REELING_PROGRESS}</div>
                     <div className="progress-bar-container">
                         <div className="progress-bar" style={{ width: `${progress}%`, background: '#4DB6AC' }}></div>
                     </div>

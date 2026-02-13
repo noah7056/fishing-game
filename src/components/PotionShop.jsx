@@ -3,8 +3,10 @@ import { POTION_DATA } from '../data/potionData';
 import { playSound } from '../audioManager';
 import './PotionShop.css';
 import moneyIcon from '../assets/money icon.png';
+import { TRANSLATIONS } from '../data/translations';
 
-const PotionShop = ({ wallet, setWallet, activeBuffs, setActiveBuffs }) => {
+const PotionShop = ({ wallet, setWallet, activeBuffs, setActiveBuffs, language = 'en' }) => {
+    const t = TRANSLATIONS[language];
 
     const handleBuy = (potion) => {
         if (wallet < potion.price) return;
@@ -43,7 +45,7 @@ const PotionShop = ({ wallet, setWallet, activeBuffs, setActiveBuffs }) => {
     return (
         <div className="potion-shop-container">
             <div className="potion-shop-header">
-                <h2>Potion Shop</h2>
+                <h2>{t.POTION_SHOP}</h2>
                 <div className="wallet-display">
                     <img src={moneyIcon} alt="Coins" className="wallet-coin-icon" /> {wallet}
                 </div>
@@ -58,15 +60,15 @@ const PotionShop = ({ wallet, setWallet, activeBuffs, setActiveBuffs }) => {
                         <div key={potion.id} className={`potion-card ${isActive ? 'active' : ''}`}>
                             <img src={potion.image} alt={potion.name} className="potion-image" />
                             <div className="potion-info">
-                                <h3>{potion.name}</h3>
-                                <p className="potion-description">{potion.description}</p>
-                                <p className="potion-duration">Duration: {potion.duration / 1000}s</p>
+                                <h3>{t[`potion_${potion.id}`] || potion.name}</h3>
+                                <p className="potion-description">{t[`potion_${potion.id}_desc`] || potion.description}</p>
+                                <p className="potion-duration">{t.DURATION}: {potion.duration / 1000}s</p>
                                 <p className="potion-price">${potion.price}</p>
                             </div>
                             <div className="potion-actions">
                                 {isActive ? (
                                     <div className="active-status">
-                                        ACTIVE - {timeLeft}s
+                                        {t.ACTIVE} - {timeLeft}s
                                     </div>
                                 ) : (
                                     <button
@@ -74,7 +76,7 @@ const PotionShop = ({ wallet, setWallet, activeBuffs, setActiveBuffs }) => {
                                         onClick={() => handleBuy(potion)}
                                         disabled={wallet < potion.price}
                                     >
-                                        BUY
+                                        {t.BUY}
                                     </button>
                                 )}
                             </div>

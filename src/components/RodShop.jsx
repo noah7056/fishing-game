@@ -2,8 +2,10 @@ import React from 'react';
 import { ROD_DATA } from '../data/rodData';
 import './RodShop.css';
 import moneyIcon from '../assets/money icon.png';
+import { TRANSLATIONS } from '../data/translations';
 
-const RodShop = ({ wallet, setWallet, currentRodLevel, setCurrentRodLevel, rodProgress }) => {
+const RodShop = ({ wallet, setWallet, currentRodLevel, setCurrentRodLevel, rodProgress, language = 'en' }) => {
+    const t = TRANSLATIONS[language];
 
     const handleBuy = (rodId) => {
         const rod = ROD_DATA.find(r => r.id === rodId);
@@ -18,7 +20,7 @@ const RodShop = ({ wallet, setWallet, currentRodLevel, setCurrentRodLevel, rodPr
     return (
         <div className="rod-shop-container">
             <div className="rod-shop-header">
-                <h2>Fishing Rods</h2>
+                <h2>{t.FISHING_ROD}</h2>
                 <div className="wallet-display">
                     <img src={moneyIcon} alt="Coins" className="wallet-coin-icon" /> {wallet}
                 </div>
@@ -48,8 +50,8 @@ const RodShop = ({ wallet, setWallet, currentRodLevel, setCurrentRodLevel, rodPr
                             <div className="rod-info-left">
                                 <img src={rod.image} alt={rod.name} className="rod-image" />
                                 <div className="rod-details">
-                                    <h3>{rod.name}</h3>
-                                    <p className="rod-tier">Catch Tier: {Math.max(1, rod.catchTier - 2)} - {rod.catchTier}</p>
+                                    <h3>{t[`rod_${rod.id}`] || rod.name}</h3>
+                                    <p className="rod-tier">{t.CATCH_TIER}: {Math.max(1, rod.catchTier - 2)} - {rod.catchTier}</p>
                                     {!isOwned && <p className="rod-price">${rod.price}</p>}
                                 </div>
                             </div>
@@ -57,7 +59,7 @@ const RodShop = ({ wallet, setWallet, currentRodLevel, setCurrentRodLevel, rodPr
                             <div className="rod-actions">
                                 {isOwned ? (
                                     <div className="status-owned">
-                                        {rod.id === currentRodLevel ? "EQUIPPED" : "OWNED"}
+                                        {rod.id === currentRodLevel ? t.EQUIPPED : t.OWNED}
                                     </div>
                                 ) : (
                                     isUnlockable ? (
@@ -66,10 +68,10 @@ const RodShop = ({ wallet, setWallet, currentRodLevel, setCurrentRodLevel, rodPr
                                             onClick={() => handleBuy(rod.id)}
                                             disabled={wallet < rod.price}
                                         >
-                                            BUY
+                                            {t.BUY}
                                         </button>
                                     ) : (
-                                        <div className="status-locked">LOCKED</div>
+                                        <div className="status-locked">{t.LOCKED}</div>
                                     )
                                 )}
                             </div>
@@ -78,7 +80,7 @@ const RodShop = ({ wallet, setWallet, currentRodLevel, setCurrentRodLevel, rodPr
                             {showProgress && (
                                 <div className="rod-progress-section">
                                     <div className="progress-label">
-                                        Mastery: {rodProgress} / {rod.masteryReq} Fish
+                                        {t.MASTERY}: {rodProgress} / {rod.masteryReq} {t.FISH || 'Fish'}
                                     </div>
                                     <div className="progress-track">
                                         <div className="progress-fill" style={{ width: `${progressPercent}%` }}></div>
@@ -89,7 +91,7 @@ const RodShop = ({ wallet, setWallet, currentRodLevel, setCurrentRodLevel, rodPr
                             {/* If locked, show requirement hint */}
                             {!isOwned && !isUnlockable && prevRod && (
                                 <div className="lock-reason">
-                                    Master {prevRod.name} first
+                                    {t.MASTER_FIRST_HINT.replace('{name}', t[`rod_${prevRod.id}`] || prevRod.name)}
                                 </div>
                             )}
                         </div>
