@@ -75,6 +75,8 @@ const GameScreen = () => {
         return saved || 'en';
     });
 
+    const t = TRANSLATIONS[language];
+
     // Settings UI State
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [settingsTab, setSettingsTab] = useState('volume'); // 'volume', 'howto', 'progress', or 'language'
@@ -280,7 +282,6 @@ const GameScreen = () => {
 
     // Get current rod data for display
     const currentRod = ROD_DATA.find(r => r.id === currentRodLevel);
-    const t = TRANSLATIONS[language];
 
     // Start BGM on first user interaction
     useEffect(() => {
