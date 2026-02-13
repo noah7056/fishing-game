@@ -502,6 +502,7 @@ body {
   font-family: inherit;
   text-transform: uppercase;
   transition: all 0.2s;
+  position: relative;
 }
 
 .tab-btn:last-child {
