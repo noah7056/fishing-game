@@ -19,6 +19,9 @@ import castingImg from '../assets/launching fishing rod.png';
 import fishingImg from '../assets/fishing.png';
 import hookedImg from '../assets/hooked.png';
 import reelingImg from '../assets/reeling.png';
+import settingsIcon from '../assets/settings.png';
+import volumeIcon from '../assets/volume.png';
+import muteIcon from '../assets/mute.png';
 
 const GameScreen = () => {
     // Persistent State Initializers
@@ -322,7 +325,9 @@ const GameScreen = () => {
                 <button
                     className="settings-btn"
                     onClick={() => { playSound('button'); setIsSettingsOpen(true); }}
-                >⚙️</button>
+                >
+                    <img src={settingsIcon} alt="Settings" />
+                </button>
             </div>
 
             {/* Settings Overlay */}
@@ -349,9 +354,11 @@ const GameScreen = () => {
                                         <div className="volume-label-row">
                                             <span>Music</span>
                                             <button
-                                                className={`toggle-icon ${bgmOn ? 'on' : 'off'}`}
+                                                className={`toggle-icon-btn ${bgmOn ? 'on' : 'off'}`}
                                                 onClick={handleToggleBgm}
-                                            >{bgmOn ? '🔊' : '🔇'}</button>
+                                            >
+                                                <img src={bgmOn ? volumeIcon : muteIcon} alt="Toggle Music" />
+                                            </button>
                                         </div>
                                         <input
                                             type="range" min="0" max="1" step="0.05"
@@ -371,9 +378,11 @@ const GameScreen = () => {
                                         <div className="volume-label-row">
                                             <span>Sound Effects</span>
                                             <button
-                                                className={`toggle-icon ${sfxOn ? 'on' : 'off'}`}
+                                                className={`toggle-icon-btn ${sfxOn ? 'on' : 'off'}`}
                                                 onClick={handleToggleSfx}
-                                            >{sfxOn ? '🔊' : '🔇'}</button>
+                                            >
+                                                <img src={sfxOn ? volumeIcon : muteIcon} alt="Toggle SFX" />
+                                            </button>
                                         </div>
                                         <input
                                             type="range" min="0" max="2" step="0.1"

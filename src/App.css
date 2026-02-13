@@ -129,20 +129,28 @@ body {
   border-radius: 8px;
   border: 2px solid #fff;
   background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  font-size: 1.4rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  padding: 5px;
   transition: all 0.2s;
+}
+
+.settings-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
 }
 
 .settings-btn:hover {
   background: #fff;
-  color: #000;
   transform: rotate(45deg);
+}
+
+.settings-btn:hover img {
+  filter: invert(1);
 }
 
 .settings-overlay {
@@ -188,25 +196,37 @@ body {
 
 .settings-tabs {
   display: flex;
-  border-bottom: 1px solid #333;
+  border-bottom: 2px solid #fff;
+  background: #111;
 }
 
 .settings-tab-btn {
   flex: 1;
   padding: 15px;
   background: #000;
-  color: #666;
+  color: #888;
   border: none;
+  border-right: 1px solid #333;
   font-family: inherit;
-  font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
-  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.settings-tab-btn:last-child {
+  border-right: none;
+}
+
+.settings-tab-btn:hover {
+  background: #222;
+  color: #fff;
 }
 
 .settings-tab-btn.active {
-  color: #fff;
-  background: #111;
-  border-bottom: 2px solid #fff;
+  background: #fff;
+  color: #000;
+  font-weight: bold;
 }
 
 .settings-content {
@@ -240,16 +260,33 @@ body {
   letter-spacing: 1px;
 }
 
-.toggle-icon {
-  background: none;
+.toggle-icon-btn {
+  background: #000;
   border: 1px solid #333;
-  padding: 4px 8px;
-  font-size: 0.9rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  cursor: pointer;
   border-radius: 4px;
 }
 
-.toggle-icon.off {
+.toggle-icon-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.toggle-icon-btn.off {
   opacity: 0.4;
+}
+
+.toggle-icon-btn:hover {
+  background: #222;
+  border-color: #fff;
 }
 
 .volume-row input[type="range"] {
