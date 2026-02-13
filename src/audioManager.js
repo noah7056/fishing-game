@@ -15,12 +15,14 @@ import wavesLoop from './sfx/sea waves background loop.mp3';
 
 const savedSfx = localStorage.getItem('fishing_sfx_enabled');
 const savedBgm = localStorage.getItem('fishing_bgm_enabled');
+const savedWaves = localStorage.getItem('fishing_waves_enabled');
 const savedBgmVol = localStorage.getItem('fishing_bgm_volume');
 const savedWaveVol = localStorage.getItem('fishing_waves_volume');
 const savedSfxVol = localStorage.getItem('fishing_sfx_volume');
 
 let sfxEnabled = savedSfx !== null ? JSON.parse(savedSfx) : true;
 let bgmEnabled = savedBgm !== null ? JSON.parse(savedBgm) : true;
+let wavesEnabled = savedWaves !== null ? JSON.parse(savedWaves) : true;
 let bgmVolume = savedBgmVol !== null ? parseFloat(savedBgmVol) : 0.3;
 let wavesVolume = savedWaveVol !== null ? parseFloat(savedWaveVol) : 0.15;
 let sfxVolumeScale = savedSfxVol !== null ? parseFloat(savedSfxVol) : 1.0;
