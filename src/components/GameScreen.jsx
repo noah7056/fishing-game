@@ -567,6 +567,10 @@ const GameScreen = () => {
                                                 className={`lang-btn ${language === 'es' ? 'active' : ''}`}
                                                 onClick={() => { playSound('button'); setLanguage('es'); }}
                                             >Español</button>
+                                            <button
+                                                className={`lang-btn ${language === 'ja' ? 'active' : ''}`}
+                                                onClick={() => { playSound('button'); setLanguage('ja'); }}
+                                            >日本語</button>
                                         </div>
                                     </div>
                                 </div>
