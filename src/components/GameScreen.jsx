@@ -622,22 +622,6 @@ const GameScreen = () => {
             {/* Top-left buttons */}
             <div className="top-buttons">
                 <button
-                    className={`nav-btn ${activeTab === 'catalogue' ? 'active' : ''}`}
-                    onClick={() => {
-                        if (currentRodLevel >= 2) {
-                            playSound('button');
-                            setActiveTab('catalogue');
-                        } else {
-                            playSound('error');
-                            setLockedTabMessage(t.LOCKED + ': ' + t.rod_2);
-                            setTimeout(() => setLockedTabMessage(''), 2000);
-                        }
-                    }}
-                    style={{ opacity: currentRodLevel >= 2 ? 1 : 0.5 }}
-                >
-                    {currentRodLevel >= 2 ? t.CATALOGUE : '???'}
-                </button>
-                <button
                     className="settings-btn"
                     onClick={() => { playSound('button'); setIsSettingsOpen(true); }}
                 >
@@ -872,21 +856,35 @@ const GameScreen = () => {
                         className={`tab-btn ${activeTab === 'inventory' ? 'active' : ''}`}
                         onClick={() => { playSound('button'); setActiveTab('inventory'); setLockedTabMessage(''); }}
                     >{t.INVENTORY}</button>
-                    <button
-                        className={`tab-btn ${activeTab === 'catalogue' ? 'active' : ''}`}
-                        onClick={() => {
-                            if (currentRodLevel >= 2) {
-                                playSound('button');
-                                setActiveTab('catalogue');
-                                setLockedTabMessage('');
-                            } else {
-                                playSound('error');
-                                setLockedTabMessage(t.LOCKED + ': ' + t.rod_2);
-                                setTimeout(() => setLockedTabMessage(''), 2000);
-                            }
-                        }}
-                        style={{ opacity: currentRodLevel >= 2 ? 1 : 0.5 }}
-                    >{currentRodLevel >= 2 ? t.CATALOGUE : '???'}</button>
+                    <div className="tab-with-lock">
+                        <button
+                            className={`tab-btn ${activeTab === 'catalogue' ? 'active' : ''}`}
+                            onClick={() => {
+                                if (currentRodLevel >= 2) {
+                                    playSound('button');
+                                    setActiveTab('catalogue');
+                                    setLockedTabMessage('');
+                                } else {
+                                    playSound('error');
+                                    // Use same logic as potions: "Unlocks after [Previous Rod]"
+                                    // For Catalogue (Wooden Rod needed), it unlocks after Bamboo Rod (Rod 1)
+                                    // But user asked to "replace the name of the rod needed to unlock it".
+                                    // The rod needed is Wooden Rod (Rod 2, rod_2).
+                                    // The message for Potions is "Unlocks after Reinforced Rod".
+                                    // So here it should be "Unlocks after Bamboo Rod" OR "Unlocks at Wooden Rod"?
+                                    // Potion says "Unlocks after Reinforced Rod" (which is Level 4). Potions unlock at Level 4.
+                                    // So precise wording: "Unlocks after [Rod Level 1 Name]"
+                                    const bambooRodName = t.rod_1 || 'Bamboo Rod';
+                                    setLockedTabMessage(`${t.POTIONS_UNLOCK_MSG.split(' ').slice(0, 2).join(' ')} ${bambooRodName}`);
+                                    setTimeout(() => setLockedTabMessage(''), 2000);
+                                }
+                            }}
+                        >
+                            {currentRodLevel < 2 && <img src={lockIcon} alt="Locked" className="tab-lock-icon" />}
+                            {t.CATALOGUE || 'Catalogue'}
+                        </button>
+                        {lockedTabMessage && activeTab !== 'catalogue' && activeTab !== 'potion_shop' && <div className="tab-locked-message">{lockedTabMessage}</div>}
+                    </div>
                     <button
                         className={`tab-btn ${activeTab === 'rod_shop' ? 'active' : ''}`}
                         onClick={() => { playSound('button'); setActiveTab('rod_shop'); setLockedTabMessage(''); }}
@@ -909,7 +907,7 @@ const GameScreen = () => {
                             {currentRodLevel < 4 && <img src={lockIcon} alt="Locked" className="tab-lock-icon" />}
                             {t.POTIONS}
                         </button>
-                        {lockedTabMessage && <div className="tab-locked-message">{lockedTabMessage}</div>}
+                        {lockedTabMessage && activeTab !== 'catalogue' && <div className="tab-locked-message">{lockedTabMessage}</div>}
                     </div>
                 </div>
 

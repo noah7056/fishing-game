@@ -31,32 +31,32 @@ const FishCatalogue = ({ fishData, discoveredFishIds, t, language }) => {
         <div className="catalogue-container">
             <div className="catalogue-header">
                 <div className="catalogue-stats">
-                    {t.DISCOVERED_COUNT.replace('{current}', discoveredCount).replace('{total}', totalFish)}
+                    {(t.DISCOVERED_COUNT || 'Discovered: {current}/{total}').replace('{current}', discoveredCount).replace('{total}', totalFish)}
                 </div>
                 <div className="catalogue-filters">
                     <button
                         className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
                         onClick={() => setFilter('all')}
                     >
-                        {t.ALL}
+                        {t.ALL || 'ALL'}
                     </button>
                     <button
                         className={`filter-btn ${filter === 'rarity' ? 'active' : ''}`}
                         onClick={() => setFilter('rarity')}
                     >
-                        {t.SORT_RARITY}
+                        {t.SORT_RARITY || 'Rarity'}
                     </button>
                     <button
                         className={`filter-btn ${filter === 'price' ? 'active' : ''}`}
                         onClick={() => setFilter('price')}
                     >
-                        {t.PRICE}
+                        {t.PRICE || 'Price'}
                     </button>
                     <button
                         className={`filter-btn ${filter === 'name' ? 'active' : ''}`}
                         onClick={() => setFilter('name')}
                     >
-                        {t.SORT_NAME}
+                        {t.SORT_NAME || 'Name'}
                     </button>
                 </div>
             </div>
@@ -85,8 +85,8 @@ const FishCatalogue = ({ fishData, discoveredFishIds, t, language }) => {
                         const rarityName = t[`RARITY_${hoveredFish.rarityId}`] || RARITY_TIERS[hoveredFish.rarityId].name;
                         const rarityColor = RARITY_TIERS[hoveredFish.rarityId].color;
 
-                        const name = isDiscovered ? (t['fish_' + hoveredFish.id] || hoveredFish.name) : t.FISH_NAME_LOCKED;
-                        const desc = isDiscovered ? (t['fish_' + hoveredFish.id + '_desc'] || hoveredFish.description) : t.FISH_DESC_LOCKED;
+                        const name = isDiscovered ? (t['fish_' + hoveredFish.id] || hoveredFish.name) : (t.FISH_NAME_LOCKED || '???');
+                        const desc = isDiscovered ? (t['fish_' + hoveredFish.id + '_desc'] || hoveredFish.description) : (t.FISH_DESC_LOCKED || '???');
                         const price = isDiscovered ? `${hoveredFish.value} G` : '??? G';
 
                         return (
