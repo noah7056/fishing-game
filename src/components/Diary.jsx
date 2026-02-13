@@ -7,9 +7,8 @@ import './Diary.css';
 import sellingIcon from '../assets/selling icon.png';
 import moneyIcon from '../assets/money icon.png';
 
-const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs = [], onClose, isAlwaysOpen, language = 'en' }) => {
+const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs = [], onClose, isAlwaysOpen, language = 'en', sortBy, setSortBy }) => {
     const t = TRANSLATIONS[language];
-    const [sortBy, setSortBy] = useState('rarity'); // 'rarity' or 'name'
 
     // Check for double money buff
     const doubleEverythingBuff = activeBuffs.find(b => b.effect.type === 'double_everything');

@@ -76,6 +76,7 @@ export const TRANSLATIONS = {
         REDEEM: 'REDEEM',
         REWARD_COLLECTED: 'REDEEMED',
         REQ_CATCH_ALL: 'Catch all {rarity} fish',
+        POTIONS_UNLOCK_MSG: 'Unlocks after Reinforced Rod',
 
         // Status
         STATUS_IDLE: 'IDLE',
@@ -264,6 +265,7 @@ export const TRANSLATIONS = {
         REDEEM: '领奖',
         REWARD_COLLECTED: '已领奖',
         REQ_CATCH_ALL: '捕获所有 {rarity} 鱼类',
+        POTIONS_UNLOCK_MSG: '获得强化鱼竿后开启',
 
         // Status
         STATUS_IDLE: '空闲',
@@ -449,6 +451,7 @@ export const TRANSLATIONS = {
         REDEEM: 'CANJEAR',
         REWARD_COLLECTED: 'CANJEADO',
         REQ_CATCH_ALL: 'Atrapa todos los peces {rarity}',
+        POTIONS_UNLOCK_MSG: 'Se desbloquea tras la Caña Reforzada',
 
         // Status
         STATUS_IDLE: 'INACTIVO',
@@ -634,6 +637,7 @@ export const TRANSLATIONS = {
         REDEEM: '報酬を受け取る',
         REWARD_COLLECTED: '受取済み',
         REQ_CATCH_ALL: 'すべての {rarity} 魚を釣る',
+        POTIONS_UNLOCK_MSG: '強化された釣竿の後にロック解除',
 
         // Status
         STATUS_IDLE: '待機',
@@ -819,6 +823,7 @@ export const TRANSLATIONS = {
         REDEEM: 'EINLÖSEN',
         REWARD_COLLECTED: 'EINGELÖST',
         REQ_CATCH_ALL: 'Fange alle {rarity}-Fische',
+        POTIONS_UNLOCK_MSG: 'Schaltet nach der verstärkten Rute frei',
 
         // Status
         STATUS_IDLE: 'BEREIT',
@@ -1004,6 +1009,7 @@ export const TRANSLATIONS = {
         REDEEM: '보상 수령',
         REWARD_COLLECTED: '수령 완료',
         REQ_CATCH_ALL: '모든 {rarity} 물고기 포획',
+        POTIONS_UNLOCK_MSG: '강화된 낚싯대 이후 해제',
 
         // Status
         STATUS_IDLE: '대기 중',
@@ -1189,6 +1195,7 @@ export const TRANSLATIONS = {
         REDEEM: 'ÉCHANGER',
         REWARD_COLLECTED: 'ÉCHANGÉ',
         REQ_CATCH_ALL: 'Attrapez tous les poissons {rarity}',
+        POTIONS_UNLOCK_MSG: 'Se débloque après la canne renforcée',
 
         // Status
         STATUS_IDLE: 'ATTENTE',
@@ -1374,6 +1381,7 @@ export const TRANSLATIONS = {
         REDEEM: 'استرداد',
         REWARD_COLLECTED: 'تم الاسترداد',
         REQ_CATCH_ALL: 'اصطد كل أسماك فئة {rarity}',
+        POTIONS_UNLOCK_MSG: 'يفتح بعد الصنارة المعززة',
 
         // Status
         STATUS_IDLE: 'خامل',

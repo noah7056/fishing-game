@@ -32,6 +32,7 @@ import reelingIcon from '../assets/reeling icon.png';
 import sellingIcon from '../assets/selling icon.png';
 import saveIcon from '../assets/save.png';
 import warningIcon from '../assets/warning.png';
+import lockIcon from '../assets/lock icon.png';
 
 const GameScreen = () => {
     // Persistent State Initializers
@@ -84,6 +85,8 @@ const GameScreen = () => {
     const [lastCaughtFish, setLastCaughtFish] = useState(null);
     const [floatingTexts, setFloatingTexts] = useState([]);
     const [activeTab, setActiveTab] = useState('inventory');
+    const [inventorySortBy, setInventorySortBy] = useState('rarity');
+    const [lockedTabMessage, setLockedTabMessage] = useState('');
     const [activeBuffs, setActiveBuffs] = useState([]);
     const [showHelp, setShowHelp] = useState(false);
 
@@ -647,23 +650,32 @@ const GameScreen = () => {
                 <div className="panel-tabs">
                     <button
                         className={`tab-btn ${activeTab === 'inventory' ? 'active' : ''}`}
-                        onClick={() => { playSound('button'); setActiveTab('inventory'); }}
+                        onClick={() => { playSound('button'); setActiveTab('inventory'); setLockedTabMessage(''); }}
                     >{t.INVENTORY}</button>
                     <button
                         className={`tab-btn ${activeTab === 'rod_shop' ? 'active' : ''}`}
-                        onClick={() => { playSound('button'); setActiveTab('rod_shop'); }}
+                        onClick={() => { playSound('button'); setActiveTab('rod_shop'); setLockedTabMessage(''); }}
                     >{t.FISHING_ROD}</button>
-                    <button
-                        className={`tab-btn ${activeTab === 'potion_shop' ? 'active' : ''} ${currentRodLevel < 4 ? 'locked-tab' : ''}`}
-                        onClick={() => {
-                            if (currentRodLevel >= 4) {
-                                playSound('button');
-                                setActiveTab('potion_shop');
-                            }
-                        }}
-                    >
-                        {currentRodLevel < 4 ? '🔒 ' : ''}{t.POTIONS}
-                    </button>
+                    <div className="tab-with-lock">
+                        <button
+                            className={`tab-btn ${activeTab === 'potion_shop' ? 'active' : ''} ${currentRodLevel < 4 ? 'locked-tab' : ''}`}
+                            onClick={() => {
+                                if (currentRodLevel >= 4) {
+                                    playSound('button');
+                                    setActiveTab('potion_shop');
+                                    setLockedTabMessage('');
+                                } else {
+                                    setLockedTabMessage(t.POTIONS_UNLOCK_MSG || 'Unlocks after Reinforced Rod');
+                                    // Auto-hide message after 3 seconds
+                                    setTimeout(() => setLockedTabMessage(''), 3000);
+                                }
+                            }}
+                        >
+                            {currentRodLevel < 4 && <img src={lockIcon} alt="Locked" className="tab-lock-icon" />}
+                            {t.POTIONS}
+                        </button>
+                        {lockedTabMessage && <div className="tab-locked-message">{lockedTabMessage}</div>}
+                    </div>
                 </div>
 
                 <div className="panel-content">
@@ -675,6 +687,8 @@ const GameScreen = () => {
                             setWallet={setWallet}
                             activeBuffs={activeBuffs}
                             language={language}
+                            sortBy={inventorySortBy}
+                            setSortBy={setInventorySortBy}
                             onClose={() => { }}
                             isAlwaysOpen={true}
                         />

@@ -524,6 +524,52 @@ body {
   cursor: not-allowed;
 }
 
+.tab-with-lock {
+  flex: 1;
+  position: relative;
+  display: flex;
+}
+
+.tab-with-lock .tab-btn {
+  width: 100%;
+}
+
+.tab-lock-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  vertical-align: middle;
+  image-rendering: pixelated;
+}
+
+.tab-locked-message {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #c0392b;
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 4px;
+  text-align: center;
+  z-index: 10;
+  border: 1px solid #7f231c;
+  pointer-events: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .panel-content {
   flex: 1;
   overflow: hidden;
