@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { FISH_DATA, RARITY_TIERS } from '../data/fishData';
 import { TRANSLATIONS } from '../data/translations';
+import { playSound } from '../audioManager';
 import './Diary.css';
 
 import sellingIcon from '../assets/selling icon.png';
@@ -28,7 +29,9 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
         .filter(fish => inventory[fish.id] > 0)
         .sort((a, b) => {
             if (sortBy === 'name') {
-                return a.name.localeCompare(b.name);
+                const nameA = t[`fish_${a.id}`] || a.name;
+                const nameB = t[`fish_${b.id}`] || b.name;
+                return nameA.localeCompare(nameB, language);
             } else {
                 // Rarity Descending (12 -> 1)
                 return b.rarityId - a.rarityId;

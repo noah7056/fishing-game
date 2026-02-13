@@ -82,9 +82,9 @@
     margin-bottom: 8px;
 }
 
-.collection-badge {
-    font-size: 1rem;
-    filter: drop-shadow(0 0 5px gold);
+.mastered-glow {
+    color: #f1c40f !important;
+    text-shadow: 0 0 8px rgba(241, 196, 15, 0.6);
 }
 
 .rarity-info,

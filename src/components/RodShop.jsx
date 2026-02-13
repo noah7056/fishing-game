@@ -89,10 +89,9 @@ const RodShop = ({
                                 </div>
                                 <div className="rod-details">
                                     <div className="rod-name-row">
-                                        <h3>{t[`rod_${rod.id}`] || rod.name}</h3>
-                                        {isOwned && isCollectionComplete && (
-                                            <span className="collection-badge">🏆</span>
-                                        )}
+                                        <h3 className={isCollectionComplete ? 'mastered-glow' : ''}>
+                                            {t[`rod_${rod.id}`] || rod.name}
+                                        </h3>
                                     </div>
                                     <p className="rarity-info">
                                         <strong>{t.CATCHABLE_RARITIES}:</strong> {catchableRarities.join(', ')}
@@ -152,12 +151,16 @@ const RodShop = ({
                             {/* Lock Reasons */}
                             {!isOwned && !isUnlockable && prevRod && (
                                 <div className="lock-reasons">
-                                    {rodProgress < prevRod.masteryReq && (
+                                    {/* Show mastery requirement if we don't own the previous rod, 
+                                        OR if we do but haven't reached the requirement yet. */}
+                                    {(rod.id > currentRodLevel + 1 || rodProgress < prevRod.masteryReq) && (
                                         <div className="lock-reason">
                                             ❌ {t.MASTER_FIRST_HINT.replace('{name}', t[`rod_${prevRod.id}`] || prevRod.name)}
                                         </div>
                                     )}
-                                    {!prevCollectionComplete && (
+                                    {/* Show collection requirement if we don't own the previous rod,
+                                        OR if we do but haven't finished its collection yet. */}
+                                    {(rod.id > currentRodLevel + 1 || !prevCollectionComplete) && (
                                         <div className="lock-reason">
                                             ❌ {t.REQ_CATCH_ALL.replace('{rarity}', t[`RARITY_${prevRod.catchTier}`] || RARITY_TIERS[prevRod.catchTier].name)}
                                         </div>
