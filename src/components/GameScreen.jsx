@@ -571,6 +571,22 @@ const GameScreen = () => {
                                                 className={`lang-btn ${language === 'ja' ? 'active' : ''}`}
                                                 onClick={() => { playSound('button'); setLanguage('ja'); }}
                                             >日本語</button>
+                                            <button
+                                                className={`lang-btn ${language === 'de' ? 'active' : ''}`}
+                                                onClick={() => { playSound('button'); setLanguage('de'); }}
+                                            >Deutsch</button>
+                                            <button
+                                                className={`lang-btn ${language === 'ko' ? 'active' : ''}`}
+                                                onClick={() => { playSound('button'); setLanguage('ko'); }}
+                                            >한국어</button>
+                                            <button
+                                                className={`lang-btn ${language === 'fr' ? 'active' : ''}`}
+                                                onClick={() => { playSound('button'); setLanguage('fr'); }}
+                                            >Français</button>
+                                            <button
+                                                className={`lang-btn ${language === 'ar' ? 'active' : ''}`}
+                                                onClick={() => { playSound('button'); setLanguage('ar'); }}
+                                            >العربية</button>
                                         </div>
                                     </div>
                                 </div>
