@@ -370,6 +370,9 @@ body {
 .progress-section h3 {
   margin: 0 0 10px 0;
   font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .progress-section p {

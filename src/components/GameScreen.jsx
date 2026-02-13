@@ -29,6 +29,8 @@ import waitingIcon from '../assets/waiting icon.png';
 import hookingIcon from '../assets/hooking icon.png';
 import reelingIcon from '../assets/reeling icon.png';
 import sellingIcon from '../assets/selling icon.png';
+import saveIcon from '../assets/save.png';
+import warningIcon from '../assets/warning.png';
 
 const GameScreen = () => {
     // Persistent State Initializers
@@ -511,7 +513,7 @@ const GameScreen = () => {
                             ) : (
                                 <div className="progress-settings">
                                     <div className="progress-section">
-                                        <h3>💾 SAVE STATE</h3>
+                                        <h3><img src={saveIcon} alt="" className="help-heading-icon" /> SAVE STATE</h3>
                                         <p>Export your progress to a string or import an existing one.</p>
                                         <div className="progress-actions">
                                             <button className="export-btn" onClick={handleExportSave}>EXPORT TO CLIPBOARD</button>
@@ -528,7 +530,7 @@ const GameScreen = () => {
                                     </div>
 
                                     <div className="progress-section danger">
-                                        <h3>⚠️ RESET PROGRESS</h3>
+                                        <h3><img src={warningIcon} alt="" className="help-heading-icon" /> RESET PROGRESS</h3>
                                         <p>Completely clear all game data and start fresh.</p>
                                         <button className="reset-btn" onClick={handleResetProgress}>RESET ALL DATA</button>
                                     </div>
