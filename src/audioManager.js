@@ -13,8 +13,11 @@ import sfxNewItem from './sfx/new item found.mp3';
 import bgmLoop from './sfx/background music loop.mp3';
 import wavesLoop from './sfx/sea waves background loop.mp3';
 
-let sfxEnabled = true;
-let bgmEnabled = true;
+const savedSfx = localStorage.getItem('fishing_sfx_enabled');
+const savedBgm = localStorage.getItem('fishing_bgm_enabled');
+
+let sfxEnabled = savedSfx !== null ? JSON.parse(savedSfx) : true;
+let bgmEnabled = savedBgm !== null ? JSON.parse(savedBgm) : true;
 
 // Pre-create looping audio instances
 const bgmAudio = new Audio(bgmLoop);

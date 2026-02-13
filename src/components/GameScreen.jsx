@@ -20,27 +20,54 @@ import hookedImg from '../assets/hooked.png';
 import reelingImg from '../assets/reeling.png';
 
 const GameScreen = () => {
+    // Persistent State Initializers
+    const [caughtFishIds, setCaughtFishIds] = useState(() => {
+        const saved = localStorage.getItem('fishing_inventory');
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [wallet, setWallet] = useState(() => {
+        const saved = localStorage.getItem('fishing_wallet');
+        return saved ? Number(saved) : 0;
+    });
+    const [currentRodLevel, setCurrentRodLevel] = useState(() => {
+        const saved = localStorage.getItem('fishing_rod_level');
+        return saved ? Number(saved) : 1;
+    });
+    const [rodProgress, setRodProgress] = useState(() => {
+        const saved = localStorage.getItem('fishing_rod_progress');
+        return saved ? Number(saved) : 0;
+    });
+    const [discoveredFishIds, setDiscoveredFishIds] = useState(() => {
+        const saved = localStorage.getItem('fishing_discovered');
+        return saved ? new Set(JSON.parse(saved)) : new Set();
+    });
+    const [sfxOn, setSfxOn] = useState(() => {
+        const saved = localStorage.getItem('fishing_sfx_enabled');
+        return saved !== null ? JSON.parse(saved) : isSfxEnabled();
+    });
+    const [bgmOn, setBgmOn] = useState(() => {
+        const saved = localStorage.getItem('fishing_bgm_enabled');
+        return saved !== null ? JSON.parse(saved) : isBgmEnabled();
+    });
+
+    // Temp UI/Game State
     const [gameState, setGameState] = useState(GAME_STATES.IDLE);
-    const [caughtFishIds, setCaughtFishIds] = useState([]);
-    const [wallet, setWallet] = useState(0);
     const [lastCaughtFish, setLastCaughtFish] = useState(null);
     const [floatingTexts, setFloatingTexts] = useState([]);
-
-    // Progression State
-    const [currentRodLevel, setCurrentRodLevel] = useState(1);
-    const [rodProgress, setRodProgress] = useState(0);
     const [activeTab, setActiveTab] = useState('inventory');
-
-    // Buff State
     const [activeBuffs, setActiveBuffs] = useState([]);
-
-    // UI State
     const [showHelp, setShowHelp] = useState(false);
-    const [sfxOn, setSfxOn] = useState(true);
-    const [bgmOn, setBgmOn] = useState(true);
 
-    // Discovery tracking — fish IDs the player has caught at least once
-    const [discoveredFishIds, setDiscoveredFishIds] = useState(new Set());
+    // Persistence Effects
+    useEffect(() => {
+        localStorage.setItem('fishing_inventory', JSON.stringify(caughtFishIds));
+        localStorage.setItem('fishing_wallet', wallet.toString());
+        localStorage.setItem('fishing_rod_level', currentRodLevel.toString());
+        localStorage.setItem('fishing_rod_progress', rodProgress.toString());
+        localStorage.setItem('fishing_discovered', JSON.stringify([...discoveredFishIds]));
+        localStorage.setItem('fishing_sfx_enabled', JSON.stringify(sfxOn));
+        localStorage.setItem('fishing_bgm_enabled', JSON.stringify(bgmOn));
+    }, [caughtFishIds, wallet, currentRodLevel, rodProgress, discoveredFishIds, sfxOn, bgmOn]);
 
     // Game loop refs
     const gameLoopRef = useRef(null);
