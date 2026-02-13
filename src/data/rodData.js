@@ -13,7 +13,7 @@ import rod12 from '../assets/fishing rod 12.png';
 
 export const ROD_DATA = [
     { id: 1, name: 'Bamboo Rod', price: 0, catchTier: 1, masteryReq: 20, image: rod1 },
-    { id: 2, name: 'Wooden Rod', price: 120, catchTier: 2, masteryReq: 30, image: rod2 },
+    { id: 2, name: 'Wooden Rod', price: 60, catchTier: 2, masteryReq: 30, image: rod2 },
     { id: 3, name: 'Carbon Fiber Rod', price: 350, catchTier: 3, masteryReq: 50, image: rod3 },
     { id: 4, name: 'Reinforced Rod', price: 1200, catchTier: 4, masteryReq: 70, image: rod4 },
     { id: 5, name: 'Professional Rod', price: 3500, catchTier: 5, masteryReq: 100, image: rod5 },
