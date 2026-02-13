@@ -1,0 +1,448 @@
+:root {
+  --bg-color: #02020a;
+  --panel-bg: #000;
+  --text-color: #fff;
+  --border-color: #fff;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+
+* {
+  user-select: none;
+  -webkit-user-drag: none;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Courier Prime', monospace;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow: hidden;
+}
+
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+
+.game-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+/* --- Left Panel: Game Action --- */
+.left-panel {
+  width: 50%;
+  height: 100%;
+  border-right: 1px solid var(--border-color);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #050510;
+}
+
+.character-area {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+.character-img {
+  max-width: 60%;
+  max-height: 80%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+/* --- Status Row: Rod Image + Status Panel --- */
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.equipped-rod-img {
+  width: 80px;
+  height: auto;
+  min-height: 90px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  border: 1px solid #333;
+  background: #000;
+  padding: 8px;
+  align-self: stretch;
+}
+
+.status-display-panel {
+  text-align: left;
+  font-size: 1rem;
+  color: #fff;
+  padding: 10px 15px;
+  border: 1px solid #333;
+  background: #000;
+  flex: 1;
+}
+
+.active-buffs-indicator {
+  color: #f1c40f;
+  font-weight: bold;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* --- Help Button & Popup --- */
+.top-buttons {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  display: flex;
+  gap: 8px;
+  z-index: 200;
+}
+
+.help-btn,
+.toggle-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-family: inherit;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.help-btn:hover,
+.toggle-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+.toggle-btn.off {
+  opacity: 0.4;
+  border-color: #666;
+}
+
+.help-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 300;
+}
+
+.help-popup {
+  background: #0a0a14;
+  border: 2px solid #fff;
+  padding: 35px 40px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.help-popup h2 {
+  margin: 0 0 20px 0;
+  font-size: 1.4rem;
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+.help-section {
+  margin-bottom: 18px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 12px;
+}
+
+.help-section:last-of-type {
+  border-bottom: none;
+}
+
+.help-section h3 {
+  margin: 0 0 6px 0;
+  font-size: 1rem;
+}
+
+.help-section p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #aaa;
+  line-height: 1.5;
+}
+
+.help-close-btn {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #fff;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.help-close-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* --- Right Panel: Inventory & Shop --- */
+.right-panel {
+  width: 50%;
+  height: 100%;
+  background: #000;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  /* Remove padding here, managing in content */
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-tabs {
+  display: flex;
+  width: 100%;
+  border-bottom: 2px solid #fff;
+  background: #111;
+}
+
+.tab-btn {
+  flex: 1;
+  background: #000;
+  color: #888;
+  border: none;
+  border-right: 1px solid #333;
+  padding: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.tab-btn:last-child {
+  border-right: none;
+}
+
+.tab-btn:hover {
+  background: #222;
+  color: #fff;
+}
+
+.tab-btn.active {
+  background: #fff;
+  color: #000;
+  font-weight: bold;
+}
+
+.panel-content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  padding: 20px;
+}
+
+/* --- Minigame UI (Inside Left Panel) --- */
+.minigame-container {
+  width: 80%;
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #fff;
+  background: #000;
+}
+
+.minigame-ui {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.minigame-hint {
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  color: #ccc;
+  text-transform: uppercase;
+}
+
+.game-bar-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.game-bar {
+  width: 100%;
+  height: 40px;
+  background: #111;
+  border: 1px solid #555;
+  position: relative;
+  overflow: hidden;
+}
+
+.fish-spot-indicator {
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-indicator {
+  position: absolute;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  border: 2px solid #0f0;
+  background: rgba(0, 255, 0, 0.1);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.stats-bars {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bar-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.progress-bar-container,
+.tension-bar-container {
+  width: 100%;
+  height: 10px;
+  background: #111;
+  border: 1px solid #333;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #fff;
+  transition: width 0.1s linear;
+}
+
+.tension-bar {
+  height: 100%;
+  background: #f00;
+  transition: width 0.1s linear;
+}
+
+/* --- Result Overlay --- */
+.result-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.result-content {
+  background: #000;
+  border: 2px solid #fff;
+  padding: 40px;
+  text-align: center;
+}
+
+.catch-image {
+  width: 150px;
+  image-rendering: pixelated;
+  margin: 20px 0;
+}
+
+button {
+  background: #000;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+}
+
+button:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* Floating Text Animation */
+.floating-text {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0 #000;
+  pointer-events: none;
+  animation: floatUp 1.5s ease-out forwards;
+  z-index: 20;
+  white-space: nowrap;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50px);
+    opacity: 0;
+  }
+}
