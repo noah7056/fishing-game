@@ -70,6 +70,12 @@ export const TRANSLATIONS = {
         SAVE_STATE_DESC: 'Export your progress to a string or import an existing one.',
         RESET_PROGRESS_DESC: 'Completely clear all game data and start fresh.',
         CAUGHT_FISH_DESC: 'You caught a {name}!',
+        NEW_FISH_TYPES: 'New Fish Types',
+        CATCHABLE_RARITIES: 'Catchable Rarities',
+        COLLECTION_REWARD: 'Collection Reward',
+        COLLECT: 'COLLECT',
+        REWARD_COLLECTED: 'COLLECTED',
+        REQ_CATCH_ALL: 'Catch all {rarity} fish',
 
         // Status
         STATUS_IDLE: 'IDLE',
@@ -252,6 +258,12 @@ export const TRANSLATIONS = {
         SAVE_STATE_DESC: '将你的进度导出为字符串或导入现有进度。',
         RESET_PROGRESS_DESC: '完全清除所有游戏数据并重新开始。',
         CAUGHT_FISH_DESC: '你钓到了 {name}！',
+        NEW_FISH_TYPES: '新鱼类',
+        CATCHABLE_RARITIES: '可捕获品级',
+        COLLECTION_REWARD: '收集奖励',
+        COLLECT: '领取',
+        REWARD_COLLECTED: '已领取',
+        REQ_CATCH_ALL: '捕获所有 {rarity} 鱼类',
 
         // Status
         STATUS_IDLE: '空闲',
@@ -431,6 +443,12 @@ export const TRANSLATIONS = {
         SAVE_STATE_DESC: 'Exporta tu progreso a una cadena o importa una existente.',
         RESET_PROGRESS_DESC: 'Limpia completamente todos los datos del juego y comienza de nuevo.',
         CAUGHT_FISH_DESC: '¡Has atrapado un {name}!',
+        NEW_FISH_TYPES: 'Nuevos Tipos de Peces',
+        CATCHABLE_RARITIES: 'Rarezas Capturables',
+        COLLECTION_REWARD: 'Recompensa de Colección',
+        COLLECT: 'RECOGER',
+        REWARD_COLLECTED: 'RECOGIDO',
+        REQ_CATCH_ALL: 'Atrapa todos los peces {rarity}',
 
         // Status
         STATUS_IDLE: 'INACTIVO',
@@ -610,6 +628,12 @@ export const TRANSLATIONS = {
         SAVE_STATE_DESC: '進捗をコードとして出力、または既存のコードを読み込みます。',
         RESET_PROGRESS_DESC: 'すべてのゲームデータを削除して最初からやり直します。',
         CAUGHT_FISH_DESC: '{name} を釣り上げた！',
+        NEW_FISH_TYPES: '新しい魚種',
+        CATCHABLE_RARITIES: '釣れるレア度',
+        COLLECTION_REWARD: 'コレクション報酬',
+        COLLECT: '受け取る',
+        REWARD_COLLECTED: '受取済み',
+        REQ_CATCH_ALL: 'すべての {rarity} 魚を釣る',
 
         // Status
         STATUS_IDLE: '待機',
@@ -789,6 +813,12 @@ export const TRANSLATIONS = {
         SAVE_STATE_DESC: 'Exportiere deinen Fortschritt in einen Code oder importiere einen bestehenden.',
         RESET_PROGRESS_DESC: 'Lösche alle Spieldaten und beginne von vorn.',
         CAUGHT_FISH_DESC: 'Du hast einen {name} gefangen!',
+        NEW_FISH_TYPES: 'Neue Fischarten',
+        CATCHABLE_RARITIES: 'Fangbare Seltenheiten',
+        COLLECTION_REWARD: 'Sammelbelohnung',
+        COLLECT: 'EINSAMMELN',
+        REWARD_COLLECTED: 'GESAMMELT',
+        REQ_CATCH_ALL: 'Fange alle {rarity}-Fische',
 
         // Status
         STATUS_IDLE: 'BEREIT',
@@ -968,6 +998,12 @@ export const TRANSLATIONS = {
         SAVE_STATE_DESC: '진행 상황을 코드로 내보내거나 기존 코드를 불러옵니다.',
         RESET_PROGRESS_DESC: '모든 게임 데이터를 삭제하고 새로 시작합니다.',
         CAUGHT_FISH_DESC: '{name}을(를) 잡았습니다!',
+        NEW_FISH_TYPES: '새로운 물고기 종류',
+        CATCHABLE_RARITIES: '포획 가능한 희귀도',
+        COLLECTION_REWARD: '수집 보상',
+        COLLECT: '수령',
+        REWARD_COLLECTED: '수령 완료',
+        REQ_CATCH_ALL: '모든 {rarity} 물고기 포획',
 
         // Status
         STATUS_IDLE: '대기 중',
@@ -1147,6 +1183,12 @@ export const TRANSLATIONS = {
         SAVE_STATE_DESC: 'Exportez votre progression en un code ou importez-en un existant.',
         RESET_PROGRESS_DESC: 'Effacez toutes les données du jeu et recommencez à zéro.',
         CAUGHT_FISH_DESC: 'Vous avez attrapé un {name} !',
+        NEW_FISH_TYPES: 'Nouveaux Poissons',
+        CATCHABLE_RARITIES: 'Raretés Capturables',
+        COLLECTION_REWARD: 'Récompense de Collection',
+        COLLECT: 'RÉCUPÉRER',
+        REWARD_COLLECTED: 'RÉCUPÉRÉ',
+        REQ_CATCH_ALL: 'Attrapez tous les poissons {rarity}',
 
         // Status
         STATUS_IDLE: 'ATTENTE',
@@ -1326,6 +1368,12 @@ export const TRANSLATIONS = {
         SAVE_STATE_DESC: 'تصدير تقدمك إلى رمز أو استيراد رمز موجود.',
         RESET_PROGRESS_DESC: 'مسح جميع بيانات اللعبة والبدء من جديد.',
         CAUGHT_FISH_DESC: 'لقد صيدت {name}!',
+        NEW_FISH_TYPES: 'أنواع أسماك جديدة',
+        CATCHABLE_RARITIES: 'الندرة القابلة للصيد',
+        COLLECTION_REWARD: 'مكافأة المجموعة',
+        COLLECT: 'تحصيل',
+        REWARD_COLLECTED: 'تم التحصيل',
+        REQ_CATCH_ALL: 'اصطد كل أسماك فئة {rarity}',
 
         // Status
         STATUS_IDLE: 'خامل',

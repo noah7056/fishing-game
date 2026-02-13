@@ -71,6 +71,10 @@ const GameScreen = () => {
         const saved = localStorage.getItem('fishing_language');
         return saved || 'en';
     });
+    const [collectedRewards, setCollectedRewards] = useState(() => {
+        const saved = localStorage.getItem('fishing_rewards');
+        return saved ? new Set(JSON.parse(saved)) : new Set();
+    });
 
     // Settings UI State
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -97,7 +101,8 @@ const GameScreen = () => {
         localStorage.setItem('fishing_sfx_enabled', JSON.stringify(sfxOn));
         localStorage.setItem('fishing_bgm_enabled', JSON.stringify(bgmOn));
         localStorage.setItem('fishing_language', language);
-    }, [caughtFishIds, wallet, currentRodLevel, rodProgress, discoveredFishIds, sfxOn, bgmOn, language]);
+        localStorage.setItem('fishing_rewards', JSON.stringify([...collectedRewards]));
+    }, [caughtFishIds, wallet, currentRodLevel, rodProgress, discoveredFishIds, sfxOn, bgmOn, language, collectedRewards]);
 
     // Game loop refs
     const gameLoopRef = useRef(null);
@@ -670,6 +675,9 @@ const GameScreen = () => {
                             setCurrentRodLevel={handleLevelUp}
                             rodProgress={rodProgress}
                             language={language}
+                            discoveredFishIds={discoveredFishIds}
+                            collectedRewards={collectedRewards}
+                            setCollectedRewards={setCollectedRewards}
                         />
                     ) : (
                         <PotionShop

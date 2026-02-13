@@ -48,9 +48,15 @@
 
 .rod-info-left {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 15px;
     margin-bottom: 10px;
+}
+
+.rod-image-container {
+    padding: 5px;
+    background: #111;
+    border: 1px solid #333;
 }
 
 .rod-image {
@@ -58,33 +64,61 @@
     height: 60px;
     object-fit: contain;
     image-rendering: pixelated;
-    border: 1px solid #333;
-    background: #000;
+    display: block;
 }
 
 .rod-details h3 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.1rem;
     text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 1px;
 }
 
-.rod-tier {
-    margin: 5px 0;
+.rod-name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.collection-badge {
+    font-size: 1rem;
+    filter: drop-shadow(0 0 5px gold);
+}
+
+.rarity-info,
+.new-fish-info {
+    margin: 2px 0;
     font-size: 0.8rem;
-    color: #aaa;
+    color: #ccc;
+    line-height: 1.4;
+}
+
+.rarity-info strong,
+.new-fish-info strong {
+    color: #888;
+    margin-right: 5px;
 }
 
 .rod-price {
-    margin: 5px 0;
-    font-size: 0.9rem;
-    color: gold;
+    margin: 8px 0 0 0;
+    font-size: 1rem;
+    color: #f1c40f;
     font-weight: bold;
 }
 
 .rod-actions {
-    margin-bottom: 10px;
+    margin-top: 5px;
     display: flex;
     justify-content: flex-end;
+}
+
+.owned-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
 }
 
 .status-owned {
@@ -92,69 +126,106 @@
     font-weight: bold;
     font-size: 0.9rem;
     text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.collect-btn {
+    background: #e67e22;
+    border: 1px solid #d35400;
+    color: white;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    box-shadow: 0 0 10px rgba(230, 126, 34, 0.3);
+}
+
+.collect-btn:hover {
+    background: #d35400;
+    transform: scale(1.05);
+}
+
+.collected-tag {
+    font-size: 0.8rem;
+    color: #2ecc71;
+    opacity: 0.8;
+    font-style: italic;
 }
 
 .status-locked {
-    color: #888;
+    color: #555;
     font-style: italic;
     font-size: 0.9rem;
 }
 
 .buy-btn {
-    background: #222;
-    border: 1px solid gold;
-    color: gold;
-    padding: 8px 15px;
+    background: transparent;
+    border: 2px solid #f1c40f;
+    color: #f1c40f;
+    padding: 10px 20px;
     cursor: pointer;
     font-family: inherit;
     text-transform: uppercase;
     font-weight: bold;
+    transition: all 0.2s;
 }
 
-.buy-btn:hover {
-    background: gold;
+.buy-btn:hover:not(:disabled) {
+    background: #f1c40f;
     color: #000;
 }
 
 .buy-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.3;
     cursor: not-allowed;
-    border-color: #555;
-    color: #555;
+    border-color: #444;
+    color: #444;
 }
 
 /* Progress Section */
 .rod-progress-section {
-    margin-top: 10px;
-    border-top: 1px solid #222;
+    margin-top: 15px;
+    border-top: 1px dashed #333;
     padding-top: 10px;
 }
 
 .progress-label {
-    font-size: 0.8rem;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    color: #3498db;
+    font-weight: bold;
 }
 
 .progress-track {
     width: 100%;
-    height: 8px;
-    background: #111;
-    border: 1px solid #333;
-    position: relative;
+    height: 10px;
+    background: #000;
+    border: 1px solid #222;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .progress-fill {
     height: 100%;
-    background: #3498db;
+    background: linear-gradient(90deg, #2980b9, #3498db);
     width: 0%;
     transition: width 0.3s ease;
+}
+
+.lock-reasons {
+    margin-top: 12px;
+    background: rgba(231, 76, 60, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .lock-reason {
     font-size: 0.8rem;
     color: #e74c3c;
-    font-style: italic;
-    margin-top: 5px;
+    font-family: monospace;
 }
