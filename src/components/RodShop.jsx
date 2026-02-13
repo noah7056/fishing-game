@@ -13,9 +13,7 @@ const RodShop = ({
     setCurrentRodLevel,
     rodProgress,
     language = 'en',
-    discoveredFishIds,
-    collectedRewards,
-    setCollectedRewards
+    discoveredFishIds
 }) => {
     const t = TRANSLATIONS[language];
 
@@ -28,21 +26,6 @@ const RodShop = ({
             setCurrentRodLevel(rodId);
             playSound('buyRod');
         }
-    };
-
-    const handleRedeem = (rodId, amount) => {
-        if (!amount || amount <= 0) return;
-        if (collectedRewards.has(rodId)) return;
-
-        setWallet(prev => prev + amount);
-        setCollectedRewards(prev => {
-            const next = new Set(prev);
-            next.add(rodId);
-            return next;
-        });
-
-        playSound('button');
-        playSound('buyRod');
     };
 
     return (
@@ -69,15 +52,8 @@ const RodShop = ({
                         rod.id < currentRodLevel ||
                         (isCurrent && (rod.masteryReq === 0 || rodProgress >= rod.masteryReq));
 
-                    // Reward claimed status
-                    const isRedeemed = collectedRewards.has(rod.id);
-                    const canRedeem = isCollectionComplete && !isRedeemed;
-
-                    // Final Mastered state: both collection finished AND mastery reached AND reward collected
-                    const isFullyCompleted = isCollectionComplete && isMasteryComplete && isRedeemed;
-
-                    const rewardSum = fishInThisTier.reduce((sum, f) => sum + (Number(f.value) || 0), 0);
-                    const rewardAmount = Math.max(10, Math.floor(rewardSum * 2.5));
+                    // Final Mastered state: both collection finished AND mastery reached
+                    const isFullyCompleted = isCollectionComplete && isMasteryComplete;
 
                     // 2. Unlock Requirements for Next Rod
                     const prevRod = ROD_DATA[index - 1];
@@ -96,8 +72,11 @@ const RodShop = ({
                         catchableRarities.push(t[`RARITY_${i}`] || RARITY_TIERS[i].name);
                     }
 
-                    const showProgress = isCurrent && rod.id < 12;
-                    const progressPercent = showProgress ? Math.min(100, (rodProgress / rod.masteryReq) * 100) : 0;
+                    const showMasteryProgress = isCurrent && rod.id < 12;
+                    const masteryPercent = showMasteryProgress ? Math.min(100, (rodProgress / rod.masteryReq) * 100) : 0;
+
+                    const showDiscoveryProgress = isOwned || isUnlockable;
+                    const discoveryPercent = fishInThisTier.length > 0 ? (caughtCount / fishInThisTier.length) * 100 : 0;
 
                     return (
                         <div
@@ -117,33 +96,12 @@ const RodShop = ({
                                     <p className="rarity-info">
                                         <strong>{t.CATCHABLE_RARITIES}:</strong> {catchableRarities.join(', ')}
                                     </p>
-                                    <p className="new-fish-info">
-                                        <strong>{t.NEW_FISH_TYPES}:</strong> {caughtCount} / {fishInThisTier.length}
-                                    </p>
                                     {!isOwned && <p className="rod-price">${rod.price}</p>}
                                 </div>
                             </div>
 
                             <div className="rod-actions">
-                                {canRedeem ? (
-                                    <button
-                                        className="redeem-btn"
-                                        onClick={() => handleRedeem(rod.id, rewardAmount)}
-                                    >
-                                        {t.REDEEM} (+${rewardAmount})
-                                    </button>
-                                ) : (isCollectionComplete && isRedeemed) ? (
-                                    <div className="redeem-status">
-                                        <span className={`collected-tag ${isFullyCompleted ? 'mastered-text' : ''}`}>
-                                            {t.REWARD_COLLECTED}
-                                        </span>
-                                        {isOwned && (
-                                            <div className={`status-owned small ${isFullyCompleted ? 'mastered-text' : ''}`}>
-                                                {isCurrent ? t.EQUIPPED : t.OWNED}
-                                            </div>
-                                        )}
-                                    </div>
-                                ) : isOwned ? (
+                                {isOwned ? (
                                     <div className={`status-owned ${isFullyCompleted ? 'mastered-text' : ''}`}>
                                         {isCurrent ? t.EQUIPPED : t.OWNED}
                                     </div>
@@ -164,14 +122,26 @@ const RodShop = ({
                                 )}
                             </div>
 
+                            {/* Discover/Collection Progress (New Fish Types) */}
+                            {showDiscoveryProgress && (
+                                <div className="rod-progress-section discovery">
+                                    <div className="progress-label">
+                                        {t.NEW_FISH_TYPES}: {caughtCount} / {fishInThisTier.length}
+                                    </div>
+                                    <div className="progress-track">
+                                        <div className="progress-fill discovery-fill" style={{ width: `${discoveryPercent}%` }}></div>
+                                    </div>
+                                </div>
+                            )}
+
                             {/* Mastery Progress */}
-                            {showProgress && (
-                                <div className="rod-progress-section">
+                            {showMasteryProgress && (
+                                <div className="rod-progress-section mastery">
                                     <div className="progress-label">
                                         {t.MASTERY}: {rodProgress} / {rod.masteryReq} {t.FISH}
                                     </div>
                                     <div className="progress-track">
-                                        <div className="progress-fill" style={{ width: `${progressPercent}%` }}></div>
+                                        <div className="progress-fill mastery-fill" style={{ width: `${masteryPercent}%` }}></div>
                                     </div>
                                 </div>
                             )}

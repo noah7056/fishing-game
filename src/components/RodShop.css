@@ -38,7 +38,6 @@
 
 .rod-card.unlockable {
     border-color: #ccc;
-    /* Light gray outline for unlocked but not bought */
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
 }
 
@@ -92,16 +91,14 @@
     margin-bottom: 8px;
 }
 
-.rarity-info,
-.new-fish-info {
+.rarity-info {
     margin: 2px 0;
     font-size: 0.8rem;
     color: #ccc;
     line-height: 1.4;
 }
 
-.rarity-info strong,
-.new-fish-info strong {
+.rarity-info strong {
     color: #888;
     margin-right: 5px;
 }
@@ -119,51 +116,12 @@
     justify-content: flex-end;
 }
 
-.redeem-status {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-}
-
-.redeem-btn {
-    background: #2c3e50;
-    border: 1px solid #7f8c8d;
-    color: #fff;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 0.95rem;
-    border-radius: 4px;
-    transition: all 0.2s;
-    text-transform: uppercase;
-}
-
-.redeem-btn:hover {
-    background: #34495e;
-    border-color: #bdc3c7;
-    transform: translateY(-1px);
-}
-
 .status-owned {
     color: #2ecc71;
     font-weight: bold;
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-}
-
-.status-owned.small {
-    font-size: 0.7rem;
-    opacity: 0.7;
-}
-
-.collected-tag {
-    font-size: 0.8rem;
-    color: #2ecc71;
-    opacity: 0.8;
-    font-style: italic;
 }
 
 .status-locked {
@@ -196,34 +154,60 @@
     color: #444;
 }
 
-/* Progress Section */
+/* Progress Sections */
 .rod-progress-section {
-    margin-top: 15px;
-    border-top: 1px dashed #333;
-    padding-top: 10px;
+    margin-top: 10px;
+    padding-top: 5px;
+}
+
+.rod-progress-section.discovery {
+    border-top: 1px solid #222;
+}
+
+.rod-progress-section.mastery {
+    border-top: none;
+    margin-top: 5px;
 }
 
 .progress-label {
-    font-size: 0.85rem;
-    margin-bottom: 6px;
-    color: #3498db;
+    font-size: 0.75rem;
+    margin-bottom: 4px;
     font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.discovery .progress-label {
+    color: #9b59b6;
+    /* Purple for discovery */
+}
+
+.mastery .progress-label {
+    color: #3498db;
+    /* Blue for mastery */
 }
 
 .progress-track {
     width: 100%;
-    height: 10px;
+    height: 8px;
     background: #000;
     border: 1px solid #222;
-    border-radius: 5px;
+    border-radius: 4px;
     overflow: hidden;
 }
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #2980b9, #3498db);
     width: 0%;
-    transition: width 0.3s ease;
+    transition: width 0.4s ease-out;
+}
+
+.discovery-fill {
+    background: linear-gradient(90deg, #8e44ad, #9b59b6);
+}
+
+.mastery-fill {
+    background: linear-gradient(90deg, #2980b9, #3498db);
 }
 
 .lock-reasons {
@@ -240,4 +224,10 @@
     font-size: 0.8rem;
     color: #e74c3c;
     font-family: monospace;
+}
+
+/* Potion Shop Locked Tab Style */
+.locked-tab {
+    opacity: 0.5;
+    cursor: not-allowed !important;
 }

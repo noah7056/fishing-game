@@ -519,6 +519,11 @@ body {
   font-weight: bold;
 }
 
+.tab-btn.locked-tab {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .panel-content {
   flex: 1;
   overflow: hidden;

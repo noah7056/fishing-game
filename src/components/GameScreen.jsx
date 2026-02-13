@@ -71,10 +71,6 @@ const GameScreen = () => {
         const saved = localStorage.getItem('fishing_language');
         return saved || 'en';
     });
-    const [collectedRewards, setCollectedRewards] = useState(() => {
-        const saved = localStorage.getItem('fishing_rewards');
-        return saved ? new Set(JSON.parse(saved)) : new Set();
-    });
 
     // Settings UI State
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -101,18 +97,12 @@ const GameScreen = () => {
         localStorage.setItem('fishing_sfx_enabled', JSON.stringify(sfxOn));
         localStorage.setItem('fishing_bgm_enabled', JSON.stringify(bgmOn));
         localStorage.setItem('fishing_language', language);
-        localStorage.setItem('fishing_rewards', JSON.stringify([...collectedRewards]));
-    }, [caughtFishIds, wallet, currentRodLevel, rodProgress, discoveredFishIds, sfxOn, bgmOn, language, collectedRewards]);
+    }, [caughtFishIds, wallet, currentRodLevel, rodProgress, discoveredFishIds, sfxOn, bgmOn, language]);
 
     // Periodically sanitize sets to prevent corrupted data (e.g., [null] or mixing types)
     useEffect(() => {
         setDiscoveredFishIds(prev => {
             const arr = [...prev].filter(id => id !== null && id !== undefined);
-            if (arr.length !== prev.size) return new Set(arr);
-            return prev;
-        });
-        setCollectedRewards(prev => {
-            const arr = [...prev].filter(id => typeof id === 'number' && !isNaN(id));
             if (arr.length !== prev.size) return new Set(arr);
             return prev;
         });
@@ -664,9 +654,16 @@ const GameScreen = () => {
                         onClick={() => { playSound('button'); setActiveTab('rod_shop'); }}
                     >{t.FISHING_ROD}</button>
                     <button
-                        className={`tab-btn ${activeTab === 'potion_shop' ? 'active' : ''}`}
-                        onClick={() => { playSound('button'); setActiveTab('potion_shop'); }}
-                    >{t.POTIONS}</button>
+                        className={`tab-btn ${activeTab === 'potion_shop' ? 'active' : ''} ${currentRodLevel < 4 ? 'locked-tab' : ''}`}
+                        onClick={() => {
+                            if (currentRodLevel >= 4) {
+                                playSound('button');
+                                setActiveTab('potion_shop');
+                            }
+                        }}
+                    >
+                        {currentRodLevel < 4 ? '🔒 ' : ''}{t.POTIONS}
+                    </button>
                 </div>
 
                 <div className="panel-content">
@@ -690,8 +687,6 @@ const GameScreen = () => {
                             rodProgress={rodProgress}
                             language={language}
                             discoveredFishIds={discoveredFishIds}
-                            collectedRewards={collectedRewards}
-                            setCollectedRewards={setCollectedRewards}
                         />
                     ) : (
                         <PotionShop
