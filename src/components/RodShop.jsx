@@ -26,6 +26,7 @@ const RodShop = ({
         if (wallet >= rod.price) {
             setWallet(prev => prev - rod.price);
             setCurrentRodLevel(rodId);
+            playSound('buyRod');
         }
     };
 
@@ -41,7 +42,7 @@ const RodShop = ({
         });
 
         playSound('button');
-        playSound('buyRod'); // Use satisfying sound for reward
+        playSound('buyRod');
     };
 
     return (
@@ -59,21 +60,24 @@ const RodShop = ({
                     const isCurrent = rod.id === currentRodLevel;
                     const isNext = rod.id === currentRodLevel + 1;
 
-                    // 1. Data Analysis for this Rod/Tier
+                    // 1. Data Analysis
                     const fishInThisTier = FISH_DATA.filter(f => f.rarityId === rod.catchTier);
                     const caughtCount = fishInThisTier.filter(f => discoveredFishIds.has(f.id)).length;
-
                     const isCollectionComplete = fishInThisTier.length > 0 && caughtCount === fishInThisTier.length;
 
                     const isMasteryComplete =
                         rod.id < currentRodLevel ||
                         (isCurrent && (rod.masteryReq === 0 || rodProgress >= rod.masteryReq));
 
-                    const isFullyCompleted = isCollectionComplete && isMasteryComplete && collectedRewards.has(rod.id);
+                    // Reward claimed status
+                    const isRedeemed = collectedRewards.has(rod.id);
+                    const canRedeem = isCollectionComplete && !isRedeemed;
 
-                    const canRedeem = isCollectionComplete && !collectedRewards.has(rod.id);
+                    // Final Mastered state: both collection finished AND mastery reached AND reward collected
+                    const isFullyCompleted = isCollectionComplete && isMasteryComplete && isRedeemed;
+
                     const rewardSum = fishInThisTier.reduce((sum, f) => sum + (Number(f.value) || 0), 0);
-                    const rewardAmount = Math.max(10, Math.floor(rewardSum * 2.5)); // Slightly boosted reward
+                    const rewardAmount = Math.max(10, Math.floor(rewardSum * 2.5));
 
                     // 2. Unlock Requirements for Next Rod
                     const prevRod = ROD_DATA[index - 1];
@@ -106,7 +110,7 @@ const RodShop = ({
                                 </div>
                                 <div className="rod-details">
                                     <div className="rod-name-row">
-                                        <h3 className={isFullyCompleted ? 'mastered-glow' : ''}>
+                                        <h3 className={isFullyCompleted ? 'mastered-text' : ''}>
                                             {t[`rod_${rod.id}`] || rod.name}
                                         </h3>
                                     </div>
@@ -123,12 +127,12 @@ const RodShop = ({
                             <div className="rod-actions">
                                 {canRedeem ? (
                                     <button
-                                        className="redeem-btn animate-pulse"
+                                        className="redeem-btn"
                                         onClick={() => handleRedeem(rod.id, rewardAmount)}
                                     >
-                                        ✨ {t.REDEEM} (+${rewardAmount})
+                                        {t.REDEEM} (+${rewardAmount})
                                     </button>
-                                ) : (isCollectionComplete && collectedRewards.has(rod.id)) ? (
+                                ) : (isCollectionComplete && isRedeemed) ? (
                                     <div className="redeem-status">
                                         <span className={`collected-tag ${isFullyCompleted ? 'mastered-text' : ''}`}>
                                             {t.REWARD_COLLECTED}
