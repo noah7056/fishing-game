@@ -71,6 +71,7 @@ const GameScreen = () => {
 
     // Game loop refs
     const gameLoopRef = useRef(null);
+    const hookTimeoutRef = useRef(null);
     const prevBuffCountRef = useRef(0);
 
     // Get current rod data for display
@@ -203,11 +204,24 @@ const GameScreen = () => {
             setGameState(GAME_STATES.HOOKED);
             showFloatingText("!");
             playSound('hook');
+
+            // Lose the fish if player doesn't react quickly enough
+            hookTimeoutRef.current = setTimeout(() => {
+                setGameState(prev => {
+                    if (prev === GAME_STATES.HOOKED) {
+                        showFloatingText("...");
+                        playSound('hook');
+                        return GAME_STATES.LOST;
+                    }
+                    return prev;
+                });
+            }, FISHING_CONFIG.HOOK_TIMEOUT);
         }, waitTime);
     };
 
     const handleHook = () => {
         if (gameState === GAME_STATES.HOOKED) {
+            if (hookTimeoutRef.current) clearTimeout(hookTimeoutRef.current);
             setGameState(GAME_STATES.REELING);
             showFloatingText("HOOKED!");
         }
