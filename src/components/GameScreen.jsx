@@ -899,8 +899,7 @@ const GameScreen = () => {
                                     setCatalogueLockedMsg('');
                                 } else {
                                     playSound('error');
-                                    const bambooRodName = t.rod_1 || 'Bamboo Rod';
-                                    setCatalogueLockedMsg(t.UNLOCKS_AFTER_ROD.replace('{name}', bambooRodName));
+                                    setCatalogueLockedMsg(t.CATALOGUE_UNLOCK_MSG || 'Unlocks after Bamboo Rod');
                                     setTimeout(() => setCatalogueLockedMsg(''), 2000);
                                 }
                             }}
@@ -922,8 +921,7 @@ const GameScreen = () => {
                                     setActiveTab('potion_shop');
                                     setPotionShopLockedMsg('');
                                 } else {
-                                    const reinforcedRodName = t.rod_4 || 'Reinforced Rod';
-                                    setPotionShopLockedMsg(t.UNLOCKS_AFTER_ROD.replace('{name}', reinforcedRodName));
+                                    setPotionShopLockedMsg(t.POTIONS_UNLOCK_MSG || 'Unlocks after Reinforced Rod');
                                     // Auto-hide message after 3 seconds
                                     setTimeout(() => setPotionShopLockedMsg(''), 3000);
                                 }

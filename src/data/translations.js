@@ -77,7 +77,7 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: 'REDEEMED',
         REQ_CATCH_ALL: 'Catch all {rarity} fish',
         POTIONS_UNLOCK_MSG: 'Unlocks after Reinforced Rod',
-        UNLOCKS_AFTER_ROD: 'Unlocks after {name}',
+        CATALOGUE_UNLOCK_MSG: 'Unlocks after Bamboo Rod',
 
         // Status
         STATUS_IDLE: 'IDLE',
@@ -343,7 +343,7 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: '已领奖',
         REQ_CATCH_ALL: '捕获所有 {rarity} 鱼类',
         POTIONS_UNLOCK_MSG: '获得强化鱼竿后开启',
-        UNLOCKS_AFTER_ROD: '{name} 后开启',
+        CATALOGUE_UNLOCK_MSG: '获得竹竿后开启',
 
         // Status
         STATUS_IDLE: '空闲',
@@ -607,7 +607,7 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: 'CANJEADO',
         REQ_CATCH_ALL: 'Atrapa todos los peces {rarity}',
         POTIONS_UNLOCK_MSG: 'Se desbloquea tras la Caña Reforzada',
-        UNLOCKS_AFTER_ROD: 'Se desbloquea tras {name}',
+        CATALOGUE_UNLOCK_MSG: 'Se desbloquea tras la Caña de Bambú',
 
         // Status
         STATUS_IDLE: 'INACTIVO',
@@ -871,7 +871,7 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: '受取済み',
         REQ_CATCH_ALL: 'すべての {rarity} 魚を釣る',
         POTIONS_UNLOCK_MSG: '強化された釣竿の後にロック解除',
-        UNLOCKS_AFTER_ROD: '{name} をマスターすると解放されます',
+        CATALOGUE_UNLOCK_MSG: '竹の釣竿の後にロック解除',
 
         // Status
         STATUS_IDLE: '待機',
@@ -1135,7 +1135,7 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: 'EINGELÖST',
         REQ_CATCH_ALL: 'Fange alle {rarity}-Fische',
         POTIONS_UNLOCK_MSG: 'Schaltet nach der verstärkten Rute frei',
-        UNLOCKS_AFTER_ROD: 'Wird nach {name} freigeschaltet',
+        CATALOGUE_UNLOCK_MSG: 'Schaltet nach der Bambusrute frei',
 
         // Status
         STATUS_IDLE: 'BEREIT',
@@ -1399,7 +1399,7 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: '수령 완료',
         REQ_CATCH_ALL: '모든 {rarity} 물고기 포획',
         POTIONS_UNLOCK_MSG: '강화된 낚싯대 이후 해제',
-        UNLOCKS_AFTER_ROD: '{name} 고수가 된 후 해제됩니다',
+        CATALOGUE_UNLOCK_MSG: '대나무 낚싯대 이후 해제',
 
         // Status
         STATUS_IDLE: '대기 중',
@@ -1663,7 +1663,7 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: 'ÉCHANGÉ',
         REQ_CATCH_ALL: 'Attrapez tous les poissons {rarity}',
         POTIONS_UNLOCK_MSG: 'Se débloque après la canne renforcée',
-        UNLOCKS_AFTER_ROD: 'Se débloque après {name}',
+        CATALOGUE_UNLOCK_MSG: 'Se débloque après la canne en bambou',
 
         // Status
         STATUS_IDLE: 'ATTENTE',
@@ -1927,7 +1927,7 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: 'تم الاسترداد',
         REQ_CATCH_ALL: 'اصطد كل أسماك فئة {rarity}',
         POTIONS_UNLOCK_MSG: 'يفتح بعد الصنارة المعززة',
-        UNLOCKS_AFTER_ROD: 'يفتح بعد {name}',
+        CATALOGUE_UNLOCK_MSG: 'يفتح بعد صنارة الخيزران',
         CATALOGUE: 'الكتالوج',
         CATALOGUE_DESC: 'عرض جميع الأسماك وندرتها.',
         FILTERS: 'الفلاتر',
@@ -2196,7 +2196,7 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: 'RISCATTATO',
         REQ_CATCH_ALL: 'Cattura tutti i pesci {rarity}',
         POTIONS_UNLOCK_MSG: 'Si sblocca dopo la Canna Rinforzata',
-        UNLOCKS_AFTER_ROD: 'Si sblocca dopo {name}',
+        CATALOGUE_UNLOCK_MSG: 'Si sblocca dopo la Canna di Bambù',
         CATALOGUE: 'CATALOGO',
         CATALOGUE_DESC: 'Vedi tutti i pesci e la loro rarità.',
         FILTERS: 'FILTRI',
@@ -2465,7 +2465,7 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: 'भुनाया गया',
         REQ_CATCH_ALL: 'सभी {rarity} मछलियों को पकड़ें',
         POTIONS_UNLOCK_MSG: 'रिमफोर्स्ड रॉड के बाद खुलता है',
-        UNLOCKS_AFTER_ROD: '{name} के बाद अनलॉक होता है',
+        CATALOGUE_UNLOCK_MSG: 'बांस की छड़ी के बाद खुलता है',
         CATALOGUE: 'कैटलॉग',
         CATALOGUE_DESC: 'सभी मछलियों और उनकी दुर्लभता देखें।',
         FILTERS: 'फिल्टर',
