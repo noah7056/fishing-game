@@ -323,8 +323,18 @@ body {
 }
 
 .help-section h3 {
-  margin: 0 0 6px 0;
-  font-size: 1rem;
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.help-heading-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  image-rendering: pixelated;
 }
 
 .help-section p {
@@ -538,6 +548,22 @@ button:hover {
   animation: floatUp 1.5s ease-out forwards;
   z-index: 20;
   white-space: nowrap;
+}
+
+.wallet-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2rem;
+  color: gold;
+  font-weight: bold;
+}
+
+.wallet-coin-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  image-rendering: pixelated;
 }
 
 @keyframes floatUp {

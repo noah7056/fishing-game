@@ -2,6 +2,7 @@ import React from 'react';
 import { POTION_DATA } from '../data/potionData';
 import { playSound } from '../audioManager';
 import './PotionShop.css';
+import sellingIcon from '../assets/selling icon.png';
 
 const PotionShop = ({ wallet, setWallet, activeBuffs, setActiveBuffs }) => {
 
@@ -44,7 +45,7 @@ const PotionShop = ({ wallet, setWallet, activeBuffs, setActiveBuffs }) => {
             <div className="potion-shop-header">
                 <h2>Potion Shop</h2>
                 <div className="wallet-display">
-                    <span className="coin-icon">💰</span> {wallet}
+                    <img src={sellingIcon} alt="Coins" className="wallet-coin-icon" /> {wallet}
                 </div>
             </div>
 

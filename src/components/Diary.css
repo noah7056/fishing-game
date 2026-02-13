@@ -36,11 +36,7 @@
     letter-spacing: 2px;
 }
 
-.wallet-display {
-    font-size: 1.2rem;
-    color: gold;
-    font-weight: bold;
-}
+/* wallet-display is now handled globally in App.css */
 
 .inventory-actions {
     margin-bottom: 20px;

@@ -23,6 +23,13 @@ import settingsIcon from '../assets/settings.png';
 import volumeIcon from '../assets/volume.png';
 import muteIcon from '../assets/mute.png';
 
+// Help & UI Icons
+import castingIcon from '../assets/casting icon.png';
+import waitingIcon from '../assets/waiting icon.png';
+import hookingIcon from '../assets/hooking icon.png';
+import reelingIcon from '../assets/reeling icon.png';
+import sellingIcon from '../assets/selling icon.png';
+
 const GameScreen = () => {
     // Persistent State Initializers
     const [caughtFishIds, setCaughtFishIds] = useState(() => {
@@ -411,23 +418,23 @@ const GameScreen = () => {
                             ) : (
                                 <div className="howto-content">
                                     <div className="help-section">
-                                        <h3>🎣 CASTING</h3>
+                                        <h3><img src={castingIcon} alt="" className="help-heading-icon" /> CASTING</h3>
                                         <p>Press <strong>[SPACE]</strong> to cast your line into the water.</p>
                                     </div>
                                     <div className="help-section">
-                                        <h3>⏳ WAITING</h3>
+                                        <h3><img src={waitingIcon} alt="" className="help-heading-icon" /> WAITING</h3>
                                         <p>Wait for a fish to bite. A <strong>"!"</strong> will appear when something is hooked.</p>
                                     </div>
                                     <div className="help-section">
-                                        <h3>🖱️ HOOKING</h3>
+                                        <h3><img src={hookingIcon} alt="" className="help-heading-icon" /> HOOKING</h3>
                                         <p><strong>Click</strong> when the fish bites to start the reeling minigame.</p>
                                     </div>
                                     <div className="help-section">
-                                        <h3>🎯 REELING</h3>
+                                        <h3><img src={reelingIcon} alt="" className="help-heading-icon" /> REELING</h3>
                                         <p>Move your mouse to track the <strong>white spot</strong> with your <strong>green bar</strong>. Hold <strong>left click</strong> while overlapping to fill the progress bar. Reach <strong>100%</strong> to catch the fish!</p>
                                     </div>
                                     <div className="help-section">
-                                        <h3>💰 SELLING</h3>
+                                        <h3><img src={sellingIcon} alt="" className="help-heading-icon" /> SELLING</h3>
                                         <p>Switch to the <strong>Inventory</strong> tab to sell your catches for coins.</p>
                                     </div>
                                 </div>
