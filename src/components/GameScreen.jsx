@@ -525,7 +525,7 @@ const GameScreen = () => {
                                 <div className="progress-settings">
                                     <div className="progress-section">
                                         <h3><img src={saveIcon} alt="" className="help-heading-icon" /> {t.SAVE_STATE}</h3>
-                                        <p>{t.SAVE_STATE_DESC || 'Export your progress to a string or import an existing one.'}</p>
+                                        <p>{t.SAVE_STATE_DESC}</p>
                                         <div className="progress-actions">
                                             <button className="export-btn" onClick={handleExportSave}>{t.EXPORT_BTN}</button>
                                             <div className="import-row">
@@ -542,7 +542,7 @@ const GameScreen = () => {
 
                                     <div className="progress-section danger">
                                         <h3><img src={warningIcon} alt="" className="help-heading-icon" /> {t.RESET_PROGRESS}</h3>
-                                        <p>{t.RESET_PROGRESS_DESC || 'Completely clear all game data and start fresh.'}</p>
+                                        <p>{t.RESET_PROGRESS_DESC}</p>
                                         <button className="reset-btn" onClick={handleResetProgress}>{t.RESET_BTN}</button>
                                     </div>
 
@@ -563,6 +563,10 @@ const GameScreen = () => {
                                                 className={`lang-btn ${language === 'zh' ? 'active' : ''}`}
                                                 onClick={() => { playSound('button'); setLanguage('zh'); }}
                                             >简体中文</button>
+                                            <button
+                                                className={`lang-btn ${language === 'es' ? 'active' : ''}`}
+                                                onClick={() => { playSound('button'); setLanguage('es'); }}
+                                            >Español</button>
                                         </div>
                                     </div>
                                 </div>
@@ -600,7 +604,7 @@ const GameScreen = () => {
                         <img src={currentRod.image} alt={currentRod.name} className="equipped-rod-img" />
                     )}
                     <div className="status-display-panel">
-                        <p>{t.STATUS}: {gameState}</p>
+                        <p>{t.STATUS}: {t[`STATUS_${gameState}`] || gameState}</p>
                         <p>{t.ROD_LABEL}: {currentRod ? (t[`rod_${currentRod.id}`] || currentRod.name) : 'None'}</p>
                         {activeBuffs.length > 0 && (
                             <p className="active-buffs-indicator">⚡ {t.BUFFS_LABEL}: {activeBuffs.length}</p>
@@ -662,10 +666,9 @@ const GameScreen = () => {
                 {(gameState === GAME_STATES.CAUGHT) && (
                     <div className="result-overlay">
                         <div className="result-content">
-                            <h2>{gameState === GAME_STATES.CAUGHT ? t.FISH_CAUGHT : t.FISH_LOST}</h2>
-                            {gameState === GAME_STATES.CAUGHT && lastCaughtFish && (
+                            {gameState === GAME_STATES.CAUGHT && (
                                 <div className="catch-details">
-                                    <p>{t.CAUGHT_FISH_DESC || 'You caught a'} {t[`fish_${lastCaughtFish.id}`] || lastCaughtFish.name}!</p>
+                                    <p>{t.CAUGHT_FISH_DESC.replace('{name}', t[`fish_${lastCaughtFish.id}`] || lastCaughtFish.name)}</p>
                                     <img src={lastCaughtFish.image} alt={lastCaughtFish.name} className="catch-image" />
                                     <p>{t.VALUE}: ${lastCaughtFish.value}</p>
                                 </div>
