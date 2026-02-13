@@ -1,0 +1,170 @@
+.tutorial-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none;
+    /* Let events through by default, but we might need to block specific areas */
+}
+
+.tutorial-dimmer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    /* Basic way to do a "hole" without complex SVG mask if we just use 4 divs, 
+       but `mask-image` or `clip-path` is better for arbitrary circles.
+       Using a large box-shadow on the spotlight element is a common trick. 
+    */
+    display: none;
+    /* We'll focus on the spotlight element style instead */
+}
+
+/* 
+   We will use a "spotlight" div that is positioned absolutely 
+   and has a huge box-shadow to darken everything else.
+*/
+.tutorial-spotlight {
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.75);
+    transition: all 0.4s ease-out;
+    pointer-events: none;
+    /* Let clicks through the hole */
+    z-index: 10000;
+}
+
+.tutorial-popup {
+    position: absolute;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 250px;
+    z-index: 10001;
+    pointer-events: auto;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: 'Inter', sans-serif;
+}
+
+.tutorial-popup::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+}
+
+/* Triangle positioning based on placement */
+.tutorial-popup.right::after {
+    left: -10px;
+    /* Moves it outside the left edge */
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    border-bottom: 10px solid white;
+}
+
+.tutorial-popup.left::after {
+    right: -10px;
+    /* Moves it outside the right edge */
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    border-bottom: 10px solid white;
+}
+
+.tutorial-popup.top::after {
+    bottom: -10px;
+    /* Moves it outside the bottom edge */
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+    /* Point down */
+    border-bottom: 10px solid white;
+}
+
+.tutorial-popup.bottom::after {
+    top: -10px;
+    /* Moves it outside the top edge */
+    left: 50%;
+    transform: translateX(-50%);
+    /* Points up by default (border-bottom visible) */
+    border-bottom: 10px solid white;
+}
+
+.tutorial-content {
+    color: #333;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.tutorial-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.tutorial-btn {
+    background: #4DB6AC;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tutorial-btn:hover {
+    background: #26A69A;
+}
+
+.tutorial-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 10002;
+    pointer-events: auto;
+}
+
+.tutorial-control-btn {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.tutorial-control-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.lang-cycle-btn {
+    border-color: #4DB6AC !important;
+    background: rgba(77, 182, 172, 0.2) !important;
+}
+
+.lang-cycle-btn:hover {
+    background: rgba(77, 182, 172, 0.5) !important;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

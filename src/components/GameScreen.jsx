@@ -13,6 +13,7 @@ import {
     setBgmVolume, setWavesVolume, setSfxVolume, getVolumes
 } from '../audioManager';
 import { TRANSLATIONS } from '../data/translations';
+import TutorialOverlay from './TutorialOverlay';
 
 // Asset Imports
 import idleImg from '../assets/idle.png';
@@ -91,6 +92,166 @@ const GameScreen = () => {
     const [activeBuffs, setActiveBuffs] = useState([]);
     const [showHelp, setShowHelp] = useState(false);
 
+    // Tutorial State
+    const [tutorialActive, setTutorialActive] = useState(() => {
+        const disabled = localStorage.getItem('fishing_tutorial_disabled');
+        return !disabled;
+    });
+    const [tutorialStep, setTutorialStep] = useState(0);
+
+    const TUTORIAL_STEPS_CONFIG = [
+        {
+            id: 'start',
+            target: '.character-img',
+            content: t.TUTORIAL_STEP_0,
+            placement: 'bottom'
+        },
+        {
+            id: 'waiting',
+            target: '.character-img',
+            content: t.TUTORIAL_STEP_1,
+            placement: 'bottom'
+        },
+        {
+            id: 'hooked_instruction',
+            target: '.character-img',
+            content: t.TUTORIAL_STEP_2,
+            placement: 'bottom',
+            freezeGame: true,
+            shape: 'rect'
+        },
+        {
+            id: 'reeling_instruction',
+            target: '.minigame-container',
+            content: t.TUTORIAL_STEP_3,
+            placement: 'right',
+            showNext: true,
+            nextLabel: t.TUTORIAL_GOT_IT,
+            freezeGame: true,
+            shape: 'rect'
+        },
+        {
+            id: 'catching',
+            target: '.minigame-container',
+            content: t.TUTORIAL_STEP_4,
+            placement: 'right',
+            shape: 'rect'
+        },
+        {
+            id: 'caught_info',
+            target: '.result-content',
+            content: t.TUTORIAL_STEP_5,
+            placement: 'top',
+            showNext: true,
+            nextLabel: t.TUTORIAL_NEXT,
+            shape: 'rect'
+        },
+        {
+            id: 'collect',
+            target: '.fish-again-btn',
+            content: t.TUTORIAL_STEP_6,
+            placement: 'top',
+            shape: 'rect'
+        },
+        {
+            id: 'inventory_info',
+            target: '.tab-btn:first-child',
+            content: t.TUTORIAL_STEP_7,
+            placement: 'bottom',
+            showNext: true,
+            nextLabel: t.TUTORIAL_NEXT,
+            shape: 'rect'
+        },
+        {
+            id: 'rod_msg',
+            target: '.tab-btn:nth-child(2)',
+            content: t.TUTORIAL_STEP_8,
+            placement: 'bottom',
+            shape: 'rect'
+        },
+        {
+            id: 'rod_shop_intro',
+            target: '.rod-shop-container',
+            content: t.TUTORIAL_STEP_9,
+            placement: 'left',
+            showNext: true,
+            nextLabel: t.TUTORIAL_FINISH,
+            shape: 'rect'
+        }
+    ];
+
+    // Tutorial Progression Logic
+    useEffect(() => {
+        if (!tutorialActive) return;
+
+        // 0: Start -> Casting
+        if (tutorialStep === 0 && gameState === GAME_STATES.CASTING) {
+            setTutorialStep(1); // Go to waiting
+        }
+
+        // 1: Waiting -> Hooked logic
+        // When we enter HOOKED state, show 'hooked_instruction' (id 2)
+        if (tutorialStep === 1 && gameState === GAME_STATES.HOOKED) {
+            setTutorialStep(2);
+        }
+
+        // 2: Hooked -> Reeling Instruction (id 3)
+        // User clicks mouse to hook -> Game goes to REELING
+        if (tutorialStep === 2 && gameState === GAME_STATES.REELING) {
+            setTutorialStep(3); // reeling_instruction
+        }
+
+        // 3: Reeling Instruction -> Player clicks "Got it!" -> Stays in Reeling but unfreezes
+        // This is handled by handleTutorialNext which increments to 4 (Catching)
+        // 4: Catching -> Caught
+        if (tutorialStep === 4 && gameState === GAME_STATES.CAUGHT) {
+            setTutorialStep(5); // caught_info
+        }
+
+        // 5: Caught Info -> Next -> Collect (id 6)
+        // 6: Collect -> Idle (Button clicked)
+        // If we represent steps by index: 
+        // 0:start, 1:waiting, 2:hooked_instr, 3:reeling_instr, 4:catching, 5:caught_info, 6:collect, 7:inventory, 8:rod_msg, 9:rod_shop
+
+        if (tutorialStep === 6 && gameState === GAME_STATES.IDLE) {
+            setTutorialStep(7); // inventory_info
+        }
+
+        // 8: Rod Msg -> Click Tab
+        if (tutorialStep === 8 && activeTab === 'rod_shop') {
+            setTutorialStep(9); // rod_shop_intro
+        }
+
+    }, [gameState, tutorialActive, tutorialStep, activeTab]);
+
+    const handleTutorialNext = () => {
+        if (tutorialStep === 9) {
+            setTutorialActive(false); // Finish session
+        } else {
+            setTutorialStep(prev => prev + 1);
+        }
+    };
+
+    // Determine if game should be paused based on current step config
+    const isGamePaused = tutorialActive && TUTORIAL_STEPS_CONFIG[tutorialStep]?.freezeGame;
+
+    const handleSkipTutorial = () => {
+        setTutorialActive(false); // Disable for session
+    };
+
+    const handleDisableTutorial = () => {
+        setTutorialActive(false);
+        localStorage.setItem('fishing_tutorial_disabled', 'true');
+        playSound('button');
+    };
+
+    const handleCycleLanguage = () => {
+        const langs = ['en', 'zh', 'es', 'ja', 'de', 'ko', 'fr', 'ar'];
+        const currentIndex = langs.indexOf(language);
+        const nextIndex = (currentIndex + 1) % langs.length;
+        setLanguage(langs[nextIndex]);
+        playSound('button');
+    };
     // Persistence Effects
     useEffect(() => {
         localStorage.setItem('fishing_inventory', JSON.stringify(caughtFishIds));
@@ -162,7 +323,12 @@ const GameScreen = () => {
 
     const showFloatingText = (text) => {
         const id = Date.now();
-        setFloatingTexts(prev => [...prev, { id, text }]);
+        setFloatingTexts(prev => {
+            // Prevent duplicates if exact text was added in last 200ms
+            const recent = prev.filter(ft => ft.id > id - 200);
+            if (recent.some(ft => ft.text === text)) return prev;
+            return [...prev, { id, text }];
+        });
         setTimeout(() => {
             setFloatingTexts(prev => prev.filter(ft => ft.id !== id));
         }, 1500);
@@ -247,7 +413,11 @@ const GameScreen = () => {
         if (pool.length === 0) pool = FISH_DATA;
 
         const randomFish = pool[Math.floor(Math.random() * pool.length)];
+        // Use functional state update to prevent stale closures if needed
         setLastCaughtFish(randomFish);
+
+        // Clear existing gameLoop timeouts to prevent overlap
+        if (gameLoopRef.current) clearTimeout(gameLoopRef.current);
 
         gameLoopRef.current = setTimeout(() => {
             setGameState(GAME_STATES.HOOKED);
@@ -257,6 +427,16 @@ const GameScreen = () => {
             // Clear any old timers just in case
             hookTimersRef.current.forEach(t => clearTimeout(t));
             hookTimersRef.current = [];
+
+            // If tutorial is active/paused, don't run the dots or fail timer
+            // Check specifically for the 'waiting' or 'hooked_instruction' steps
+            // We need to ensure we don't start the fail timer if we are about to enter the hooked tutorial step
+            if (tutorialActive && (tutorialStep <= 2)) {
+                // But we DO want to show the '!' (which we just did above).
+                // We simply return here to avoid scheduling the dots and the fail timer.
+                // This effectively freezes the game in the "HOOKED" state until user interaction.
+                return;
+            }
 
             // Schedule dot sequence
             const intervals = [1000, 2000, 3000];
@@ -425,6 +605,18 @@ const GameScreen = () => {
 
     return (
         <div className="game-screen">
+            {tutorialActive && (
+                <TutorialOverlay
+                    step={tutorialStep}
+                    stepsConfig={TUTORIAL_STEPS_CONFIG}
+                    onNext={handleTutorialNext}
+                    onSkip={handleSkipTutorial}
+                    onDisable={handleDisableTutorial}
+                    onLanguageChange={handleCycleLanguage}
+                    language={language}
+                    t={t}
+                />
+            )}
             {/* Top-left buttons */}
             <div className="top-buttons">
                 <button
@@ -628,6 +820,7 @@ const GameScreen = () => {
                             onCatch={handleCatch}
                             onLose={handleLose}
                             language={language}
+                            paused={isGamePaused}
                         />
                     </div>
                 )}
@@ -725,7 +918,7 @@ const GameScreen = () => {
                                     <p>{t.VALUE}: ${lastCaughtFish.value}</p>
                                 </div>
                             )}
-                            <button onClick={() => { playSound('button'); resetGame(); }}>{t.FISH_AGAIN}</button>
+                            <button className="fish-again-btn" onClick={() => { playSound('button'); resetGame(); }}>{t.FISH_AGAIN}</button>
                         </div>
                     </div>
                 )}

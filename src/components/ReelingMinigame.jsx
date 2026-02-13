@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { TRANSLATIONS } from '../data/translations';
 
-const ReelingMinigame = ({ difficulty = 1, rarityId = 1, rodLevel = 1, activeBuffs = [], onCatch, onLose, language = 'en' }) => {
+const ReelingMinigame = ({ difficulty = 1, rarityId = 1, rodLevel = 1, activeBuffs = [], onCatch, onLose, language = 'en', paused = false }) => {
     const t = TRANSLATIONS[language];
     const [fishPosition, setFishPosition] = useState(50);
     const [cursorPosition, setCursorPosition] = useState(50);
@@ -121,8 +121,15 @@ const ReelingMinigame = ({ difficulty = 1, rarityId = 1, rodLevel = 1, activeBuf
     }, [rarityId]);
 
     // Main game loop — runs via requestAnimationFrame
+    // Main game loop — runs via requestAnimationFrame
     useEffect(() => {
         const gameLoop = () => {
+            if (paused) {
+                // Keep loop running but don't update state
+                requestRef.current = requestAnimationFrame(gameLoop);
+                return;
+            }
+
             if (caughtRef.current) return;
 
             const time = Date.now();
@@ -165,7 +172,8 @@ const ReelingMinigame = ({ difficulty = 1, rarityId = 1, rodLevel = 1, activeBuf
         return () => {
             if (requestRef.current) cancelAnimationFrame(requestRef.current);
         };
-    }, [getFishPosition, cursorWidth, onCatch]);
+    }, [getFishPosition, cursorWidth, onCatch, paused]);
+
 
     return (
         <div className="minigame-ui">

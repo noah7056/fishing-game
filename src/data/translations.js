@@ -186,7 +186,23 @@ export const TRANSLATIONS = {
         potion_double_loot: 'Double Loot',
         potion_double_loot_desc: 'Catch two fish at once for 1m!',
         potion_doublenator: 'The Doublenator',
-        potion_doublenator_desc: 'Double EVERYTHING (Speed, Loot, Money) for 30s.'
+        potion_doublenator_desc: 'Double EVERYTHING (Speed, Loot, Money) for 30s.',
+        TUTORIAL_STEP_0: 'Welcome! Press Space (or cast button) to start fishing.',
+        TUTORIAL_STEP_1: 'Wait for a fish to bite...',
+        TUTORIAL_STEP_2: 'HOOOOKED! Hit Left Mouse Button to start reeling!',
+        TUTORIAL_STEP_3: 'Hold left click and drag to keep your bar (green) on the fish (white spot).',
+        TUTORIAL_STEP_4: 'Now catch it!',
+        TUTORIAL_STEP_5: 'Nice catch! You can see the fish details here.',
+        TUTORIAL_STEP_6: 'Click here to collect your fish and return to fishing.',
+        TUTORIAL_STEP_7: 'Your caught fish are stored in the Inventory. You can sell them for money.',
+        TUTORIAL_STEP_8: 'Click here to see your Fishing Rods.',
+        TUTORIAL_STEP_9: 'Master the art of each rod to discover new fish and buy upgrades!',
+        TUTORIAL_NEXT: 'Next',
+        TUTORIAL_GOT_IT: 'Got it!',
+        TUTORIAL_FINISH: 'Finish Tutorial',
+        TUTORIAL_SKIP: 'Skip Tutorial',
+        TUTORIAL_HIDE: 'Hide Permanently',
+        TUTORIAL_LANG: 'Language'
     },
     zh: {
         // UI
@@ -375,7 +391,23 @@ export const TRANSLATIONS = {
         potion_double_loot: '双倍收获',
         potion_double_loot_desc: '在 1 分钟内一次捕获两条鱼！',
         potion_doublenator: '终极双倍',
-        potion_doublenator_desc: '在 30 秒内使一切翻倍（速度、收获、金币）。'
+        potion_doublenator_desc: '在 30 秒内使一切翻倍（速度、收获、金币）。',
+        TUTORIAL_STEP_0: '欢迎！按空格键（或抛竿按钮）开始钓鱼。',
+        TUTORIAL_STEP_1: '等待鱼儿咬钩...',
+        TUTORIAL_STEP_2: '上钩了！点击鼠标左键开始收线！',
+        TUTORIAL_STEP_3: '按住左键并拖动，让你的绿色条覆盖在鱼（白色亮点）上。',
+        TUTORIAL_STEP_4: '现在把它钓上来！',
+        TUTORIAL_STEP_5: '抓到了！你可以在这里看到鱼的详细信息。',
+        TUTORIAL_STEP_6: '点击这里收集你的鱼并返回钓鱼。',
+        TUTORIAL_STEP_7: '钓到的鱼存储在背包中。你可以出售它们换取金钱。',
+        TUTORIAL_STEP_8: '点击这里查看你的鱼竿。',
+        TUTORIAL_STEP_9: '熟练掌握每根鱼竿以发现新鱼类并购买升级！',
+        TUTORIAL_NEXT: '下一步',
+        TUTORIAL_GOT_IT: '明白了！',
+        TUTORIAL_FINISH: '完成教程',
+        TUTORIAL_SKIP: '跳过教程',
+        TUTORIAL_HIDE: '永久隐藏',
+        TUTORIAL_LANG: '语言'
     },
     es: {
         // UI
@@ -561,7 +593,23 @@ export const TRANSLATIONS = {
         potion_double_loot: 'Doble Botín',
         potion_double_loot_desc: '¡Atrapa dos peces a la vez por 1m!',
         potion_doublenator: 'El Duplicador',
-        potion_doublenator_desc: 'Duplica TODO (Velocidad, Botín, Dinero) por 30s.'
+        potion_doublenator_desc: 'Duplica TODO (Velocidad, Botín, Dinero) por 30s.',
+        TUTORIAL_STEP_0: '¡Bienvenido! Presiona Espacio (o el botón de lanzar) para empezar a pescar.',
+        TUTORIAL_STEP_1: 'Espera a que un pez pique...',
+        TUTORIAL_STEP_2: '¡GANCHADO! ¡Haz clic con el botón izquierdo para empezar a recoger!',
+        TUTORIAL_STEP_3: 'Mantén pulsado el clic izquierdo y arrastra para mantener tu barra (verde) sobre el pez (punto blanco).',
+        TUTORIAL_STEP_4: '¡Ahora atrápalo!',
+        TUTORIAL_STEP_5: '¡Buena captura! Aquí puedes ver los detalles del pez.',
+        TUTORIAL_STEP_6: 'Haz clic aquí para recoger tu pez y volver a pescar.',
+        TUTORIAL_STEP_7: 'Los peces capturados se guardan en el Inventario. Puedes venderlos por dinero.',
+        TUTORIAL_STEP_8: 'Haz clic aquí para ver tus cañas de pescar.',
+        TUTORIAL_STEP_9: '¡Domina el arte de cada caña para descubrir nuevos peces y comprar mejoras!',
+        TUTORIAL_NEXT: 'Siguiente',
+        TUTORIAL_GOT_IT: '¡Entendido!',
+        TUTORIAL_FINISH: 'Terminar Tutorial',
+        TUTORIAL_SKIP: 'Saltar Tutorial',
+        TUTORIAL_HIDE: 'Ocultar Permanentemente',
+        TUTORIAL_LANG: 'Idioma'
     },
     ja: {
         // UI
@@ -747,7 +795,23 @@ export const TRANSLATIONS = {
         potion_double_loot: 'ダブルルート',
         potion_double_loot_desc: '1分間、一度に2匹の魚が釣れます！',
         potion_doublenator: 'ダブルネーター',
-        potion_doublenator_desc: '30秒間、すべてが2倍になります（速度、戦利品、お金）。'
+        potion_doublenator_desc: '30秒間、すべてが2倍になります（速度、戦利品、お金）。',
+        TUTORIAL_STEP_0: 'ようこそ！スペースキー（またはキャストボタン）を押して釣りを始めましょう。',
+        TUTORIAL_STEP_1: '魚が食いつくのを待ちます...',
+        TUTORIAL_STEP_2: 'ヒット！マウスの左ボタンを押してリールを巻き始めましょう！',
+        TUTORIAL_STEP_3: '左クリックを長押ししてドラッグし、バー（緑）を魚（白い点）に合わせ続けます。',
+        TUTORIAL_STEP_4: '今だ、釣り上げろ！',
+        TUTORIAL_STEP_5: 'ナイスキャッチ！ここで魚の情報を確認できます。',
+        TUTORIAL_STEP_6: 'ここをクリックして魚を回収し、釣りに戻ります。',
+        TUTORIAL_STEP_7: '釣った魚はインベントリに保存されます。売ってお金にすることができます。',
+        TUTORIAL_STEP_8: 'ここをクリックしてつりざおを確認しましょう。',
+        TUTORIAL_STEP_9: '各ロッドを極めて新しい魚を発見し、アップグレードを購入しましょう！',
+        TUTORIAL_NEXT: '次へ',
+        TUTORIAL_GOT_IT: '了解！',
+        TUTORIAL_FINISH: 'チュートリアルを終了',
+        TUTORIAL_SKIP: 'スキップ',
+        TUTORIAL_HIDE: '永久に非表示',
+        TUTORIAL_LANG: '言語'
     },
     de: {
         // UI
@@ -933,7 +997,23 @@ export const TRANSLATIONS = {
         potion_double_loot: 'Doppelte Beute',
         potion_double_loot_desc: 'Fange zwei Fische gleichzeitig für 1m!',
         potion_doublenator: 'Der Verdoppler',
-        potion_doublenator_desc: 'Verdopple ALLES (Tempo, Beute, Geld) für 30s.'
+        potion_doublenator_desc: 'Verdoppelt ALLES (Geschwindigkeit, Beute, Geld) für 30s.',
+        TUTORIAL_STEP_0: 'Willkommen! Drücke die Leertaste (oder den Auswurf-Knopf), um mit dem Angeln zu beginnen.',
+        TUTORIAL_STEP_1: 'Warte, bis ein Fisch anbeißt...',
+        TUTORIAL_STEP_2: 'BISS! Klicke die linke Maustaste, um mit dem Einholen zu beginnen!',
+        TUTORIAL_STEP_3: 'Halte die linke Maustaste gedrückt und ziehe, um deinen Balken (grün) auf dem Fisch (weißer Punkt) zu halten.',
+        TUTORIAL_STEP_4: 'Jetzt fang ihn!',
+        TUTORIAL_STEP_5: 'Guter Fang! Hier kannst du die Details des Fisches sehen.',
+        TUTORIAL_STEP_6: 'Klicke hier, um deinen Fisch einzusammeln und weiterzuangeln.',
+        TUTORIAL_STEP_7: 'Deine gefangenen Fische werden im Inventar gespeichert. Du kannst sie gegen Geld verkaufen.',
+        TUTORIAL_STEP_8: 'Klicke hier, um deine Angelruten zu sehen.',
+        TUTORIAL_STEP_9: 'Meistere die Kunst jeder Rute, um neue Fische zu entdecken und Upgrades zu kaufen!',
+        TUTORIAL_NEXT: 'Weiter',
+        TUTORIAL_GOT_IT: 'Verstanden!',
+        TUTORIAL_FINISH: 'Tutorial beenden',
+        TUTORIAL_SKIP: 'Tutorial überspringen',
+        TUTORIAL_HIDE: 'Dauerhaft ausblenden',
+        TUTORIAL_LANG: 'Sprache'
     },
     ko: {
         // UI
@@ -1119,7 +1199,23 @@ export const TRANSLATIONS = {
         potion_double_loot: '더블 루팅',
         potion_double_loot_desc: '1분 동안 한 번에 두 마리의 물고기를 잡습니다!',
         potion_doublenator: '더블네이터',
-        potion_doublenator_desc: '30초 동안 모든 것(속도, 루팅, 골드)이 두 배가 됩니다.'
+        potion_doublenator_desc: '30초 동안 모든 것(속도, 전리품, 돈)이 두 배가 됩니다.',
+        TUTORIAL_STEP_0: '환영합니다! 스페이스바(또는 캐스트 버튼)를 눌러 낚시를 시작하세요.',
+        TUTORIAL_STEP_1: '물고기가 미끼를 물 때까지 기다리세요...',
+        TUTORIAL_STEP_2: '입질이 왔습니다! 마우스 왼쪽 버튼을 눌러 릴을 감기 시작하세요!',
+        TUTORIAL_STEP_3: '마우스 왼쪽 버튼을 누른 채 드래그하여 바(초록색)를 물고기(흰색 부분) 위에 유지하세요.',
+        TUTORIAL_STEP_4: '지금 낚으세요!',
+        TUTORIAL_STEP_5: '멋진 포획입니다! 여기서 물고기 상세 정보를 확인할 수 있습니다.',
+        TUTORIAL_STEP_6: '여기를 클릭하여 물고기를 수집하고 다시 낚시를 시작하세요.',
+        TUTORIAL_STEP_7: '잡은 물고기는 인벤토리에 저장됩니다. 돈을 받고 팔 수 있습니다.',
+        TUTORIAL_STEP_8: '여기를 클릭하여 낚싯대를 확인하세요.',
+        TUTORIAL_STEP_9: '각 낚싯대의 기술을 마스터하여 새로운 물고기를 발견하고 업그레이드를 구매하세요!',
+        TUTORIAL_NEXT: '다음',
+        TUTORIAL_GOT_IT: '확인!',
+        TUTORIAL_FINISH: '튜토리얼 종료',
+        TUTORIAL_SKIP: '튜토리얼 건너뛰기',
+        TUTORIAL_HIDE: '영구히 숨기기',
+        TUTORIAL_LANG: '언어'
     },
     fr: {
         // UI
@@ -1305,7 +1401,23 @@ export const TRANSLATIONS = {
         potion_double_loot: 'Double Butin',
         potion_double_loot_desc: 'Attrapez deux poissons à la fois pendant 1m !',
         potion_doublenator: 'Le Doubleur',
-        potion_doublenator_desc: 'Double TOUT (Vitesse, Butin, Argent) pendant 30s.'
+        potion_doublenator_desc: 'Double TOUT (Vitesse, Butin, Argent) pendant 30s.',
+        TUTORIAL_STEP_0: 'Bienvenue ! Appuyez sur Espace (ou sur le bouton de lancer) pour commencer à pêcher.',
+        TUTORIAL_STEP_1: 'Attendez qu\'un poisson morde...',
+        TUTORIAL_STEP_2: 'FERRÉ ! Cliquez sur le bouton gauche de la souris pour commencer à mouliner !',
+        TUTORIAL_STEP_3: 'Maintenez le clic gauche et faites glisser pour garder votre barre (verte) sur le poisson (point blanc).',
+        TUTORIAL_STEP_4: 'Maintenant, attrapez-le !',
+        TUTORIAL_STEP_5: 'Belle prise ! Vous pouvez voir les détails du poisson ici.',
+        TUTORIAL_STEP_6: 'Cliquez ici pour récupérer votre poisson et retourner pêcher.',
+        TUTORIAL_STEP_7: 'Les poissons capturés sont stockés dans l\'inventaire. Vous pouvez les vendre pour de l\'argent.',
+        TUTORIAL_STEP_8: 'Cliquez ici pour voir vos cannes à pêche.',
+        TUTORIAL_STEP_9: 'Maîtrisez l\'art de chaque canne pour découvrir de nouveaux poissons et acheter des améliorations !',
+        TUTORIAL_NEXT: 'Suivant',
+        TUTORIAL_GOT_IT: 'Compris !',
+        TUTORIAL_FINISH: 'Terminer le tutoriel',
+        TUTORIAL_SKIP: 'Passer le tutoriel',
+        TUTORIAL_HIDE: 'Masquer définitivement',
+        TUTORIAL_LANG: 'Langue'
     },
     ar: {
         // UI
@@ -1491,6 +1603,22 @@ export const TRANSLATIONS = {
         potion_double_loot: 'غنيمة مضاعفة',
         potion_double_loot_desc: 'اصطد سمكتين في وقت واحد لمدة دقيقة!',
         potion_doublenator: 'المضاعف الخارق',
-        potion_doublenator_desc: 'يضاعف كل شيء (السرعة، الغنيمة، المال) لمدة 30 ثانية.'
+        potion_doublenator_desc: 'يضاعف كل شيء (السرعة، الغنيمة، المال) لمدة 30 ثانية.',
+        TUTORIAL_STEP_0: 'مرحباً بك! اضغط على المسافة (أو زر الإرسال) لبدء الصيد.',
+        TUTORIAL_STEP_1: 'انتظر حتى تعض سمكة...',
+        TUTORIAL_STEP_2: 'تم الشبك! انقر بزر الماوس الأيسر لبدء سحب الخيط!',
+        TUTORIAL_STEP_3: 'استمر في النقر والسحب لإبقاء شريطك (الأخضر) على السمكة (النقطة البيضاء).',
+        TUTORIAL_STEP_4: 'الآن اصطدها!',
+        TUTORIAL_STEP_5: 'صيد رائع! يمكنك رؤية تفاصيل السمكة هنا.',
+        TUTORIAL_STEP_6: 'انقر هنا لجمع السمكة والعودة للصيد.',
+        TUTORIAL_STEP_7: 'يتم تخزين الأسماك في الحقيبة. يمكنك بيعها مقابل المال.',
+        TUTORIAL_STEP_8: 'انقر هنا لرؤية صنارات الصيد الخاصة بك.',
+        TUTORIAL_STEP_9: 'أتقن فن كل صنارة لاكتشاف أسماك جديدة وشراء ترقيات!',
+        TUTORIAL_NEXT: 'التالي',
+        TUTORIAL_GOT_IT: 'فهمت!',
+        TUTORIAL_FINISH: 'إنهاء البرنامج التعليمي',
+        TUTORIAL_SKIP: 'تخطي البرنامج التعليمي',
+        TUTORIAL_HIDE: 'إخفاء بشكل دائم',
+        TUTORIAL_LANG: 'اللغة'
     }
 };
