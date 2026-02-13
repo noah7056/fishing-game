@@ -13,15 +13,15 @@ import rod12 from '../assets/fishing rod 12.png';
 
 export const ROD_DATA = [
     { id: 1, name: 'Bamboo Rod', price: 0, catchTier: 1, masteryReq: 15, image: rod1 },
-    { id: 2, name: 'Wooden Rod', price: 25, catchTier: 2, masteryReq: 25, image: rod2 },
-    { id: 3, name: 'Carbon Fiber Rod', price: 100, catchTier: 3, masteryReq: 40, image: rod3 },
-    { id: 4, name: 'Reinforced Rod', price: 300, catchTier: 4, masteryReq: 60, image: rod4 },
-    { id: 5, name: 'Professional Rod', price: 900, catchTier: 5, masteryReq: 85, image: rod5 },
-    { id: 6, name: 'Master Rod', price: 2500, catchTier: 6, masteryReq: 120, image: rod6 },
-    { id: 7, name: 'Golden Rod', price: 7500, catchTier: 7, masteryReq: 160, image: rod7 },
-    { id: 8, name: 'Ethereal Rod', price: 22500, catchTier: 8, masteryReq: 210, image: rod8 },
-    { id: 9, name: 'Celestial Rod', price: 67500, catchTier: 9, masteryReq: 270, image: rod9 },
-    { id: 10, name: 'Abyssal Rod', price: 175000, catchTier: 10, masteryReq: 350, image: rod10 },
-    { id: 11, name: 'Primordial Rod', price: 375000, catchTier: 11, masteryReq: 450, image: rod11 },
-    { id: 12, name: 'Cosmic Rod', price: 625000, catchTier: 12, masteryReq: 0, image: rod12 }, // Max Level
+    { id: 2, name: 'Wooden Rod', price: 31, catchTier: 2, masteryReq: 25, image: rod2 },
+    { id: 3, name: 'Carbon Fiber Rod', price: 125, catchTier: 3, masteryReq: 40, image: rod3 },
+    { id: 4, name: 'Reinforced Rod', price: 375, catchTier: 4, masteryReq: 60, image: rod4 },
+    { id: 5, name: 'Professional Rod', price: 1125, catchTier: 5, masteryReq: 85, image: rod5 },
+    { id: 6, name: 'Master Rod', price: 3125, catchTier: 6, masteryReq: 120, image: rod6 },
+    { id: 7, name: 'Golden Rod', price: 9375, catchTier: 7, masteryReq: 160, image: rod7 },
+    { id: 8, name: 'Ethereal Rod', price: 28125, catchTier: 8, masteryReq: 210, image: rod8 },
+    { id: 9, name: 'Celestial Rod', price: 84375, catchTier: 9, masteryReq: 270, image: rod9 },
+    { id: 10, name: 'Abyssal Rod', price: 218750, catchTier: 10, masteryReq: 350, image: rod10 },
+    { id: 11, name: 'Primordial Rod', price: 468750, catchTier: 11, masteryReq: 450, image: rod11 },
+    { id: 12, name: 'Cosmic Rod', price: 781250, catchTier: 12, masteryReq: 0, image: rod12 }, // Max Level
 ];

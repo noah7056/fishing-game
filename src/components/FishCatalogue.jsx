@@ -67,20 +67,10 @@ const FishCatalogue = ({ fishData, discoveredFishIds, redeemedFishIds, onRedeem,
                     const isRedeemed = redeemedFishIds.has(fish.id);
                     const isClaimable = isDiscovered && !isRedeemed;
 
-                    if (!isDiscovered) {
-                        return (
-                            <div
-                                key={fish.id}
-                                className="catalogue-item empty"
-                                onMouseEnter={() => setHoveredFish(null)}
-                            ></div>
-                        );
-                    }
-
                     return (
                         <div
                             key={fish.id}
-                            className={`catalogue-item rarity-${fish.rarityId} ${isClaimable ? 'claimable' : 'redeemed'}`}
+                            className={`catalogue-item rarity-${fish.rarityId} ${!isDiscovered ? 'undiscovered' : isClaimable ? 'claimable' : 'redeemed'}`}
                             onMouseEnter={() => setHoveredFish(fish)}
                             onMouseLeave={() => setHoveredFish(null)}
                             onClick={() => {
@@ -89,7 +79,7 @@ const FishCatalogue = ({ fishData, discoveredFishIds, redeemedFishIds, onRedeem,
                                 }
                             }}
                         >
-                            <img src={fish.image} alt={fish.name} className="fish-icon" />
+                            {isDiscovered && <img src={fish.image} alt={fish.name} className="fish-icon" />}
                             {isClaimable && <div className="claim-indicator">!</div>}
                         </div>
                     );

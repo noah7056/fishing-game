@@ -236,6 +236,10 @@
     object-fit: contain;
 }
 
+.detail-image.undiscovered {
+    opacity: 0;
+}
+
 .detail-info {
     flex: 1;
     display: flex;
