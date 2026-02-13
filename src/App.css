@@ -147,8 +147,10 @@ body {
   transform: rotate(45deg) scale(1.1);
 }
 
-.settings-btn:hover img {
-  filter: invert(1);
+.settings-btn:focus,
+.settings-btn:active {
+  outline: none;
+  background: none;
 }
 
 /* (optional) give it a slight white glow/outline if it's too dark on dark backgrounds */
@@ -264,8 +266,8 @@ body {
 }
 
 .toggle-icon-btn {
-  background: #000;
-  border: 1px solid #333;
+  background: transparent;
+  border: none;
   width: 44px;
   height: 44px;
   display: flex;
@@ -274,6 +276,12 @@ body {
   padding: 6px;
   cursor: pointer;
   border-radius: 4px;
+}
+
+.toggle-icon-btn:focus,
+.toggle-icon-btn:active {
+  outline: none;
+  background: none;
 }
 
 .toggle-icon-btn img {
@@ -285,11 +293,6 @@ body {
 
 .toggle-icon-btn.off {
   opacity: 0.4;
-}
-
-.toggle-icon-btn:hover {
-  background: #222;
-  border-color: #fff;
 }
 
 .volume-row input[type="range"] {
