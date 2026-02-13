@@ -5,6 +5,8 @@
     flex-direction: column;
     gap: 15px;
     color: white;
+    position: relative;
+    /* Context for absolute positioning */
 }
 
 .catalogue-header {
@@ -13,6 +15,7 @@
     align-items: center;
     border-bottom: 2px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 10px;
+    flex-shrink: 0;
 }
 
 .catalogue-stats {
@@ -55,6 +58,18 @@
     overflow-y: auto;
     flex: 1;
     padding-right: 5px;
+    padding-bottom: 160px;
+    /* Space for the detail card */
+}
+
+/* Scrollbar styling */
+.catalogue-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.catalogue-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
 }
 
 .catalogue-item {
@@ -66,19 +81,67 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: transform 0.2s ease, border-color 0.2s ease;
-    padding: 5px;
     position: relative;
+    transition: transform 0.1s;
 }
 
 .catalogue-item:hover {
     transform: scale(1.05);
-    border-color: #4DB6AC;
-    background: rgba(255, 255, 255, 0.1);
+    z-index: 2;
 }
 
-.catalogue-item.undiscovered .fish-icon {
-    filter: brightness(0) opacity(0.5);
+.catalogue-item.empty {
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px dashed rgba(255, 255, 255, 0.05);
+    cursor: default;
+}
+
+.catalogue-item.claimable {
+    border-color: #FFD700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+    }
+
+    100% {
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.2);
+    }
+}
+
+.claim-indicator {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #FFD700;
+    color: #000;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    animation: bounce 0.5s infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-3px);
+    }
 }
 
 .fish-icon {
@@ -136,81 +199,82 @@
     border-color: #8e44ad;
 }
 
-/* Detail Card (Bottom Popup) */
+/* Detail Card (Bottom Popup - Absolute Overlay) */
 .fish-detail-card {
-    background: rgba(0, 0, 0, 0.85);
-    border-top: 2px solid #4DB6AC;
-    padding: 15px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    /* Fixed height */
+    background: rgba(0, 0, 0, 0.95);
+    border-top: 3px solid #4DB6AC;
+    padding: 15px 20px;
     border-radius: 12px 12px 0 0;
     display: flex;
     gap: 20px;
     align-items: center;
-    animation: slideUp 0.3s ease-out;
-    min-height: 120px;
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+    z-index: 10;
 }
 
 .detail-image-container {
-    width: 100px;
-    /* Bigger image */
-    height: 100px;
+    width: 110px;
+    height: 110px;
+    flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 50%;
-    border: 2px solid transparent;
+    border: 3px solid transparent;
 }
 
 .detail-image {
-    width: 80%;
-    height: 80%;
+    width: 85%;
+    height: 85%;
     object-fit: contain;
-}
-
-.detail-image.undiscovered {
-    filter: brightness(0) opacity(0.5);
 }
 
 .detail-info {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 5px;
+    overflow: hidden;
 }
 
 .detail-name {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: bold;
     color: #fff;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .detail-meta {
     display: flex;
     gap: 15px;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: #ccc;
+    align-items: center;
 }
 
 .detail-rarity {
     font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .detail-price {
     color: #FFD700;
+    font-weight: bold;
 }
 
 .detail-desc {
@@ -218,5 +282,10 @@
     color: #aaa;
     margin-top: 5px;
     font-size: 0.95rem;
-    line-height: 1.4;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }

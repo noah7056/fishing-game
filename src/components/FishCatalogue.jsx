@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import './FishCatalogue.css';
 import { RARITY_TIERS } from '../data/fishData';
 
-const FishCatalogue = ({ fishData, discoveredFishIds, t, language }) => {
+const FishCatalogue = ({ fishData, discoveredFishIds, redeemedFishIds, onRedeem, t, language }) => {
     const [filter, setFilter] = useState('all'); // all, rarity, price
     const [hoveredFish, setHoveredFish] = useState(null);
 
@@ -25,7 +25,7 @@ const FishCatalogue = ({ fishData, discoveredFishIds, t, language }) => {
 
     // Calculate Stats
     const totalFish = fishData.length;
-    const discoveredCount = fishData.filter(f => discoveredFishIds.has(f.id)).length;
+    const discoveredCount = discoveredFishIds.size;
 
     return (
         <div className="catalogue-container">

@@ -59,6 +59,10 @@ const GameScreen = () => {
         const saved = localStorage.getItem('fishing_discovered');
         return saved ? new Set(JSON.parse(saved)) : new Set();
     });
+    const [redeemedFishIds, setRedeemedFishIds] = useState(() => {
+        const saved = localStorage.getItem('fishing_redeemed');
+        return saved ? new Set(JSON.parse(saved)) : new Set();
+    });
     const [sfxOn, setSfxOn] = useState(() => {
         const saved = localStorage.getItem('fishing_sfx_enabled');
         return saved !== null ? JSON.parse(saved) : isSfxEnabled();
@@ -262,6 +266,7 @@ const GameScreen = () => {
         localStorage.setItem('fishing_rod_level', currentRodLevel.toString());
         localStorage.setItem('fishing_rod_progress', rodProgress.toString());
         localStorage.setItem('fishing_discovered', JSON.stringify([...discoveredFishIds]));
+        localStorage.setItem('fishing_redeemed', JSON.stringify([...redeemedFishIds]));
         localStorage.setItem('fishing_sfx_enabled', JSON.stringify(sfxOn));
         localStorage.setItem('fishing_bgm_enabled', JSON.stringify(bgmOn));
         localStorage.setItem('fishing_language', language);
@@ -348,6 +353,10 @@ const GameScreen = () => {
         playSound('catch');
         if (lastCaughtFish) {
             // Check for first-time discovery
+            if (!discoveredFishIds.has(lastCaughtFish.id)) {
+                setDiscoveredFishIds(prev => new Set(prev).add(lastCaughtFish.id));
+                // We don't auto-redeem anymore, user has to click in catalogue
+            }
             if (!discoveredFishIds.has(lastCaughtFish.id)) {
                 setDiscoveredFishIds(prev => new Set([...prev, lastCaughtFish.id]));
                 playSound('newItem');
@@ -541,6 +550,21 @@ const GameScreen = () => {
         setVolumes(getVolumes());
     };
 
+    const handleRedeemFish = (fish) => {
+        if (redeemedFishIds.has(fish.id)) return;
+
+        // Reward calculation: Base value * Rarity Multiplier * 10? Or just flat based on rarity?
+        // Let's do: Fish Value * 5 (A nice bonus)
+        const reward = Math.floor(fish.value * 5);
+
+        setWallet(prev => prev + reward);
+        setRedeemedFishIds(prev => new Set(prev).add(fish.id));
+        playSound('buyRod'); // Use buy sound as requested
+        showFloatingText(`+${reward} G`);
+    };
+
+    const unclaimedCount = [...discoveredFishIds].filter(id => !redeemedFishIds.has(id)).length;
+
     const handleResetProgress = () => {
         const confirmText = t.ARE_YOU_SURE;
         if (window.confirm(confirmText)) {
@@ -550,6 +574,7 @@ const GameScreen = () => {
             setCurrentRodLevel(1);
             setRodProgress(0);
             setDiscoveredFishIds(new Set());
+            setRedeemedFishIds(new Set());
             setActiveBuffs([]);
             setGameState(GAME_STATES.IDLE);
             setProgressMessage(t.RESET_SUCCESS);
@@ -565,6 +590,7 @@ const GameScreen = () => {
             rodLevel: currentRodLevel,
             rodProgress: rodProgress,
             discovered: [...discoveredFishIds],
+            redeemed: [...redeemedFishIds],
             timestamp: Date.now()
         };
         const encoded = btoa(JSON.stringify(saveData));
@@ -585,7 +611,9 @@ const GameScreen = () => {
                 setWallet(decoded.wallet || 0);
                 setCurrentRodLevel(decoded.rodLevel || 1);
                 setRodProgress(decoded.rodProgress || 0);
+                setRodProgress(decoded.rodProgress || 0);
                 setDiscoveredFishIds(new Set(decoded.discovered || []));
+                setRedeemedFishIds(new Set(decoded.redeemed || []));
                 setImportString('');
                 setProgressMessage(t.SAVE_APPLIED);
                 playSound('buyRod');
@@ -882,6 +910,9 @@ const GameScreen = () => {
                         >
                             {currentRodLevel < 2 && <img src={lockIcon} alt="Locked" className="tab-lock-icon" />}
                             {t.CATALOGUE || 'Catalogue'}
+                            {currentRodLevel >= 2 && unclaimedCount > 0 && (
+                                <span className="tab-badge">{unclaimedCount}</span>
+                            )}
                         </button>
                         {lockedTabMessage && activeTab !== 'catalogue' && activeTab !== 'potion_shop' && <div className="tab-locked-message">{lockedTabMessage}</div>}
                     </div>
@@ -929,9 +960,12 @@ const GameScreen = () => {
                         <FishCatalogue
                             fishData={FISH_DATA}
                             discoveredFishIds={discoveredFishIds}
+                            redeemedFishIds={redeemedFishIds}
+                            onRedeem={handleRedeemFish}
                             t={t}
                             language={language}
                         />
+
                     ) : activeTab === 'rod_shop' ? (
                         <RodShop
                             wallet={wallet}
