@@ -104,6 +104,20 @@ const GameScreen = () => {
         localStorage.setItem('fishing_rewards', JSON.stringify([...collectedRewards]));
     }, [caughtFishIds, wallet, currentRodLevel, rodProgress, discoveredFishIds, sfxOn, bgmOn, language, collectedRewards]);
 
+    // Periodically sanitize sets to prevent corrupted data (e.g., [null] or mixing types)
+    useEffect(() => {
+        setDiscoveredFishIds(prev => {
+            const arr = [...prev].filter(id => id !== null && id !== undefined);
+            if (arr.length !== prev.size) return new Set(arr);
+            return prev;
+        });
+        setCollectedRewards(prev => {
+            const arr = [...prev].filter(id => typeof id === 'number' && !isNaN(id));
+            if (arr.length !== prev.size) return new Set(arr);
+            return prev;
+        });
+    }, []);
+
     // Game loop refs
     const gameLoopRef = useRef(null);
     const hookTimersRef = useRef([]);

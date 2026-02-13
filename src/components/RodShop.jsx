@@ -69,7 +69,7 @@ const RodShop = ({
                         rod.id < currentRodLevel ||
                         (isCurrent && (rod.masteryReq === 0 || rodProgress >= rod.masteryReq));
 
-                    const isFullyCompleted = isCollectionComplete && isMasteryComplete;
+                    const isFullyCompleted = isCollectionComplete && isMasteryComplete && collectedRewards.has(rod.id);
 
                     const canRedeem = isCollectionComplete && !collectedRewards.has(rod.id);
                     const rewardSum = fishInThisTier.reduce((sum, f) => sum + (Number(f.value) || 0), 0);
@@ -128,17 +128,19 @@ const RodShop = ({
                                     >
                                         ✨ {t.REDEEM} (+${rewardAmount})
                                     </button>
-                                ) : collectedRewards.has(rod.id) ? (
+                                ) : (isCollectionComplete && collectedRewards.has(rod.id)) ? (
                                     <div className="redeem-status">
-                                        <span className="collected-tag">{t.REWARD_COLLECTED}</span>
+                                        <span className={`collected-tag ${isFullyCompleted ? 'mastered-text' : ''}`}>
+                                            {t.REWARD_COLLECTED}
+                                        </span>
                                         {isOwned && (
-                                            <div className="status-owned small">
+                                            <div className={`status-owned small ${isFullyCompleted ? 'mastered-text' : ''}`}>
                                                 {isCurrent ? t.EQUIPPED : t.OWNED}
                                             </div>
                                         )}
                                     </div>
                                 ) : isOwned ? (
-                                    <div className="status-owned">
+                                    <div className={`status-owned ${isFullyCompleted ? 'mastered-text' : ''}`}>
                                         {isCurrent ? t.EQUIPPED : t.OWNED}
                                     </div>
                                 ) : (

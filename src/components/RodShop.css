@@ -38,7 +38,9 @@
 }
 
 .rod-card.unlockable {
-    border-color: #f1c40f;
+    border-color: #2ecc71;
+    /* Now green instead of yellow */
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
 }
 
 .rod-card.locked {
@@ -48,7 +50,11 @@
 
 .rod-card.mastered {
     border-color: #f1c40f !important;
-    box-shadow: 0 0 15px rgba(241, 196, 15, 0.25);
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.45) !important;
+}
+
+.mastered-text {
+    color: #f1c40f !important;
 }
 
 .rod-info-left {
