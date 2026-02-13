@@ -1,7 +1,7 @@
 import React from 'react';
 import { ROD_DATA } from '../data/rodData';
 import './RodShop.css';
-import sellingIcon from '../assets/selling icon.png';
+import moneyIcon from '../assets/money icon.png';
 
 const RodShop = ({ wallet, setWallet, currentRodLevel, setCurrentRodLevel, rodProgress }) => {
 
@@ -20,7 +20,7 @@ const RodShop = ({ wallet, setWallet, currentRodLevel, setCurrentRodLevel, rodPr
             <div className="rod-shop-header">
                 <h2>Fishing Rods</h2>
                 <div className="wallet-display">
-                    <img src={sellingIcon} alt="Coins" className="wallet-coin-icon" /> {wallet}
+                    <img src={moneyIcon} alt="Coins" className="wallet-coin-icon" /> {wallet}
                 </div>
             </div>
 

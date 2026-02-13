@@ -4,6 +4,7 @@ import { playSound } from '../audioManager';
 import './Diary.css';
 
 import sellingIcon from '../assets/selling icon.png';
+import moneyIcon from '../assets/money icon.png';
 
 const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs = [], onClose, isAlwaysOpen }) => {
     const [sortBy, setSortBy] = useState('rarity'); // 'rarity' or 'name'
@@ -84,7 +85,7 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
                 <div className="diary-header">
                     <h2>Inventory</h2>
                     <div className="wallet-display">
-                        <img src={sellingIcon} alt="Coins" className="wallet-coin-icon" /> {wallet}
+                        <img src={moneyIcon} alt="Coins" className="wallet-coin-icon" /> {wallet}
                     </div>
                 </div>
 
