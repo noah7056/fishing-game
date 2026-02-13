@@ -14,6 +14,7 @@ import {
 } from '../audioManager';
 import { TRANSLATIONS } from '../data/translations';
 import TutorialOverlay from './TutorialOverlay';
+import FishCatalogue from './FishCatalogue';
 
 // Asset Imports
 import idleImg from '../assets/idle.png';
@@ -621,6 +622,22 @@ const GameScreen = () => {
             {/* Top-left buttons */}
             <div className="top-buttons">
                 <button
+                    className={`nav-btn ${activeTab === 'catalogue' ? 'active' : ''}`}
+                    onClick={() => {
+                        if (currentRodLevel >= 2) {
+                            playSound('button');
+                            setActiveTab('catalogue');
+                        } else {
+                            playSound('error');
+                            setLockedTabMessage(t.LOCKED + ': ' + t.rod_2);
+                            setTimeout(() => setLockedTabMessage(''), 2000);
+                        }
+                    }}
+                    style={{ opacity: currentRodLevel >= 2 ? 1 : 0.5 }}
+                >
+                    {currentRodLevel >= 2 ? t.CATALOGUE : '???'}
+                </button>
+                <button
                     className="settings-btn"
                     onClick={() => { playSound('button'); setIsSettingsOpen(true); }}
                 >
@@ -790,6 +807,14 @@ const GameScreen = () => {
                                                 onClick={() => { playSound('button'); setLanguage('fr'); }}
                                             >Français</button>
                                             <button
+                                                className={`lang-btn ${language === 'it' ? 'active' : ''}`}
+                                                onClick={() => { playSound('button'); setLanguage('it'); }}
+                                            >Italiano</button>
+                                            <button
+                                                className={`lang-btn ${language === 'hi' ? 'active' : ''}`}
+                                                onClick={() => { playSound('button'); setLanguage('hi'); }}
+                                            >हिन्दी</button>
+                                            <button
                                                 className={`lang-btn ${language === 'ar' ? 'active' : ''}`}
                                                 onClick={() => { playSound('button'); setLanguage('ar'); }}
                                             >العربية</button>
@@ -848,6 +873,21 @@ const GameScreen = () => {
                         onClick={() => { playSound('button'); setActiveTab('inventory'); setLockedTabMessage(''); }}
                     >{t.INVENTORY}</button>
                     <button
+                        className={`tab-btn ${activeTab === 'catalogue' ? 'active' : ''}`}
+                        onClick={() => {
+                            if (currentRodLevel >= 2) {
+                                playSound('button');
+                                setActiveTab('catalogue');
+                                setLockedTabMessage('');
+                            } else {
+                                playSound('error');
+                                setLockedTabMessage(t.LOCKED + ': ' + t.rod_2);
+                                setTimeout(() => setLockedTabMessage(''), 2000);
+                            }
+                        }}
+                        style={{ opacity: currentRodLevel >= 2 ? 1 : 0.5 }}
+                    >{currentRodLevel >= 2 ? t.CATALOGUE : '???'}</button>
+                    <button
                         className={`tab-btn ${activeTab === 'rod_shop' ? 'active' : ''}`}
                         onClick={() => { playSound('button'); setActiveTab('rod_shop'); setLockedTabMessage(''); }}
                     >{t.FISHING_ROD}</button>
@@ -886,6 +926,13 @@ const GameScreen = () => {
                             setSortBy={setInventorySortBy}
                             onClose={() => { }}
                             isAlwaysOpen={true}
+                        />
+                    ) : activeTab === 'catalogue' ? (
+                        <FishCatalogue
+                            fishData={FISH_DATA}
+                            discoveredFishIds={discoveredFishIds}
+                            t={t}
+                            language={language}
                         />
                     ) : activeTab === 'rod_shop' ? (
                         <RodShop

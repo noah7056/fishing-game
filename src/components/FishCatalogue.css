@@ -1,0 +1,222 @@
+.catalogue-container {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    color: white;
+}
+
+.catalogue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+.catalogue-stats {
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+.catalogue-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #eee;
+    padding: 5px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.filter-btn.active {
+    background: #4DB6AC;
+    color: #000;
+    border-color: #4DB6AC;
+    font-weight: bold;
+}
+
+.catalogue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 10px;
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 5px;
+}
+
+.catalogue-item {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    padding: 5px;
+    position: relative;
+}
+
+.catalogue-item:hover {
+    transform: scale(1.05);
+    border-color: #4DB6AC;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.catalogue-item.undiscovered .fish-icon {
+    filter: brightness(0) opacity(0.5);
+}
+
+.fish-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Rarity Borders */
+.catalogue-item.rarity-1 {
+    border-color: #7f8c8d;
+}
+
+.catalogue-item.rarity-2 {
+    border-color: #bdc3c7;
+}
+
+.catalogue-item.rarity-3 {
+    border-color: #2ecc71;
+}
+
+.catalogue-item.rarity-4 {
+    border-color: #3498db;
+}
+
+.catalogue-item.rarity-5 {
+    border-color: #9b59b6;
+}
+
+.catalogue-item.rarity-6 {
+    border-color: #e74c3c;
+}
+
+.catalogue-item.rarity-7 {
+    border-color: #f1c40f;
+}
+
+.catalogue-item.rarity-8 {
+    border-color: #1abc9c;
+}
+
+.catalogue-item.rarity-9 {
+    border-color: #34495e;
+}
+
+.catalogue-item.rarity-10 {
+    border-color: #d35400;
+}
+
+.catalogue-item.rarity-11 {
+    border-color: #c0392b;
+}
+
+.catalogue-item.rarity-12 {
+    border-color: #8e44ad;
+}
+
+/* Detail Card (Bottom Popup) */
+.fish-detail-card {
+    background: rgba(0, 0, 0, 0.85);
+    border-top: 2px solid #4DB6AC;
+    padding: 15px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    animation: slideUp 0.3s ease-out;
+    min-height: 120px;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.detail-image-container {
+    width: 100px;
+    /* Bigger image */
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    border: 2px solid transparent;
+}
+
+.detail-image {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+.detail-image.undiscovered {
+    filter: brightness(0) opacity(0.5);
+}
+
+.detail-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.detail-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #fff;
+    margin: 0;
+}
+
+.detail-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.detail-rarity {
+    font-weight: bold;
+}
+
+.detail-price {
+    color: #FFD700;
+}
+
+.detail-desc {
+    font-style: italic;
+    color: #aaa;
+    margin-top: 5px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
