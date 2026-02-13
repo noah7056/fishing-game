@@ -95,7 +95,8 @@ const GameScreen = () => {
     const [floatingTexts, setFloatingTexts] = useState([]);
     const [activeTab, setActiveTab] = useState('inventory');
     const [inventorySortBy, setInventorySortBy] = useState('rarity');
-    const [lockedTabMessage, setLockedTabMessage] = useState('');
+    const [catalogueLockedMsg, setCatalogueLockedMsg] = useState('');
+    const [potionShopLockedMsg, setPotionShopLockedMsg] = useState('');
     const [activeBuffs, setActiveBuffs] = useState([]);
     const [showHelp, setShowHelp] = useState(false);
 
@@ -882,29 +883,25 @@ const GameScreen = () => {
                 <div className="panel-tabs">
                     <button
                         className={`tab-btn ${activeTab === 'inventory' ? 'active' : ''}`}
-                        onClick={() => { playSound('button'); setActiveTab('inventory'); setLockedTabMessage(''); }}
+                        onClick={() => { playSound('button'); setActiveTab('inventory'); setCatalogueLockedMsg(''); setPotionShopLockedMsg(''); }}
                     >{t.INVENTORY}</button>
+                    <button
+                        className={`tab-btn ${activeTab === 'rod_shop' ? 'active' : ''}`}
+                        onClick={() => { playSound('button'); setActiveTab('rod_shop'); setCatalogueLockedMsg(''); setPotionShopLockedMsg(''); }}
+                    >{t.FISHING_ROD}</button>
                     <div className="tab-with-lock">
                         <button
-                            className={`tab-btn ${activeTab === 'catalogue' ? 'active' : ''}`}
+                            className={`tab-btn ${activeTab === 'catalogue' ? 'active' : ''} ${currentRodLevel < 2 ? 'locked-tab' : ''}`}
                             onClick={() => {
                                 if (currentRodLevel >= 2) {
                                     playSound('button');
                                     setActiveTab('catalogue');
-                                    setLockedTabMessage('');
+                                    setCatalogueLockedMsg('');
                                 } else {
                                     playSound('error');
-                                    // Use same logic as potions: "Unlocks after [Previous Rod]"
-                                    // For Catalogue (Wooden Rod needed), it unlocks after Bamboo Rod (Rod 1)
-                                    // But user asked to "replace the name of the rod needed to unlock it".
-                                    // The rod needed is Wooden Rod (Rod 2, rod_2).
-                                    // The message for Potions is "Unlocks after Reinforced Rod".
-                                    // So here it should be "Unlocks after Bamboo Rod" OR "Unlocks at Wooden Rod"?
-                                    // Potion says "Unlocks after Reinforced Rod" (which is Level 4). Potions unlock at Level 4.
-                                    // So precise wording: "Unlocks after [Rod Level 1 Name]"
                                     const bambooRodName = t.rod_1 || 'Bamboo Rod';
-                                    setLockedTabMessage(`${t.POTIONS_UNLOCK_MSG.split(' ').slice(0, 2).join(' ')} ${bambooRodName}`);
-                                    setTimeout(() => setLockedTabMessage(''), 2000);
+                                    setCatalogueLockedMsg(`${t.POTIONS_UNLOCK_MSG.split(' ').slice(0, 2).join(' ')} ${bambooRodName}`);
+                                    setTimeout(() => setCatalogueLockedMsg(''), 2000);
                                 }
                             }}
                         >
@@ -914,12 +911,8 @@ const GameScreen = () => {
                                 <span className="tab-badge">{unclaimedCount}</span>
                             )}
                         </button>
-                        {lockedTabMessage && activeTab !== 'catalogue' && activeTab !== 'potion_shop' && <div className="tab-locked-message">{lockedTabMessage}</div>}
+                        {catalogueLockedMsg && activeTab !== 'catalogue' && <div className="tab-locked-message">{catalogueLockedMsg}</div>}
                     </div>
-                    <button
-                        className={`tab-btn ${activeTab === 'rod_shop' ? 'active' : ''}`}
-                        onClick={() => { playSound('button'); setActiveTab('rod_shop'); setLockedTabMessage(''); }}
-                    >{t.FISHING_ROD}</button>
                     <div className="tab-with-lock">
                         <button
                             className={`tab-btn ${activeTab === 'potion_shop' ? 'active' : ''} ${currentRodLevel < 4 ? 'locked-tab' : ''}`}
@@ -927,18 +920,18 @@ const GameScreen = () => {
                                 if (currentRodLevel >= 4) {
                                     playSound('button');
                                     setActiveTab('potion_shop');
-                                    setLockedTabMessage('');
+                                    setPotionShopLockedMsg('');
                                 } else {
-                                    setLockedTabMessage(t.POTIONS_UNLOCK_MSG || 'Unlocks after Reinforced Rod');
+                                    setPotionShopLockedMsg(t.POTIONS_UNLOCK_MSG || 'Unlocks after Reinforced Rod');
                                     // Auto-hide message after 3 seconds
-                                    setTimeout(() => setLockedTabMessage(''), 3000);
+                                    setTimeout(() => setPotionShopLockedMsg(''), 3000);
                                 }
                             }}
                         >
                             {currentRodLevel < 4 && <img src={lockIcon} alt="Locked" className="tab-lock-icon" />}
                             {t.POTIONS}
                         </button>
-                        {lockedTabMessage && activeTab !== 'catalogue' && <div className="tab-locked-message">{lockedTabMessage}</div>}
+                        {potionShopLockedMsg && activeTab !== 'potion_shop' && <div className="tab-locked-message">{potionShopLockedMsg}</div>}
                     </div>
                 </div>
 
