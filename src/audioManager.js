@@ -80,9 +80,8 @@ export function stopReeling() {
 }
 
 export function startBGM() {
-    if (!bgmEnabled) return;
-    bgmAudio.play().catch(() => { });
-    wavesAudio.play().catch(() => { });
+    if (bgmEnabled) bgmAudio.play().catch(() => { });
+    if (wavesEnabled) wavesAudio.play().catch(() => { });
 }
 
 export function stopBGM() {
@@ -93,12 +92,23 @@ export function stopBGM() {
 export function toggleBGM() {
     bgmEnabled = !bgmEnabled;
     if (bgmEnabled) {
-        startBGM();
+        bgmAudio.play().catch(() => { });
     } else {
-        stopBGM();
+        bgmAudio.pause();
     }
     localStorage.setItem('fishing_bgm_enabled', JSON.stringify(bgmEnabled));
     return bgmEnabled;
+}
+
+export function toggleWaves() {
+    wavesEnabled = !wavesEnabled;
+    if (wavesEnabled) {
+        wavesAudio.play().catch(() => { });
+    } else {
+        wavesAudio.pause();
+    }
+    localStorage.setItem('fishing_waves_enabled', JSON.stringify(wavesEnabled));
+    return wavesEnabled;
 }
 
 export function toggleSFX() {
@@ -133,3 +143,4 @@ export function getVolumes() {
 
 export function isSfxEnabled() { return sfxEnabled; }
 export function isBgmEnabled() { return bgmEnabled; }
+export function isWavesEnabled() { return wavesEnabled; }

@@ -124,16 +124,15 @@ body {
 }
 
 .settings-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  border: 2px solid #fff;
-  background: rgba(0, 0, 0, 0.8);
+  width: 54px;
+  height: 54px;
+  background: none;
+  border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5px;
+  padding: 0;
   transition: all 0.2s;
 }
 
@@ -145,13 +144,15 @@ body {
 }
 
 .settings-btn:hover {
-  background: #fff;
-  transform: rotate(45deg);
+  transform: rotate(45deg) scale(1.1);
 }
 
 .settings-btn:hover img {
   filter: invert(1);
 }
+
+/* (optional) give it a slight white glow/outline if it's too dark on dark backgrounds */
+/* .settings-btn img { filter: drop-shadow(0 0 2px #fff); } */
 
 .settings-overlay {
   position: fixed;
@@ -174,24 +175,6 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
-}
-
-.settings-close-x {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 2rem;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
-  z-index: 310;
-}
-
-.settings-close-x:hover {
-  color: #f00;
 }
 
 .settings-tabs {
@@ -218,9 +201,29 @@ body {
   border-right: none;
 }
 
-.settings-tab-btn:hover {
+.settings-tab-close-x {
+  width: 60px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-size: 1.8rem;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.settings-tab-btn:hover,
+.settings-tab-close-x:hover {
   background: #222;
   color: #fff;
+}
+
+.settings-tab-close-x:hover {
+  color: #f00;
 }
 
 .settings-tab-btn.active {
@@ -255,7 +258,7 @@ body {
 }
 
 .volume-label-row span {
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -263,12 +266,12 @@ body {
 .toggle-icon-btn {
   background: #000;
   border: 1px solid #333;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
+  padding: 6px;
   cursor: pointer;
   border-radius: 4px;
 }

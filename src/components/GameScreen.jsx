@@ -8,8 +8,8 @@ import RodShop from './RodShop';
 import PotionShop from './PotionShop';
 import {
     playSound, startReeling, stopReeling,
-    startBGM, toggleBGM, toggleSFX,
-    isSfxEnabled, isBgmEnabled,
+    startBGM, toggleBGM, toggleWaves, toggleSFX,
+    isSfxEnabled, isBgmEnabled, isWavesEnabled,
     setBgmVolume, setWavesVolume, setSfxVolume, getVolumes
 } from '../audioManager';
 
@@ -52,6 +52,10 @@ const GameScreen = () => {
     const [bgmOn, setBgmOn] = useState(() => {
         const saved = localStorage.getItem('fishing_bgm_enabled');
         return saved !== null ? JSON.parse(saved) : isBgmEnabled();
+    });
+    const [wavesOn, setWavesOn] = useState(() => {
+        const saved = localStorage.getItem('fishing_waves_enabled');
+        return saved !== null ? JSON.parse(saved) : isWavesEnabled();
     });
 
     // Settings UI State
@@ -310,6 +314,12 @@ const GameScreen = () => {
         setBgmOn(nowOn);
     };
 
+    const handleToggleWaves = () => {
+        playSound('button');
+        const nowOn = toggleWaves();
+        setWavesOn(nowOn);
+    };
+
     const handleVolumeChange = (type, value) => {
         const v = parseFloat(value);
         if (type === 'bgm') setBgmVolume(v);
@@ -334,8 +344,6 @@ const GameScreen = () => {
             {isSettingsOpen && (
                 <div className="settings-overlay" onClick={() => setIsSettingsOpen(false)}>
                     <div className="settings-popup" onClick={(e) => e.stopPropagation()}>
-                        <button className="settings-close-x" onClick={() => setIsSettingsOpen(false)}>×</button>
-
                         <div className="settings-tabs">
                             <button
                                 className={`settings-tab-btn ${settingsTab === 'volume' ? 'active' : ''}`}
@@ -345,6 +353,7 @@ const GameScreen = () => {
                                 className={`settings-tab-btn ${settingsTab === 'howto' ? 'active' : ''}`}
                                 onClick={() => { playSound('button'); setSettingsTab('howto'); }}
                             >HOW TO</button>
+                            <button className="settings-tab-close-x" onClick={() => setIsSettingsOpen(false)}>×</button>
                         </div>
 
                         <div className="settings-content">
@@ -367,7 +376,15 @@ const GameScreen = () => {
                                         />
                                     </div>
                                     <div className="volume-row">
-                                        <span>Sea Waves</span>
+                                        <div className="volume-label-row">
+                                            <span>Sea Waves</span>
+                                            <button
+                                                className={`toggle-icon-btn ${wavesOn ? 'on' : 'off'}`}
+                                                onClick={handleToggleWaves}
+                                            >
+                                                <img src={wavesOn ? volumeIcon : muteIcon} alt="Toggle Waves" />
+                                            </button>
+                                        </div>
                                         <input
                                             type="range" min="0" max="0.5" step="0.01"
                                             value={volumes.waves}
