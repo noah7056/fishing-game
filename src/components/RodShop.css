@@ -46,6 +46,11 @@
     opacity: 0.6;
 }
 
+.rod-card.mastered {
+    border-color: #f1c40f !important;
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.25);
+}
+
 .rod-info-left {
     display: flex;
     align-items: flex-start;

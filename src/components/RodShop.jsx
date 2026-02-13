@@ -69,9 +69,10 @@ const RodShop = ({
 
                     const fishInThisTier = FISH_DATA.filter(f => f.rarityId === rod.catchTier);
                     const caughtCount = fishInThisTier.filter(f => discoveredFishIds.has(f.id)).length;
-                    const isCollectionComplete = caughtCount === fishInThisTier.length;
+                    const isCollectionComplete = fishInThisTier.length > 0 && caughtCount === fishInThisTier.length;
                     const hasReward = isCollectionComplete && !collectedRewards.has(rod.id);
-                    const rewardAmount = Math.floor(fishInThisTier.reduce((sum, f) => sum + f.value, 0) * 2);
+                    const rewardSum = fishInThisTier.reduce((sum, f) => sum + (Number(f.value) || 0), 0);
+                    const rewardAmount = Math.max(0, Math.floor(rewardSum * 2));
 
                     // Requirement check for next rod
                     const prevRod = ROD_DATA[index - 1];
@@ -89,7 +90,7 @@ const RodShop = ({
                         : 0;
 
                     return (
-                        <div key={rod.id} className={`rod-card ${isOwned ? 'owned' : ''} ${isUnlockable ? 'unlockable' : ''} ${!isOwned && !isUnlockable ? 'locked' : ''}`}>
+                        <div key={rod.id} className={`rod-card ${isOwned ? 'owned' : ''} ${isUnlockable ? 'unlockable' : ''} ${!isOwned && !isUnlockable ? 'locked' : ''} ${isCollectionComplete ? 'mastered' : ''}`}>
                             <div className="rod-info-left">
                                 <div className="rod-image-container">
                                     <img src={rod.image} alt={rod.name} className="rod-image" />
