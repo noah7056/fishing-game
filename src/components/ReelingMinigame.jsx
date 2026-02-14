@@ -51,72 +51,67 @@ const ReelingMinigame = ({ difficulty = 1, rarityId = 1, rodLevel = 1, activeBuf
                 const clamped = Math.max(0, Math.min(100, pos));
                 cursorRef.current = clamped;
                 setCursorPosition(clamped);
-
-                if (e.buttons === 1) {
-                    isReelingRef.current = true;
-                    setIsReeling(true);
-                } else {
-                    isReelingRef.current = false;
-                    setIsReeling(false);
-                }
             }
         };
 
-        const handleMouseDown = () => { isReelingRef.current = true; setIsReeling(true); };
         const handleMouseUp = () => { isReelingRef.current = false; setIsReeling(false); };
 
+        // Listen to global move/up to handle dragging outside
         window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mousedown', handleMouseDown);
         window.addEventListener('mouseup', handleMouseUp);
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mousedown', handleMouseDown);
             window.removeEventListener('mouseup', handleMouseUp);
         };
     }, []);
 
+    const handleMouseDown = (e) => {
+        e.preventDefault(); // Prevent text selection
+        isReelingRef.current = true;
+        setIsReeling(true);
+    };
+
     // Fish movement function — returns position 5-95 based on time and rarity
     const getFishPosition = useCallback((time) => {
-        if (rarityId <= 3) {
-            // LOW RARITY: Gentle swerve — slow sine, small amplitude
-            const speed = 0.0008 + (rarityId * 0.0001);
-            const pos = 50 + Math.sin(time * speed) * 30;
-            // Small secondary wobble
-            const wobble = Math.sin(time * speed * 2.7) * 5;
-            return Math.max(5, Math.min(95, pos + wobble));
-        } else if (rarityId <= 6) {
-            // MID RARITY: Moderate swerve with direction changes
-            const speed = 0.0012 + (rarityId * 0.00015);
+        if (rarityId <= 2) {
+            // PATTERN 1: Rod 1-2 (Dull, Common) - Very Easy
+            const speed = 0.0008;
+            const pos = 50 + Math.sin(time * speed) * 35;
+            return Math.max(10, Math.min(90, pos));
+        } else if (rarityId <= 5) {
+            // PATTERN 2: Rod 3-5 (Uncommon, Rare, Exotic) - Varied, slightly faster
+            const speed = 0.0012;
+            const primary = Math.sin(time * speed) * 40;
+            const secondary = Math.cos(time * speed * 2.5) * 10;
+            return Math.max(10, Math.min(90, 50 + primary + secondary));
+        } else if (rarityId <= 8) {
+            // PATTERN 3: Rod 6-8 (Mythical, Legendary, Ethereal) - Challenging
+            const speed = 0.0018;
+            const primary = Math.sin(time * speed) * 40;
+            const fastWobble = Math.sin(time * speed * 5) * 15;
+            return Math.max(5, Math.min(95, 50 + primary + fastWobble));
+        } else if (rarityId <= 11) {
+            // PATTERN 4: Rod 9-11 (Celestial, Abyssal, Primordial) - Hard, erratic
+            const speed = 0.0025;
             const primary = Math.sin(time * speed) * 35;
-            const secondary = Math.sin(time * speed * 1.8 + 1.5) * 12;
-            const tertiary = Math.cos(time * speed * 3.1) * 6;
-            return Math.max(5, Math.min(95, 50 + primary + secondary + tertiary));
-        } else if (rarityId <= 9) {
-            // HIGH RARITY: Fast zigzag with sudden reversals
-            const speed = 0.002 + (rarityId * 0.0002);
-            const primary = Math.sin(time * speed) * 38;
-            const zigzag = Math.sin(time * speed * 4.3) * 10;
-            // Sharp reversals via sign function
-            const sharpTurn = Math.sign(Math.sin(time * speed * 2.5)) * 8;
-            return Math.max(5, Math.min(95, 50 + primary + zigzag + sharpTurn));
+            const erratic = Math.sin(time * speed * 3.7 + Math.sin(time * 0.005)) * 20;
+            return Math.max(5, Math.min(95, 50 + primary + erratic));
         } else {
-            // TOP RARITY (10-12): Erratic darting with random impulse offsets
-            const speed = 0.003 + ((rarityId - 10) * 0.0005);
-            const primary = Math.sin(time * speed) * 30;
-            const fast = Math.sin(time * speed * 5.7) * 12;
-
-            // Update dart target every ~400-800ms
+            // PATTERN 5: Rod 12 (Cosmic/Special) - Master
+            const speed = 0.003;
+            // Darting behavior
             const now = time;
-            if (now - lastImpulseTimeRef.current > 400 + Math.sin(now * 0.001) * 200) {
+            if (now - lastImpulseTimeRef.current > 500) {
                 lastImpulseTimeRef.current = now;
-                dartTargetRef.current = 10 + Math.abs(Math.sin(now * 0.0073) * 80);
+                dartTargetRef.current = Math.random() * 80 + 10;
             }
             // Lerp towards dart target
             const currentImpulse = impulseRef.current;
-            impulseRef.current += (dartTargetRef.current - 50 - currentImpulse) * 0.08;
+            impulseRef.current += (dartTargetRef.current - 50 - currentImpulse) * 0.1;
 
-            return Math.max(5, Math.min(95, 50 + primary + fast + impulseRef.current * 0.3));
+            const primary = Math.sin(time * speed) * 20;
+            return Math.max(5, Math.min(95, 50 + primary + impulseRef.current));
         }
     }, [rarityId]);
 
@@ -176,7 +171,7 @@ const ReelingMinigame = ({ difficulty = 1, rarityId = 1, rodLevel = 1, activeBuf
 
 
     return (
-        <div className="minigame-ui">
+        <div className="minigame-ui" onMouseDown={handleMouseDown}>
             <p className="minigame-hint">{t.REELING_HINT}</p>
             <div className="game-bar-container" ref={barRef}>
                 <div className="game-bar">

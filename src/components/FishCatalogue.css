@@ -53,12 +53,13 @@
 
 .catalogue-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    grid-template-columns: repeat(auto-fill, 70px);
     gap: 10px;
+    justify-content: start;
     overflow-y: auto;
     flex: 1;
     padding-right: 5px;
-    padding-bottom: 160px;
+    padding-bottom: 200px;
     /* Space for the detail card */
 }
 
@@ -216,6 +217,8 @@
     align-items: center;
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
     z-index: 10;
+    min-height: 180px;
+    height: auto;
 }
 
 .detail-image-container {

@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { FISH_DATA, RARITY_TIERS } from '../data/fishData';
+import { CHEST_DATA } from '../data/chestData';
 import { TRANSLATIONS } from '../data/translations';
 import { playSound } from '../audioManager';
 import './Diary.css';
@@ -14,6 +15,11 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
     const doubleEverythingBuff = activeBuffs.find(b => b.effect.type === 'double_everything');
     const moneyMultiplier = doubleEverythingBuff ? 2.0 : 1.0;
 
+    const [chestReward, setChestReward] = useState(null);
+
+    // Combine all potential items
+    const ALL_ITEMS = useMemo(() => [...FISH_DATA, ...CHEST_DATA], []);
+
     // Group fish by ID and count them
     const inventory = useMemo(() => {
         const counts = {};
@@ -24,7 +30,7 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
     }, [caughtFishIds]);
 
     // Get unique fish objects that we have at least one of
-    const uniqueCaughtFish = FISH_DATA
+    const uniqueCaughtFish = ALL_ITEMS
         .filter(fish => inventory[fish.id] > 0)
         .sort((a, b) => {
             if (sortBy === 'name') {
@@ -65,25 +71,117 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
         setCaughtFishIds(newCaughtIds);
         setWallet(prev => prev + totalValue);
         playSound('sell');
+        setCaughtFishIds(newCaughtIds);
+        setWallet(prev => prev + totalValue);
+        playSound('sell');
+    };
+
+    const handleOpenChest = (chestId) => {
+        const chest = CHEST_DATA.find(c => c.id === chestId);
+        if (!chest) return;
+
+        // Remove one chest
+        const index = caughtFishIds.indexOf(chestId);
+        if (index === -1) return;
+
+        let newIds = [...caughtFishIds];
+        newIds.splice(index, 1);
+
+        // Generate Gold
+        const gold = Math.floor(Math.random() * (chest.goldMax - chest.goldMin + 1)) + chest.goldMin;
+
+        // Generate Fish (2-4 items)
+        const fishCount = Math.floor(Math.random() * 3) + 2;
+        const fishRewards = [];
+
+        for (let i = 0; i < fishCount; i++) {
+            const rarityId = chest.dropTable[Math.floor(Math.random() * chest.dropTable.length)];
+            const potentialFish = FISH_DATA.filter(f => f.rarityId === rarityId);
+            const rewardFish = potentialFish[Math.floor(Math.random() * potentialFish.length)];
+            fishRewards.push(rewardFish);
+            newIds.push(rewardFish.id);
+        }
+
+        // Add Rewards
+        setCaughtFishIds(newIds);
+        setWallet(prev => prev + gold);
+
+        setChestReward({
+            chestId: chest.id,
+            chestName: chest.name,
+            gold,
+            fishRewards
+        });
+        playSound('newItem');
+    };
+
+    const closeRewardPopup = () => {
+        setChestReward(null);
     };
 
     const handleSellEverything = () => {
         let totalValue = 0;
+        const chestIds = new Set(CHEST_DATA.map(c => c.id));
+
+        // Only sell fish, keep chests
+        const idsToKeep = [];
+
         caughtFishIds.forEach(id => {
-            const fish = FISH_DATA.find(f => f.id === id);
-            if (fish) totalValue += fish.value;
+            if (chestIds.has(id)) {
+                idsToKeep.push(id);
+            } else {
+                const fish = FISH_DATA.find(f => f.id === id);
+                if (fish) totalValue += fish.value;
+            }
         });
 
         // Apply money multiplier
         totalValue = Math.floor(totalValue * moneyMultiplier);
 
-        setCaughtFishIds([]);
+        setCaughtFishIds(idsToKeep);
         setWallet(prev => prev + totalValue);
         playSound('sell');
     };
 
     return (
         <div className={`diary-overlay ${isAlwaysOpen ? 'always-open' : ''}`}>
+
+            {chestReward && (
+                <div className="result-overlay" style={{ zIndex: 2000, position: 'fixed' }}>
+                    <div className="result-content" style={{ minWidth: '350px', background: '#050510', border: '2px solid #ffd700' }}>
+                        <h3 style={{ marginTop: 0, color: '#ffd700', textTransform: 'uppercase' }}>
+                            {t.OPEN_CHEST} {t[chestReward.chestId] || chestReward.chestName}
+                        </h3>
+
+                        <div className="reward-grid" style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))',
+                            gap: '15px',
+                            margin: '20px 0',
+                            justifyContent: 'center'
+                        }}>
+                            {/* Gold Reward */}
+                            <div className="reward-item" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <img src={moneyIcon} alt="Gold" style={{ width: '40px', marginBottom: '5px' }} />
+                                <span style={{ color: 'gold', fontWeight: 'bold' }}>+{chestReward.gold}</span>
+                            </div>
+
+                            {/* Fish Rewards */}
+                            {chestReward.fishRewards.map((fish, idx) => (
+                                <div key={idx} className="reward-item" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <img src={fish.image} alt={fish.name} style={{ width: '40px', height: '40px', objectFit: 'contain', marginBottom: '5px', imageRendering: 'pixelated' }} />
+                                    <span style={{ fontSize: '0.7rem', textAlign: 'center' }}>{t[`fish_${fish.id}`] || fish.name}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <button onClick={closeRewardPopup} style={{ border: '1px solid #ffd700', color: '#ffd700' }}>
+                            {t.TUTORIAL_GOT_IT || 'Got it!'}
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <div className="diary-container">
                 <div className="diary-header">
                     <h2>{t.INVENTORY}</h2>
@@ -116,24 +214,36 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
                             </button>
                         </div>
                         <div className="fish-grid">
-                            {uniqueCaughtFish.map(fish => {
-                                const rarity = RARITY_TIERS[fish.rarityId];
+                            {uniqueCaughtFish.map(item => {
+                                const isChest = item.rarityId === 13;
+                                const rarity = isChest ? { name: t.RARITY_13, color: '#ffd700' } : RARITY_TIERS[item.rarityId];
+
                                 return (
                                     <div
-                                        key={fish.id}
-                                        className="fish-card caught"
+                                        key={item.id}
+                                        className={`fish-card caught ${isChest ? 'chest-card' : ''}`}
                                         style={{ borderColor: rarity.color }}
                                     >
-                                        <div className="fish-count">x{inventory[fish.id]}</div>
-                                        <img src={fish.image} alt={fish.name} className="fish-thumb" />
+                                        <div className="fish-count">x{inventory[item.id]}</div>
+                                        <img src={item.image} alt={item.name} className="fish-thumb" />
                                         <div className="fish-info">
-                                            <h3>{t[`fish_${fish.id}`] || fish.name}</h3>
-                                            <p className="fish-rarity" style={{ color: rarity.color }}>{t[`RARITY_${fish.rarityId}`] || rarity.name}</p>
-                                            <p className="fish-value">${fish.value}</p>
+                                            <h3>{isChest ? (t[item.id] || item.name) : (t[`fish_${item.id}`] || item.name)}</h3>
+                                            <p className="fish-rarity" style={{ color: rarity.color }}>
+                                                {isChest ? (t.RARITY_13 || 'Special') : (t[`RARITY_${item.rarityId}`] || rarity.name)}
+                                            </p>
+                                            <p className="fish-value">
+                                                {isChest ? `${t.GOLD_RANGE}: ${item.goldMin}-${item.goldMax}` : `$${item.value}`}
+                                            </p>
                                         </div>
                                         <div className="fish-actions">
-                                            <button onClick={() => handleSell(fish.id, 1)}>{t.SELL_ONE || 'Sell 1'}</button>
-                                            <button onClick={() => handleSell(fish.id, 'all')}>{t.SELL_ALL_BTN || 'Sell All'}</button>
+                                            {isChest ? (
+                                                <button className="open-btn" onClick={() => handleOpenChest(item.id)}>{t.OPEN_CHEST}</button>
+                                            ) : (
+                                                <>
+                                                    <button onClick={() => handleSell(item.id, 1)}>{t.SELL_ONE || 'Sell 1'}</button>
+                                                    <button onClick={() => handleSell(item.id, 'all')}>{t.SELL_ALL_BTN || 'Sell All'}</button>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                 );

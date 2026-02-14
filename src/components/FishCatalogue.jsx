@@ -1,22 +1,24 @@
 import React, { useState, useMemo } from 'react';
 import './FishCatalogue.css';
 import { RARITY_TIERS } from '../data/fishData';
+import { CHEST_DATA } from '../data/chestData';
 
-const FishCatalogue = ({ fishData, discoveredFishIds, redeemedFishIds, onRedeem, t, language }) => {
-    const [filter, setFilter] = useState('all'); // all, rarity, price
+const FishCatalogue = ({ fishData, discoveredFishIds, redeemedFishIds, onRedeem, filter, setFilter, t, language }) => {
     const [hoveredFish, setHoveredFish] = useState(null);
 
     // Filter and Sort Logic
     const sortedFish = useMemo(() => {
-        let sorted = [...fishData];
+        const allItems = [...fishData, ...CHEST_DATA];
+        let sorted = [...allItems];
+
         if (filter === 'rarity') {
             sorted.sort((a, b) => b.rarityId - a.rarityId); // Highest rarity first
         } else if (filter === 'price') {
             sorted.sort((a, b) => b.value - a.value); // Most expensive first
         } else if (filter === 'name') {
             sorted.sort((a, b) => {
-                const nameA = t['fish_' + a.id] || a.name;
-                const nameB = t['fish_' + b.id] || b.name;
+                const nameA = t[a.rarityId === 13 ? a.id : 'fish_' + a.id] || a.name;
+                const nameB = t[b.rarityId === 13 ? b.id : 'fish_' + b.id] || b.name;
                 return nameA.localeCompare(nameB);
             });
         }
@@ -24,7 +26,7 @@ const FishCatalogue = ({ fishData, discoveredFishIds, redeemedFishIds, onRedeem,
     }, [fishData, filter, t]);
 
     // Calculate Stats
-    const totalFish = fishData.length;
+    const totalFish = fishData.length + CHEST_DATA.length;
     const discoveredCount = discoveredFishIds.size;
 
     return (
@@ -70,7 +72,7 @@ const FishCatalogue = ({ fishData, discoveredFishIds, redeemedFishIds, onRedeem,
                     return (
                         <div
                             key={fish.id}
-                            className={`catalogue-item rarity-${fish.rarityId} ${!isDiscovered ? 'undiscovered' : isClaimable ? 'claimable' : 'redeemed'}`}
+                            className={`catalogue-item rarity-${fish.rarityId} ${fish.rarityId === 13 ? 'chest' : ''} ${!isDiscovered ? 'undiscovered' : isClaimable ? 'claimable' : 'redeemed'}`}
                             onMouseEnter={() => setHoveredFish(fish)}
                             onMouseLeave={() => setHoveredFish(null)}
                             onClick={() => {
@@ -91,12 +93,24 @@ const FishCatalogue = ({ fishData, discoveredFishIds, redeemedFishIds, onRedeem,
                 <div className="fish-detail-card">
                     {(() => {
                         const isDiscovered = discoveredFishIds.has(hoveredFish.id);
-                        const rarityName = t[`RARITY_${hoveredFish.rarityId}`] || RARITY_TIERS[hoveredFish.rarityId].name;
-                        const rarityColor = RARITY_TIERS[hoveredFish.rarityId].color;
+                        const isChest = hoveredFish.rarityId === 13;
+                        const rarityName = isChest ? (t.RARITY_13 || 'Special') : (t[`RARITY_${hoveredFish.rarityId}`] || RARITY_TIERS[hoveredFish.rarityId].name);
+                        const rarityColor = isChest ? '#ffd700' : RARITY_TIERS[hoveredFish.rarityId].color;
 
-                        const name = isDiscovered ? (t['fish_' + hoveredFish.id] || hoveredFish.name) : (t.FISH_NAME_LOCKED || '???');
-                        const desc = isDiscovered ? (t['fish_' + hoveredFish.id + '_desc'] || hoveredFish.description) : (t.FISH_DESC_LOCKED || '???');
-                        const price = isDiscovered ? `${hoveredFish.value} G` : '??? G';
+                        const nameKey = isChest ? hoveredFish.id : 'fish_' + hoveredFish.id;
+                        const descKey = isChest ? hoveredFish.id + '_desc' : 'fish_' + hoveredFish.id + '_desc';
+
+                        const name = isDiscovered ? (t[nameKey] || hoveredFish.name) : (t.FISH_NAME_LOCKED || '???');
+                        const desc = isDiscovered ? (t[descKey] || hoveredFish.description) : (t.FISH_DESC_LOCKED || '???');
+
+                        let price = '??? G';
+                        if (isDiscovered) {
+                            if (isChest) {
+                                price = `${t.GOLD_RANGE || 'Gold'}: ${hoveredFish.goldMin}-${hoveredFish.goldMax}`;
+                            } else {
+                                price = `${hoveredFish.value} G`;
+                            }
+                        }
 
                         return (
                             <>
@@ -115,6 +129,16 @@ const FishCatalogue = ({ fishData, discoveredFishIds, redeemedFishIds, onRedeem,
                                         <span className="detail-price">{price}</span>
                                     </div>
                                     <p className="detail-desc">{desc}</p>
+                                    {isChest && isDiscovered && (
+                                        <div className="chest-drops-preview">
+                                            <small>{t.CONTAINS || 'Contains'}:</small>
+                                            <div className="drop-icons">
+                                                {hoveredFish.dropTable.map(rid => (
+                                                    <span key={rid} style={{ color: RARITY_TIERS[rid].color, fontSize: '1.2rem', marginRight: '5px' }}>●</span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </>
                         );

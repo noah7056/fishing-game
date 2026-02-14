@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GAME_STATES, FISHING_CONFIG } from '../game-logic/constants';
-import { FISH_DATA } from '../data/fishData';
+import { FISH_DATA, RARITY_TIERS } from '../data/fishData';
 import { ROD_DATA } from '../data/rodData';
+import { CHEST_DATA } from '../data/chestData';
 import ReelingMinigame from './ReelingMinigame';
 import Diary from './Diary';
 import RodShop from './RodShop';
@@ -47,6 +48,14 @@ const GameScreen = () => {
         const saved = localStorage.getItem('fishing_wallet');
         return saved ? Number(saved) : 0;
     });
+    const [catalogueFilter, setCatalogueFilter] = useState(() => {
+        return localStorage.getItem('catalogue_filter') || 'all';
+    });
+
+    // Save filter change
+    useEffect(() => {
+        localStorage.setItem('catalogue_filter', catalogueFilter);
+    }, [catalogueFilter]);
     const [currentRodLevel, setCurrentRodLevel] = useState(() => {
         const saved = localStorage.getItem('fishing_rod_level');
         return saved ? Number(saved) : 1;
@@ -363,7 +372,11 @@ const GameScreen = () => {
                 playSound('newItem');
                 showFloatingText(t.NEW_DISCOVERY);
             } else {
-                showFloatingText(t.CAUGHT_LABEL);
+                if (lastCaughtFish.rarityId === 13) {
+                    showFloatingText("CHEST CAUGHT!");
+                } else {
+                    showFloatingText(t.CAUGHT_LABEL);
+                }
             }
 
             const doubleLootBuff = activeBuffs.find(b => b.effect.type === 'double_loot');
@@ -424,9 +437,21 @@ const GameScreen = () => {
         if (pool.length === 0) pool = FISH_DATA.filter(f => f.rarityId <= maxTier);
         if (pool.length === 0) pool = FISH_DATA;
 
-        const randomFish = pool[Math.floor(Math.random() * pool.length)];
+        let selectedItem = null;
+
+        // Chest Drop Logic (15% chance)
+        const canCatchChests = CHEST_DATA.filter(c => currentRodLevel >= c.rodReq[0] && currentRodLevel <= c.rodReq[1]);
+        const roll = Math.random();
+
+        if (canCatchChests.length > 0 && roll < 0.15) {
+            // Pick a random chest from available ones
+            selectedItem = canCatchChests[Math.floor(Math.random() * canCatchChests.length)];
+        } else {
+            selectedItem = pool[Math.floor(Math.random() * pool.length)];
+        }
+
         // Use functional state update to prevent stale closures if needed
-        setLastCaughtFish(randomFish);
+        setLastCaughtFish(selectedItem);
 
         // Clear existing gameLoop timeouts to prevent overlap
         if (gameLoopRef.current) clearTimeout(gameLoopRef.current);
@@ -820,13 +845,13 @@ const GameScreen = () => {
                                                 onClick={() => { playSound('button'); setLanguage('fr'); }}
                                             >Français</button>
                                             <button
-                                                className={`lang-btn ${language === 'it' ? 'active' : ''}`}
-                                                onClick={() => { playSound('button'); setLanguage('it'); }}
-                                            >Italiano</button>
-                                            <button
                                                 className={`lang-btn ${language === 'hi' ? 'active' : ''}`}
                                                 onClick={() => { playSound('button'); setLanguage('hi'); }}
                                             >हिन्दी</button>
+                                            <button
+                                                className={`lang-btn ${language === 'it' ? 'active' : ''}`}
+                                                onClick={() => { playSound('button'); setLanguage('it'); }}
+                                            >Italiano</button>
                                             <button
                                                 className={`lang-btn ${language === 'ar' ? 'active' : ''}`}
                                                 onClick={() => { playSound('button'); setLanguage('ar'); }}
@@ -853,7 +878,7 @@ const GameScreen = () => {
                     <div className="minigame-container">
                         <ReelingMinigame
                             difficulty={lastCaughtFish.difficulty}
-                            rarityId={lastCaughtFish.rarityId}
+                            rarityId={lastCaughtFish.minigameRarity || lastCaughtFish.rarityId}
                             rodLevel={currentRodLevel}
                             activeBuffs={activeBuffs}
                             onCatch={handleCatch}
@@ -954,6 +979,8 @@ const GameScreen = () => {
                             discoveredFishIds={discoveredFishIds}
                             redeemedFishIds={redeemedFishIds}
                             onRedeem={handleRedeemFish}
+                            filter={catalogueFilter}
+                            setFilter={setCatalogueFilter}
                             t={t}
                             language={language}
                         />

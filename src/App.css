@@ -735,6 +735,7 @@ button:hover {
   font-size: 1.2rem;
   color: gold;
   font-weight: bold;
+  margin-right: 20px;
 }
 
 .wallet-coin-icon {
@@ -776,7 +777,10 @@ button:hover {
   align-items: center;
   justify-content: center;
   padding: 2px 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+  z-index: 10;
+  min-height: 180px;
+  height: auto;
   animation: badgePulse 2s infinite;
 }
 

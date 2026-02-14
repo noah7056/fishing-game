@@ -77,7 +77,9 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: 'REDEEMED',
         REQ_CATCH_ALL: 'Catch all {rarity} fish',
         POTIONS_UNLOCK_MSG: 'Unlocks after Reinforced Rod',
+        POTIONS_UNLOCK_MSG: 'Unlocks after Reinforced Rod',
         CATALOGUE_UNLOCK_MSG: 'Unlocks after Bamboo Rod',
+        MASTERY: 'Mastery',
 
         // Status
         STATUS_IDLE: 'IDLE',
@@ -101,6 +103,7 @@ export const TRANSLATIONS = {
         RARITY_10: 'Abyssal',
         RARITY_11: 'Primordial',
         RARITY_12: 'Cosmic',
+        RARITY_13: 'Special',
 
         // Fish Names (Selection)
         fish_algae: 'Algae',
@@ -181,6 +184,23 @@ export const TRANSLATIONS = {
         fish_abyssal_cucumber: 'Void Cucumber',
         fish_abyssal_octopus: 'Cosmic Mind',
 
+        // Chest Names
+        chest_wood: 'Wooden Crate',
+        chest_iron: 'Iron Chest',
+        chest_gold: 'Treasure Chest',
+        chest_shadow: 'Obscure Chest',
+
+        // Chest Descriptions
+        chest_wood_desc: 'Looks abandoned, but might have something inside.',
+        chest_iron_desc: 'Heavy and sturdy. Requires a decent rod to pull up.',
+        chest_gold_desc: 'Sparkling with gold and gems.',
+        chest_shadow_desc: 'Vibrating with dark energy.',
+
+        // Chest UI
+        OPEN_CHEST: 'OPEN',
+        CONTAINS: 'Contains',
+        GOLD_RANGE: 'Gold',
+
         // Rod Names
         rod_1: 'Bamboo Rod',
         rod_2: 'Wooden Rod',
@@ -228,90 +248,7 @@ export const TRANSLATIONS = {
         TUTORIAL_SKIP: 'Skip Tutorial',
         TUTORIAL_HIDE: 'Hide Permanently',
         TUTORIAL_LANG: 'Language',
-        CATALOGUE: 'CATALOGUE',
-        ALL: 'ALL',
-        DISCOVERED_COUNT: 'Discovered: {current}/{total}',
-        FISH_NAME_LOCKED: '???',
-        FISH_DESC_LOCKED: '???',
-
-        // Fish Descriptions
-        fish_algae_desc: 'Slimy green stuff.',
-        fish_boot_desc: 'Soleless.',
-        fish_shell_desc: 'Pretty common shell.',
-        fish_batteries_desc: 'Who threw these in?',
-        fish_bottle_desc: 'Empty. No message.',
-        fish_anchovy_desc: 'Tiny but tasty.',
-        fish_sardine_desc: 'Oily snack.',
-        fish_thin_fish_desc: 'Barely a mouthful.',
-        fish_thin_striped_desc: 'Sporty little swimmer.',
-        fish_shrimp_desc: 'Cocktail ready.',
-        fish_thin_dotted_desc: 'Small and spotty.',
-        fish_thin_spotted_desc: 'Hard to see.',
-        fish_thin_scales_desc: 'Shiny scales.',
-        fish_jelly_nano_desc: 'Tiny translucent blob.',
-        fish_flat_fish_desc: 'Sandy bottom lover.',
-        fish_karp_desc: 'Just splashes around.',
-        fish_starfish_desc: 'Five points.',
-        fish_flat_dotted_desc: 'Covered in dots.',
-        fish_bass_desc: 'A classic catch.',
-        fish_eel_desc: 'Slippery and long.',
-        fish_seahorse_desc: 'Majestic tiny steed.',
-        fish_flat_spotted_desc: 'Fashionable and flat.',
-        fish_barracuda_desc: 'Fast and fierce.',
-        fish_jellyfish_desc: 'Watch the stingers!',
-        fish_coral_desc: 'Reef fragment.',
-        fish_big_shell_desc: 'Ocean sound inside.',
-        fish_flat_scaled_desc: 'Tough scales.',
-        fish_eel_spotted_desc: 'Rare patterns.',
-        fish_tuna_desc: 'Prize of the sea.',
-        fish_swordfish_desc: 'En garde!',
-        fish_pufferfish_desc: 'Don\'t eat raw!',
-        fish_large_striped_desc: 'Classic big catch.',
-        fish_flat_thin_striped_desc: 'Thin stripes, big fight.',
-        fish_squid_desc: 'Ink warning.',
-        fish_jelly_large_desc: 'Massive blob.',
-        fish_flat_long_desc: 'Stretched out.',
-        fish_jelly_long_desc: 'Flows like a ghost.',
-        fish_large_scaled_desc: 'Glittering armor.',
-        fish_flat_striped_desc: 'Racing stripes.',
-        fish_large_pois_desc: 'Fashionable.',
-        fish_waves_fish_desc: 'Goes with the flow.',
-        fish_large_dotted_desc: 'Ancient dots pattern.',
-        fish_large_spotted_desc: 'Celestial markings.',
-        fish_angler_desc: 'Light in the dark.',
-        fish_large_fish_desc: 'Just a big fish.',
-        fish_beautiful_fish_desc: 'Stunning colors.',
-        fish_eel_electric_desc: 'Shocking encounter!',
-        fish_chunky_boi_desc: 'Absolute unit.',
-        fish_spikey_thing_desc: 'Very sharp.',
-        fish_big_fin_desc: 'All fin.',
-        fish_super_chunky_desc: 'Even chunkier.',
-        fish_whatcha_desc: 'Science isn\'t sure.',
-        fish_thing_fish_desc: 'It stares back.',
-        fish_round_shell_desc: 'Perfectly round.',
-        fish_smooth_shell_desc: 'Polished by the waves.',
-        fish_thin_shell_desc: 'Very fragile.',
-        fish_flying_fish_desc: 'It glides over water.',
-        fish_sun_fish_desc: 'Loves the surface.',
-        fish_fancy_shell_desc: 'A collector\'s item.',
-        fish_crab_desc: 'Walks sideways.',
-        fish_ray_desc: 'Flat and gliding.',
-        fish_betta_desc: 'Fighting fish.',
-        fish_ray_dotted_desc: 'Looks like the ocean floor.',
-        fish_flat_long_dotted_desc: 'A strange variant.',
-        fish_ray_striped_desc: 'Fast glider.',
-        fish_lobster_desc: 'Delicious luxury.',
-        fish_oyster_desc: 'Might contain a pearl?',
-        fish_ray_spotted_desc: 'Beautiful patterns.',
-        fish_octopus_desc: 'Eight armed genius.',
-        fish_crab_strong_desc: 'The ruler of crabs.',
-        fish_jelly_magic_desc: 'Glows with mana.',
-        fish_jelly_pois_desc: 'Deadly touch.',
-        fish_viper_fish_desc: 'Nightmare of the deep.',
-        fish_octopus_strong_desc: 'Mythical sea monster.',
-        fish_long_blob_desc: 'So ugly it\'s cute.',
-        fish_abyssal_cucumber_desc: 'Absorbs light.',
-        fish_abyssal_octopus_desc: 'Knows the secrets of the universe.',
+        MASTERY: 'Mastery'
     },
     zh: {
         // UI
@@ -415,6 +352,7 @@ export const TRANSLATIONS = {
         RARITY_10: '深渊',
         RARITY_11: '原始',
         RARITY_12: '宇宙',
+        RARITY_13: '特制',
 
         // Fish Names (Selection)
         fish_algae: '水藻',
@@ -495,6 +433,23 @@ export const TRANSLATIONS = {
         fish_abyssal_cucumber: '虚空海参',
         fish_abyssal_octopus: '宇宙之脑',
 
+        // Chest Names
+        chest_wood: '木条箱',
+        chest_iron: '铁宝箱',
+        chest_gold: '藏宝箱',
+        chest_shadow: '暗影箱',
+
+        // Chest Descriptions
+        chest_wood_desc: '看起来被遗弃了，但里面可能有什么东西。',
+        chest_iron_desc: '沉重而坚固。需要一根好鱼竿才能钓上来。',
+        chest_gold_desc: '闪烁着金光和宝石。',
+        chest_shadow_desc: '随着黑暗能量震动。',
+
+        // Chest UI
+        OPEN_CHEST: '打开',
+        CONTAINS: '包含',
+        GOLD_RANGE: '金币',
+
         // Fish Descriptions
         fish_algae_desc: '黏糊糊的绿色东西。',
         fish_boot_desc: '没有鞋底。',
@@ -567,7 +522,7 @@ export const TRANSLATIONS = {
         fish_octopus_desc: '八爪天才。',
         fish_crab_strong_desc: '螃蟹之王。',
         fish_jelly_magic_desc: '散发着法力。',
-        fish_jelly_pois_desc: '致命的触碰。',
+        fish_jelly_pois_desc: '剧毒水母。',
         fish_viper_fish_desc: '深海噩梦。',
         fish_octopus_strong_desc: '神话海怪。',
         fish_long_blob_desc: '丑得可爱。',
@@ -618,7 +573,7 @@ export const TRANSLATIONS = {
         TUTORIAL_STEP_4: '现在把它钓上来！',
         TUTORIAL_STEP_5: '抓到了！你可以在这里看到鱼的详细信息。',
         TUTORIAL_STEP_6: '点击这里收集你的鱼并返回钓鱼。',
-        TUTORIAL_STEP_7: '钓到的鱼存储在背包中。你可以出售它们换取金钱。',
+        TUTORIAL_STEP_7: '钓到的鱼存储在背包中。你可以出售它们换取金币。',
         TUTORIAL_STEP_8: '点击这里查看你的鱼竿。',
         TUTORIAL_STEP_9: '熟练掌握每根鱼竿以发现新鱼类并购买升级！',
         TUTORIAL_NEXT: '下一步',
@@ -703,7 +658,9 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: 'CANJEADO',
         REQ_CATCH_ALL: 'Atrapa todos los peces {rarity}',
         POTIONS_UNLOCK_MSG: 'Se desbloquea tras la Caña Reforzada',
+        POTIONS_UNLOCK_MSG: 'Se desbloquea tras la Caña Reforzada',
         CATALOGUE_UNLOCK_MSG: 'Se desbloquea tras la Caña de Bambú',
+        MASTERY: 'Maestría',
 
         // Status
         STATUS_IDLE: 'INACTIVO',
@@ -727,6 +684,7 @@ export const TRANSLATIONS = {
         RARITY_10: 'Abisal',
         RARITY_11: 'Primordial',
         RARITY_12: 'Cósmico',
+        RARITY_13: 'Especial',
 
         // Fish Names (Selection)
         fish_algae: 'Algas',
@@ -798,6 +756,23 @@ export const TRANSLATIONS = {
         fish_oyster: 'Ostra',
         fish_ray_spotted: 'Raya Manchada',
         fish_octopus: 'Pulpo',
+
+        // Chest Names
+        chest_wood: 'Caja de Madera',
+        chest_iron: 'Cofre de Hierro',
+        chest_gold: 'Cofre del Tesoro',
+        chest_shadow: 'Cofre Oscuro',
+
+        // Chest Descriptions
+        chest_wood_desc: 'Parece abandonada, pero podría tener algo dentro.',
+        chest_iron_desc: 'Pesado y resistente. Requiere una buena caña para sacarlo.',
+        chest_gold_desc: 'Brilla con oro y gemas.',
+        chest_shadow_desc: 'Vibra con energía oscura.',
+
+        // Chest UI
+        OPEN_CHEST: 'ABRIR',
+        CONTAINS: 'Contiene',
+        GOLD_RANGE: 'Oro',
         fish_crab_strong: 'Cangrejo Real',
         fish_jelly_magic: 'Medusa Mágica',
         fish_jelly_pois: 'Medusa Venenosa',
@@ -1016,6 +991,7 @@ export const TRANSLATIONS = {
         REQ_CATCH_ALL: 'すべての {rarity} 魚を釣る',
         POTIONS_UNLOCK_MSG: '強化された釣竿の後にロック解除',
         CATALOGUE_UNLOCK_MSG: '竹の釣竿の後にロック解除',
+        MASTERY: '熟練度',
 
         // Status
         STATUS_IDLE: '待機',
@@ -1039,6 +1015,7 @@ export const TRANSLATIONS = {
         RARITY_10: '深淵',
         RARITY_11: '太古',
         RARITY_12: 'コスミック',
+        RARITY_13: 'スペシャル',
 
         // Fish Names (Selection)
         fish_algae: '藻',
@@ -1119,6 +1096,23 @@ export const TRANSLATIONS = {
         fish_abyssal_cucumber: '虚空ナマコ',
         fish_abyssal_octopus: '宇宙の精神',
 
+        // Chest Names
+        chest_wood: '木箱',
+        chest_iron: '鉄の宝箱',
+        chest_gold: '宝箱',
+        chest_shadow: '闇の宝箱',
+
+        // Chest Descriptions
+        chest_wood_desc: '捨てられたようですが、中に何かあるかもしれません。',
+        chest_iron_desc: '重くて頑丈です。引き上げるには良い竿が必要です。',
+        chest_gold_desc: '金と宝石で輝いています。',
+        chest_shadow_desc: '闇のエネルギーで振動しています。',
+
+        // Chest UI
+        OPEN_CHEST: '開ける',
+        CONTAINS: '中身',
+        GOLD_RANGE: 'ゴールド',
+
         // Fish Descriptions
         fish_algae_desc: 'ぬるぬるした緑色の物体。',
         fish_boot_desc: '底が抜けている。',
@@ -1160,7 +1154,7 @@ export const TRANSLATIONS = {
         fish_large_scaled_desc: '輝く鎧。',
         fish_flat_striped_desc: 'レーシングストライプ。',
         fish_large_pois_desc: 'お洒落。',
-        fish_waves_fish_desc: '流れに身を任せる。',
+        fish_waves_fish_desc: '随波逐流。',
         fish_large_dotted_desc: '古代の斑点模様。',
         fish_large_spotted_desc: '神聖な印。',
         fish_angler_desc: '暗闇の光。',
@@ -1168,7 +1162,7 @@ export const TRANSLATIONS = {
         fish_beautiful_fish_desc: '素晴らしい色。',
         fish_eel_electric_desc: '衝撃的な出会い！',
         fish_chunky_boi_desc: '圧倒的な存在感。',
-        fish_spikey_thing_desc: 'とても鋭い。',
+        fish_spikey_thing_desc: '非常に尖利。',
         fish_big_fin_desc: 'すべてがヒレ。',
         fish_super_chunky_desc: 'さらにずんぐりしている。',
         fish_whatcha_desc: '科学でも解明されていない。',
@@ -1188,15 +1182,15 @@ export const TRANSLATIONS = {
         fish_lobster_desc: '美味しい贅沢。',
         fish_oyster_desc: '真珠が入ってるかも？',
         fish_ray_spotted_desc: '美しい模様。',
-        fish_octopus_desc: '8本腕の天才。',
+        fish_octopus_desc: '八爪天才。',
         fish_crab_strong_desc: 'カニの王様。',
-        fish_jelly_magic_desc: 'マナで輝く。',
-        fish_jelly_pois_desc: '触れると致命的。',
-        fish_viper_fish_desc: '深海の悪夢。',
-        fish_octopus_strong_desc: '神話の海獣。',
-        fish_long_blob_desc: '不細工すぎて可愛い。',
-        fish_abyssal_cucumber_desc: '光を吸収する。',
-        fish_abyssal_octopus_desc: '宇宙の秘密を知っている。',
+        fish_jelly_magic_desc: '散発着法力。',
+        fish_jelly_pois_desc: '致命的な触碰。',
+        fish_viper_fish_desc: '深海噩夢。',
+        fish_octopus_strong_desc: '神話海怪。',
+        fish_long_blob_desc: '丑得可愛。',
+        fish_abyssal_cucumber_desc: '吸収光線。',
+        fish_abyssal_octopus_desc: '知曉宇宙的秘密。',
 
         CATALOGUE: '図鑑',
         ALL: 'すべて',
@@ -1248,7 +1242,7 @@ export const TRANSLATIONS = {
         TUTORIAL_NEXT: '次へ',
         TUTORIAL_GOT_IT: '了解！',
         TUTORIAL_FINISH: 'チュートリアルを終了',
-        TUTORIAL_SKIP: 'スキップ',
+        TUTORIAL_SKIP: '跳過教程',
         TUTORIAL_HIDE: '永久に非表示',
         TUTORIAL_LANG: '言語'
     },
@@ -1326,8 +1320,9 @@ export const TRANSLATIONS = {
         REDEEM: 'EINLÖSEN',
         REWARD_COLLECTED: 'EINGELÖST',
         REQ_CATCH_ALL: 'Fange alle {rarity}-Fische',
-        POTIONS_UNLOCK_MSG: 'Schaltet nach der verstärkten Rute frei',
-        CATALOGUE_UNLOCK_MSG: 'Schaltet nach der Bambusrute frei',
+        POTIONS_UNLOCK_MSG: 'Wird nach der Verstärkten Angel freigeschaltet',
+        CATALOGUE_UNLOCK_MSG: 'Wird nach der Bambusangel freigeschaltet',
+        MASTERY: 'Meisterschaft',
 
         // Status
         STATUS_IDLE: 'BEREIT',
@@ -1351,6 +1346,7 @@ export const TRANSLATIONS = {
         RARITY_10: 'Abyssal',
         RARITY_11: 'Urzeitlich',
         RARITY_12: 'Kosmisch',
+        RARITY_13: 'Spezial',
 
         // Fish Names
         fish_algae: 'Algen',
@@ -1397,6 +1393,7 @@ export const TRANSLATIONS = {
         fish_large_dotted: 'Punkt-Leviathan',
         fish_large_spotted: 'Fleck-Leviathan',
         fish_angler: 'Anglerfisch',
+        fish_angler_desc: 'Licht in der Dunkelheit.',
         fish_large_fish: 'Großer Fisch',
         fish_beautiful_fish: 'Regenbogenfisch',
         fish_eel_electric: 'Zitteraal',
@@ -1430,6 +1427,23 @@ export const TRANSLATIONS = {
         fish_long_blob: 'Blobfisch',
         fish_abyssal_cucumber: 'Leeren-Gurke',
         fish_abyssal_octopus: 'Kosmischer Geist',
+
+        // Chest Names
+        chest_wood: 'Holzkiste',
+        chest_iron: 'Eisentruhe',
+        chest_gold: 'Schatztruhe',
+        chest_shadow: 'Obskure Truhe',
+
+        // Chest Descriptions
+        chest_wood_desc: 'Sieht verlassen aus, könnte aber etwas enthalten.',
+        chest_iron_desc: 'Schwer und robust. Erfordert eine gute Rute zum Hochziehen.',
+        chest_gold_desc: 'Funkelt vor Gold und Edelsteinen.',
+        chest_shadow_desc: 'Vibriert vor dunkler Energie.',
+
+        // Chest UI
+        OPEN_CHEST: 'ÖFFNEN',
+        CONTAINS: 'Enthält',
+        GOLD_RANGE: 'Gold',
 
         // Fish Descriptions
         fish_algae_desc: 'Schleimiges grünes Zeug.',
@@ -1492,7 +1506,7 @@ export const TRANSLATIONS = {
         fish_sun_fish_desc: 'Liebt die Oberfläche.',
         fish_fancy_shell_desc: 'Ein Sammlerstück.',
         fish_crab_desc: 'Läuft seitwärts.',
-        fish_ray_desc: 'Flach und gleitend.',
+        fish_ray_desc: 'Plana y planeadora.',
         fish_betta_desc: 'Ein kämpferischer Fisch.',
         fish_ray_dotted_desc: 'Sieht aus wie der Meeresboden.',
         fish_flat_long_dotted_desc: 'Eine seltsame Variante.',
@@ -1505,10 +1519,6 @@ export const TRANSLATIONS = {
         fish_jelly_magic_desc: 'Leuchtet mit Mana.',
         fish_jelly_pois_desc: 'Tödliche Berührung.',
         fish_viper_fish_desc: 'Albtraum der Tiefe.',
-        fish_octopus_strong_desc: 'Mythisches Meeresmonster.',
-        fish_long_blob_desc: 'So hässlich, dass es süß ist.',
-        fish_abyssal_cucumber_desc: 'Absorbiert Licht.',
-        fish_abyssal_octopus_desc: 'Kennt die Geheimnisse des Universums.',
 
         CATALOGUE: 'KATALOG',
         ALL: 'ALLE',
@@ -1639,7 +1649,9 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: '수령 완료',
         REQ_CATCH_ALL: '모든 {rarity} 물고기 포획',
         POTIONS_UNLOCK_MSG: '강화된 낚싯대 이후 해제',
-        CATALOGUE_UNLOCK_MSG: '대나무 낚싯대 이후 해제',
+        POTIONS_UNLOCK_MSG: '강화 낚싯대 획득 후 잠금 해제',
+        CATALOGUE_UNLOCK_MSG: '대나무 낚싯대 후 잠금 해제',
+        MASTERY: '숙련도',
 
         // Status
         STATUS_IDLE: '대기 중',
@@ -1663,6 +1675,7 @@ export const TRANSLATIONS = {
         RARITY_10: '심연',
         RARITY_11: '태초',
         RARITY_12: '우주',
+        RARITY_13: '특별',
 
         // Fish Names
         fish_algae: '해초',
@@ -1742,6 +1755,23 @@ export const TRANSLATIONS = {
         fish_long_blob: '블롭피쉬',
         fish_abyssal_cucumber: '공허 해삼',
         fish_abyssal_octopus: '우주의 마음',
+
+        // Chest Names
+        chest_wood: '나무 상자',
+        chest_iron: '철 상자',
+        chest_gold: '보물 상자',
+        chest_shadow: '어둠의 상자',
+
+        // Chest Descriptions
+        chest_wood_desc: '버려진 것 같지만, 안에 무언가 있을지도 모릅니다.',
+        chest_iron_desc: '무겁고 튼튼합니다. 끌어올리려면 괜찮은 낚싯대가 필요합니다.',
+        chest_gold_desc: '금과 보석으로 반짝입니다.',
+        chest_shadow_desc: '어둠의 에너지로 진동합니다.',
+
+        // Chest UI
+        OPEN_CHEST: '열기',
+        CONTAINS: '내용물',
+        GOLD_RANGE: '골드',
 
         // Fish Descriptions
         fish_algae_desc: '끈적끈적한 초록색 물질.',
@@ -1951,7 +1981,9 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: 'ÉCHANGÉ',
         REQ_CATCH_ALL: 'Attrapez tous les poissons {rarity}',
         POTIONS_UNLOCK_MSG: 'Se débloque après la canne renforcée',
-        CATALOGUE_UNLOCK_MSG: 'Se débloque après la canne en bambou',
+        POTIONS_UNLOCK_MSG: 'Se débloque après la Canne Renforcée',
+        CATALOGUE_UNLOCK_MSG: 'Se débloque après la Canne en Bambou',
+        MASTERY: 'Maîtrise',
 
         // Status
         STATUS_IDLE: 'ATTENTE',
@@ -1975,6 +2007,7 @@ export const TRANSLATIONS = {
         RARITY_10: 'Abyssal',
         RARITY_11: 'Primordial',
         RARITY_12: 'Cosmique',
+        RARITY_13: 'Spécial',
 
         // Fish Names
         fish_algae: 'Algues',
@@ -2021,6 +2054,7 @@ export const TRANSLATIONS = {
         fish_large_dotted: 'Léviathan Pointillé',
         fish_large_spotted: 'Léviathan Tacheté',
         fish_angler: 'Baudroie',
+        fish_angler_desc: 'De la lumière dans le noir.',
         fish_large_fish: 'Gros Poisson',
         fish_beautiful_fish: 'Poisson Arc-en-Ciel',
         fish_eel_electric: 'Anguille Électrique',
@@ -2054,6 +2088,23 @@ export const TRANSLATIONS = {
         fish_long_blob: 'Poisson Blob',
         fish_abyssal_cucumber: 'Concombre du Vide',
         fish_abyssal_octopus: 'Esprit Cosmique',
+
+        // Chest Names
+        chest_wood: 'Caisse en Bois',
+        chest_iron: 'Coffre en Fer',
+        chest_gold: 'Coffre au Trésor',
+        chest_shadow: 'Coffre Obscur',
+
+        // Chest Descriptions
+        chest_wood_desc: 'Semble abandonné, mais pourrait contenir quelque chose.',
+        chest_iron_desc: 'Lourd et robuste. Nécessite une bonne canne pour être remonté.',
+        chest_gold_desc: 'Scintille d\'or et de pierres précieuses.',
+        chest_shadow_desc: 'Vibre d\'énergie sombre.',
+
+        // Chest UI
+        OPEN_CHEST: 'OUVRIR',
+        CONTAINS: 'Contient',
+        GOLD_RANGE: 'Or',
 
         // Fish Descriptions
         fish_algae_desc: 'Truc vert gluant.',
@@ -2129,10 +2180,6 @@ export const TRANSLATIONS = {
         fish_jelly_magic_desc: 'Brille de mana.',
         fish_jelly_pois_desc: 'Toucher mortel.',
         fish_viper_fish_desc: 'Cauchemar des profondeurs.',
-        fish_octopus_strong_desc: 'Monstre marin mythique.',
-        fish_long_blob_desc: 'Si laid qu\'il en est mignon.',
-        fish_abyssal_cucumber_desc: 'Absorbe la lumière.',
-        fish_abyssal_octopus_desc: 'Connaît les secrets de l\'univers.',
 
         CATALOGUE: 'CATALOGUE',
         ALL: 'TOUT',
@@ -2264,6 +2311,8 @@ export const TRANSLATIONS = {
         REQ_CATCH_ALL: 'اصطد كل أسماك فئة {rarity}',
         POTIONS_UNLOCK_MSG: 'يفتح بعد الصنارة المعززة',
         CATALOGUE_UNLOCK_MSG: 'يفتح بعد صنارة الخيزران',
+        MASTERY: 'إتقان',
+        MASTERY: 'إتقان',
         CATALOGUE: 'الكتالوج',
         CATALOGUE_DESC: 'عرض جميع الأسماك وندرتها.',
         FILTERS: 'الفلاتر',
@@ -2294,6 +2343,7 @@ export const TRANSLATIONS = {
         RARITY_10: 'سحيق',
         RARITY_11: 'بدائي',
         RARITY_12: 'كوني',
+        RARITY_13: 'خاص',
 
         // Fish Names
         fish_algae: 'طحالب',
@@ -2425,6 +2475,23 @@ export const TRANSLATIONS = {
         fish_long_blob: 'سمكة الفقاعة',
         fish_abyssal_cucumber: 'خيار البحر الفراغي',
         fish_abyssal_octopus: 'العقل الكوني',
+
+        // Chest Names
+        chest_wood: 'صندوق خشبي',
+        chest_iron: 'صندوق حديدي',
+        chest_gold: 'صندوق الكنز',
+        chest_shadow: 'صندوق غامض',
+
+        // Chest Descriptions
+        chest_wood_desc: 'يبدو مهجوراً، لكن قد يحتوي على شيء ما.',
+        chest_iron_desc: 'ثقيل ومتين. يتطلب صنارة جيدة لسحبه.',
+        chest_gold_desc: 'يتلألأ بالذهب والأحجار الكريمة.',
+        chest_shadow_desc: 'يهتز بطاقة مظلمة.',
+
+        // Chest UI
+        OPEN_CHEST: 'فتح',
+        CONTAINS: 'يحتوي',
+        GOLD_RANGE: 'ذهب',
         fish_thing_fish_desc: 'إنه يحدق بك.',
         fish_round_shell_desc: 'دائرية تماماً.',
         fish_smooth_shell_desc: 'مصقولة بالأمواج.',
@@ -2455,7 +2522,7 @@ export const TRANSLATIONS = {
         ALL: 'الكل',
         DISCOVERED_COUNT: 'تم اكتشاف: {current}/{total}',
         FISH_NAME_LOCKED: '???',
-        FISH_DESC_LOCKED: '???',
+        FISH_DESC_LOCKED: '؟؟؟',
 
         // Rod Names
         rod_1: 'صنارة خيزران',
@@ -2581,6 +2648,8 @@ export const TRANSLATIONS = {
         REQ_CATCH_ALL: 'Cattura tutti i pesci {rarity}',
         POTIONS_UNLOCK_MSG: 'Si sblocca dopo la Canna Rinforzata',
         CATALOGUE_UNLOCK_MSG: 'Si sblocca dopo la Canna di Bambù',
+        MASTERY: 'Maestria',
+        MASTERY: 'Maestria',
         CATALOGUE: 'CATALOGO',
         CATALOGUE_DESC: 'Vedi tutti i pesci e la loro rarità.',
         FILTERS: 'FILTRI',
@@ -2611,6 +2680,7 @@ export const TRANSLATIONS = {
         RARITY_10: 'Abissale',
         RARITY_11: 'Primordiale',
         RARITY_12: 'Cosmico',
+        RARITY_13: 'Speciale',
 
         // Fish Names
         fish_algae: 'Alghe',
@@ -2743,6 +2813,23 @@ export const TRANSLATIONS = {
         fish_long_blob: 'Pesce Blob',
         fish_abyssal_cucumber: 'Cetriolo del Vuoto',
         fish_abyssal_octopus: 'Mente Cosmica',
+
+        // Chest Names
+        chest_wood: 'Cassa di Legno',
+        chest_iron: 'Baule di Ferro',
+        chest_gold: 'Baule del Tesoro',
+        chest_shadow: 'Baule Oscuro',
+
+        // Chest Descriptions
+        chest_wood_desc: 'Sembra abbandonato, ma potrebbe esserci qualcosa dentro.',
+        chest_iron_desc: 'Pesante e robusto. Richiede una buona canne per tirarlo su.',
+        chest_gold_desc: 'Scintillante di oro e gemme.',
+        chest_shadow_desc: 'Vibra di energia oscura.',
+
+        // Chest UI
+        OPEN_CHEST: 'APRI',
+        CONTAINS: 'Contiene',
+        GOLD_RANGE: 'Oro',
         fish_round_shell_desc: 'Perfettamente rotonda.',
         fish_smooth_shell_desc: 'Levigata dalle onde.',
         fish_thin_shell_desc: 'Molto fragile.',
@@ -2897,7 +2984,9 @@ export const TRANSLATIONS = {
         REWARD_COLLECTED: 'भुनाया गया',
         REQ_CATCH_ALL: 'सभी {rarity} मछलियों को पकड़ें',
         POTIONS_UNLOCK_MSG: 'रिमफोर्स्ड रॉड के बाद खुलता है',
-        CATALOGUE_UNLOCK_MSG: 'बांस की छड़ी के बाद खुलता है',
+        POTIONS_UNLOCK_MSG: 'प्रबलित रॉड के बाद खुलता है',
+        CATALOGUE_UNLOCK_MSG: 'बंस की रॉड के बाद खुलता है',
+        MASTERY: 'महारत',
         CATALOGUE: 'कैटलॉग',
         CATALOGUE_DESC: 'सभी मछलियों और उनकी दुर्लभता देखें।',
         FILTERS: 'फिल्टर',
@@ -2928,6 +3017,7 @@ export const TRANSLATIONS = {
         RARITY_10: 'अतल',
         RARITY_11: 'आदिम',
         RARITY_12: 'लौकिक',
+        RARITY_13: 'विशेष',
 
         // Fish Names
         fish_algae: 'शैवाल',
@@ -3060,6 +3150,23 @@ export const TRANSLATIONS = {
         fish_long_blob: 'ब्लॉब फिश',
         fish_abyssal_cucumber: 'वॉयड ककड़ी',
         fish_abyssal_octopus: 'ब्रह्मांडीय मन',
+
+        // Chest Names
+        chest_wood: 'लकड़ी का संदूक',
+        chest_iron: 'लोहे का संदूक',
+        chest_gold: 'खजाने का संदूक',
+        chest_shadow: 'अस्पष्ट संदूक',
+
+        // Chest Descriptions
+        chest_wood_desc: 'लावारिस लगता है, लेकिन अंदर कुछ हो सकता है।',
+        chest_iron_desc: 'भारी और मजबूत। इसे ऊपर खींचने के लिए एक अच्छी रॉड की आवश्यकता है।',
+        chest_gold_desc: 'सोने और रत्नों से चमक रहा है।',
+        chest_shadow_desc: 'काली ऊर्जा के साथ कंपन कर रहा है।',
+
+        // Chest UI
+        OPEN_CHEST: 'खोलें',
+        CONTAINS: 'शामिल है',
+        GOLD_RANGE: 'सोना',
         fish_round_shell_desc: 'पूरी तरह से गोल।',
         fish_smooth_shell_desc: 'लहरों से पॉलिश किया हुआ।',
         fish_thin_shell_desc: 'बहुत नाजुक।',
