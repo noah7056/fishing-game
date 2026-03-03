@@ -458,11 +458,11 @@ const GameScreen = () => {
 
         let selectedItem = null;
 
-        // Chest Drop Logic (15% chance)
+        // Chest Drop Logic (8% chance)
         const canCatchChests = CHEST_DATA.filter(c => currentRodLevel >= c.rodReq[0] && currentRodLevel <= c.rodReq[1]);
         const roll = Math.random();
 
-        if (canCatchChests.length > 0 && roll < 0.15) {
+        if (canCatchChests.length > 0 && roll < 0.08) {
             // Pick a random chest from available ones
             selectedItem = canCatchChests[Math.floor(Math.random() * canCatchChests.length)];
         } else {
@@ -1004,6 +1004,8 @@ const GameScreen = () => {
                             language={language}
                             sortBy={inventorySortBy}
                             setSortBy={setInventorySortBy}
+                            discoveredFishIds={discoveredFishIds}
+                            setDiscoveredFishIds={setDiscoveredFishIds}
                             onClose={() => { }}
                             isAlwaysOpen={true}
                         />

@@ -8,7 +8,7 @@ import './Diary.css';
 import sellingIcon from '../assets/selling icon.png';
 import moneyIcon from '../assets/money icon.png';
 
-const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs = [], onClose, isAlwaysOpen, language = 'en', sortBy, setSortBy }) => {
+const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs = [], onClose, isAlwaysOpen, language = 'en', sortBy, setSortBy, discoveredFishIds, setDiscoveredFishIds }) => {
     const t = TRANSLATIONS[language];
 
     // Check for double money buff
@@ -93,6 +93,7 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
         // Generate Fish (2-4 items)
         const fishCount = Math.floor(Math.random() * 3) + 2;
         const fishRewards = [];
+        const newDiscoveries = [];
 
         for (let i = 0; i < fishCount; i++) {
             const rarityId = chest.dropTable[Math.floor(Math.random() * chest.dropTable.length)];
@@ -100,17 +101,29 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
             const rewardFish = potentialFish[Math.floor(Math.random() * potentialFish.length)];
             fishRewards.push(rewardFish);
             newIds.push(rewardFish.id);
+
+            // Check if this is a new discovery
+            if (discoveredFishIds && !discoveredFishIds.has(rewardFish.id)) {
+                newDiscoveries.push(rewardFish);
+                setDiscoveredFishIds(prev => new Set(prev).add(rewardFish.id));
+            }
         }
 
         // Add Rewards
         setCaughtFishIds(newIds);
         setWallet(prev => prev + gold);
 
+        // Show notification for new discoveries
+        if (newDiscoveries.length > 0) {
+            showFloatingText(t.NEW_DISCOVERY);
+        }
+
         setChestReward({
             chestId: chest.id,
             chestName: chest.name,
             gold,
-            fishRewards
+            fishRewards,
+            newDiscoveries
         });
         playSound('newItem');
     };
@@ -167,12 +180,16 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
                             </div>
 
                             {/* Fish Rewards */}
-                            {chestReward.fishRewards.map((fish, idx) => (
-                                <div key={idx} className="reward-item" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                    <img src={fish.image} alt={fish.name} style={{ width: '40px', height: '40px', objectFit: 'contain', marginBottom: '5px', imageRendering: 'pixelated' }} />
-                                    <span style={{ fontSize: '0.7rem', textAlign: 'center' }}>{t[`fish_${fish.id}`] || fish.name}</span>
-                                </div>
-                            ))}
+                            {chestReward.fishRewards.map((fish, idx) => {
+                                const isNew = chestReward.newDiscoveries && chestReward.newDiscoveries.some(d => d.id === fish.id);
+                                return (
+                                    <div key={idx} className="reward-item" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                        <img src={fish.image} alt={fish.name} style={{ width: '40px', height: '40px', objectFit: 'contain', marginBottom: '5px', imageRendering: 'pixelated' }} />
+                                        <span style={{ fontSize: '0.7rem', textAlign: 'center' }}>{t[`fish_${fish.id}`] || fish.name}</span>
+                                        {isNew && <span style={{ color: '#2ecc71', fontSize: '0.6rem', fontWeight: 'bold' }}>NEW!</span>}
+                                    </div>
+                                );
+                            })}
                         </div>
 
                         <button onClick={closeRewardPopup} style={{ border: '1px solid #ffd700', color: '#ffd700' }}>

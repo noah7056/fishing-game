@@ -55,8 +55,7 @@ const RodShop = ({
                     const caughtCount = fishInThisTier.filter(f => discoveredFishIds.has(f.id)).length;
                     const isCollectionComplete = fishInThisTier.length > 0 && caughtCount === fishInThisTier.length;
 
-                    const isMasteryComplete =
-                        isCurrent && (rod.masteryReq === 0 || (rodMastery[currentRodLevel] || 0) >= rod.masteryReq);
+                    const isMasteryComplete = rod.masteryReq === 0 || (rodMastery[rod.id] || 0) >= rod.masteryReq;
 
                     // Final Mastered state: both collection finished AND mastery reached
                     const isFullyCompleted = isCollectionComplete && isMasteryComplete;
@@ -78,8 +77,8 @@ const RodShop = ({
                         catchableRarities.push(t[`RARITY_${i}`] || RARITY_TIERS[i].name);
                     }
 
-                    const showMasteryProgress = isCurrent && rod.id < 12;
-                    const masteryPercent = showMasteryProgress ? Math.min(100, ((rodMastery[currentRodLevel] || 0) / rod.masteryReq) * 100) : 0;
+                    const showMasteryProgress = isOwned && rod.id < 12 && rod.masteryReq > 0;
+                    const masteryPercent = showMasteryProgress ? Math.min(100, ((rodMastery[rod.id] || 0) / rod.masteryReq) * 100) : 0;
 
                     const showDiscoveryProgress = isOwned || isUnlockable;
                     const discoveryPercent = fishInThisTier.length > 0 ? (caughtCount / fishInThisTier.length) * 100 : 0;
@@ -87,7 +86,7 @@ const RodShop = ({
                     return (
                         <div
                             key={rod.id}
-                            className={`rod-card ${isOwned ? 'owned' : ''} ${isUnlockable ? 'unlockable' : ''} ${!isOwned && !isUnlockable ? 'locked' : ''} ${isFullyCompleted ? 'mastered' : ''}`}
+                            className={`rod-card ${isOwned ? 'owned' : ''} ${isUnlockable ? 'unlockable' : ''} ${!isOwned && !isUnlockable ? 'locked' : ''} ${isFullyCompleted || isMasteryComplete ? 'mastered' : ''}`}
                         >
                             <div className="rod-info-left">
                                 <div className="rod-image-container">
@@ -111,6 +110,10 @@ const RodShop = ({
                                     isCurrent ? (
                                         <div className={`status-owned ${isFullyCompleted ? 'mastered-text' : ''}`}>
                                             {t.EQUIPPED}
+                                        </div>
+                                    ) : isMasteryComplete ? (
+                                        <div className="status-owned mastered-text">
+                                            {t.MASTERED || 'MASTERED'}
                                         </div>
                                     ) : (
                                         <button
@@ -153,7 +156,7 @@ const RodShop = ({
                             {showMasteryProgress && (
                                 <div className="rod-progress-section mastery">
                                     <div className="progress-label">
-                                        {t.MASTERY}: {rodMastery[currentRodLevel] || 0} / {rod.masteryReq} {t.FISH}
+                                        {t.MASTERY}: {rodMastery[rod.id] || 0} / {rod.masteryReq} {t.FISH}
                                     </div>
                                     <div className="progress-track">
                                         <div className="progress-fill mastery-fill" style={{ width: `${masteryPercent}%` }}></div>
