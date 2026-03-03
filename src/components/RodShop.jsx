@@ -111,16 +111,12 @@ const RodShop = ({
                                         <div className={`status-owned ${isFullyCompleted ? 'mastered-text' : ''}`}>
                                             {t.EQUIPPED}
                                         </div>
-                                    ) : isMasteryComplete ? (
-                                        <div className="status-owned mastered-text">
-                                            {t.MASTERED || 'MASTERED'}
-                                        </div>
                                     ) : (
                                         <button
                                             className="select-btn"
                                             onClick={() => handleSelectClick(rod.id)}
                                         >
-                                            {t.SELECT || 'SELECT'}
+                                            {isMasteryComplete ? (t.SELECT_MASTERED || 'USE') : (t.SELECT || 'SELECT')}
                                         </button>
                                     )
                                 ) : (

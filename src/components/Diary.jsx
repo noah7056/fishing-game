@@ -71,9 +71,6 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
         setCaughtFishIds(newCaughtIds);
         setWallet(prev => prev + totalValue);
         playSound('sell');
-        setCaughtFishIds(newCaughtIds);
-        setWallet(prev => prev + totalValue);
-        playSound('sell');
     };
 
     const handleOpenChest = (chestId) => {
@@ -112,11 +109,6 @@ const Diary = ({ caughtFishIds, setCaughtFishIds, wallet, setWallet, activeBuffs
         // Add Rewards
         setCaughtFishIds(newIds);
         setWallet(prev => prev + gold);
-
-        // Show notification for new discoveries
-        if (newDiscoveries.length > 0) {
-            showFloatingText(t.NEW_DISCOVERY);
-        }
 
         setChestReward({
             chestId: chest.id,
