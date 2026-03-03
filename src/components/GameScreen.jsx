@@ -892,20 +892,21 @@ const GameScreen = () => {
             )}
 
             {/* Left Panel - Character & Minigame */}
-            <div 
-                className="character-area" 
-                onClick={() => {
-                    if (gameState === GAME_STATES.IDLE) {
-                        handleCast();
-                    }
-                }}
-                style={{ cursor: gameState === GAME_STATES.IDLE ? 'pointer' : 'default' }}
-            >
-                <img src={getPlayerImage()} alt="Player Character" className="character-img" />
-                {floatingTexts.map(ft => (
-                    <div key={ft.id} className="floating-text">{ft.text}</div>
-                ))}
-            </div>
+            <div className="left-panel">
+                <div 
+                    className="character-area" 
+                    onClick={() => {
+                        if (gameState === GAME_STATES.IDLE) {
+                            handleCast();
+                        }
+                    }}
+                    style={{ cursor: gameState === GAME_STATES.IDLE ? 'pointer' : 'default' }}
+                >
+                    <img src={getPlayerImage()} alt="Player Character" className="character-img" />
+                    {floatingTexts.map(ft => (
+                        <div key={ft.id} className="floating-text">{ft.text}</div>
+                    ))}
+                </div>
 
                 {gameState === GAME_STATES.REELING && lastCaughtFish && (
                     <div className="minigame-container">
@@ -934,8 +935,9 @@ const GameScreen = () => {
                         )}
                     </div>
                 </div>
+            </div>
 
-                {/* Right Panel - Tabs & Content */}
+            {/* Right Panel - Tabs & Content */}
             <div className="right-panel">
                 <div className="panel-tabs">
                     <button
