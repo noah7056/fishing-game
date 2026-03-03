@@ -4,14 +4,14 @@ import zh from './zh';
 export const TRANSLATIONS = {
     en,
     zh,
-    es: en, // Placeholder - add translation file
-    ja: en, // Placeholder - add translation file
-    de: en, // Placeholder - add translation file
-    ko: en, // Placeholder - add translation file
-    fr: en, // Placeholder - add translation file
-    ar: en, // Placeholder - add translation file
-    hi: en, // Placeholder - add translation file
-    it: en, // Placeholder - add translation file
+    es: en, // Fallback to English - add translation file
+    ja: en, // Fallback to English - add translation file
+    de: en, // Fallback to English - add translation file
+    ko: en, // Fallback to English - add translation file
+    fr: en, // Fallback to English - add translation file
+    ar: en, // Fallback to English - add translation file
+    hi: en, // Fallback to English - add translation file
+    it: en, // Fallback to English - add translation file
 };
 
 export const LANGUAGES = [

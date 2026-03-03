@@ -93,7 +93,8 @@ const GameScreen = () => {
         return saved || 'en';
     });
 
-    const t = TRANSLATIONS[language];
+    // Safe translation getter with fallback to English
+    const t = TRANSLATIONS[language] || TRANSLATIONS['en'];
 
     // Settings UI State
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -275,12 +276,18 @@ const GameScreen = () => {
     };
 
     const handleCycleLanguage = () => {
-        const langs = ['en', 'zh', 'es', 'ja', 'de', 'ko', 'fr', 'ar'];
+        const langs = ['en', 'zh', 'es', 'ja', 'de', 'ko', 'fr', 'ar', 'hi', 'it'];
         const currentIndex = langs.indexOf(language);
         const nextIndex = (currentIndex + 1) % langs.length;
         setLanguage(langs[nextIndex]);
         playSound('button');
     };
+
+    // Language persistence effect
+    useEffect(() => {
+        localStorage.setItem('fishing_language', language);
+    }, [language]);
+
     // Persistence Effects
     useEffect(() => {
         localStorage.setItem('fishing_inventory', JSON.stringify(caughtFishIds));
@@ -292,8 +299,7 @@ const GameScreen = () => {
         localStorage.setItem('fishing_redeemed', JSON.stringify([...redeemedFishIds]));
         localStorage.setItem('fishing_sfx_enabled', JSON.stringify(sfxOn));
         localStorage.setItem('fishing_bgm_enabled', JSON.stringify(bgmOn));
-        localStorage.setItem('fishing_language', language);
-    }, [caughtFishIds, wallet, currentRodLevel, maxRodOwned, rodMastery, discoveredFishIds, sfxOn, bgmOn, language]);
+    }, [caughtFishIds, wallet, currentRodLevel, maxRodOwned, rodMastery, discoveredFishIds, sfxOn, bgmOn]);
 
     // Periodically sanitize sets to prevent corrupted data (e.g., [null] or mixing types)
     useEffect(() => {
