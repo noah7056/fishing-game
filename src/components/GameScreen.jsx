@@ -934,9 +934,8 @@ const GameScreen = () => {
                         )}
                     </div>
                 </div>
-            </div>
 
-            {/* Right Panel - Tabs & Content */}
+                {/* Right Panel - Tabs & Content */}
             <div className="right-panel">
                 <div className="panel-tabs">
                     <button
