@@ -266,6 +266,14 @@ const GameScreen = () => {
         playSound('button');
     };
 
+    const handleRestartTutorial = () => {
+        localStorage.removeItem('fishing_tutorial_disabled');
+        setTutorialActive(true);
+        setTutorialStep(0);
+        setIsSettingsOpen(false);
+        playSound('button');
+    };
+
     const handleCycleLanguage = () => {
         const langs = ['en', 'zh', 'es', 'ja', 'de', 'ko', 'fr', 'ar'];
         const currentIndex = langs.indexOf(language);
@@ -668,6 +676,16 @@ const GameScreen = () => {
                 setRedeemedFishIds(new Set(decoded.redeemed || []));
                 setImportString('');
                 setProgressMessage(t.SAVE_APPLIED);
+                
+                // Force immediate save to localStorage
+                localStorage.setItem('fishing_inventory', JSON.stringify(decoded.inventory || []));
+                localStorage.setItem('fishing_wallet', String(decoded.wallet || 0));
+                localStorage.setItem('fishing_rod_level', String(decoded.rodLevel || 1));
+                localStorage.setItem('fishing_max_rod_owned', String(decoded.maxRodOwned || decoded.rodLevel || 1));
+                localStorage.setItem('fishing_rod_mastery', JSON.stringify(decoded.rodMastery || { 1: 0 }));
+                localStorage.setItem('fishing_discovered', JSON.stringify(decoded.discovered || []));
+                localStorage.setItem('fishing_redeemed', JSON.stringify(decoded.redeemed || []));
+                
                 playSound('buyRod');
                 setTimeout(() => setProgressMessage(''), 3000);
             };
@@ -806,6 +824,11 @@ const GameScreen = () => {
                                     <div className="help-section">
                                         <h3><img src={sellingIcon} alt="" className="help-heading-icon" /> {t.SELLING}</h3>
                                         <p>{t.SELL_DESC}</p>
+                                    </div>
+                                    <div className="help-section">
+                                        <button className="restart-tutorial-btn" onClick={handleRestartTutorial}>
+                                            {t.RESTART_TUTORIAL || 'Restart Tutorial'}
+                                        </button>
                                     </div>
                                 </div>
                             ) : settingsTab === 'progress' ? (

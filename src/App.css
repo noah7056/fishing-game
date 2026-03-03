@@ -344,6 +344,23 @@ body {
   line-height: 1.5;
 }
 
+.restart-tutorial-btn {
+  background: #2ecc71;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.restart-tutorial-btn:hover {
+  background: #27ae60;
+}
+
 /* Progress Settings Styles */
 .progress-settings {
   display: flex;
