@@ -779,8 +779,6 @@ button:hover {
   padding: 2px 4px;
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
   z-index: 10;
-  min-height: 180px;
-  height: auto;
   animation: badgePulse 2s infinite;
 }
 

@@ -10,8 +10,10 @@ const RodShop = ({
     wallet,
     setWallet,
     currentRodLevel,
-    setCurrentRodLevel,
-    rodProgress,
+    maxRodOwned,
+    onBuyRod,
+    onSelectRod,
+    rodMastery,
     language = 'en',
     discoveredFishIds
 }) => {
@@ -23,8 +25,13 @@ const RodShop = ({
 
         if (wallet >= rod.price) {
             setWallet(prev => prev - rod.price);
-            setCurrentRodLevel(rodId);
-            playSound('buyRod');
+            onBuyRod(rodId);
+        }
+    };
+
+    const handleSelectClick = (rodId) => {
+        if (rodId <= maxRodOwned) {
+            onSelectRod(rodId);
         }
     };
 
@@ -39,9 +46,9 @@ const RodShop = ({
 
             <div className="rod-list">
                 {ROD_DATA.map((rod, index) => {
-                    const isOwned = rod.id <= currentRodLevel;
+                    const isOwned = rod.id <= maxRodOwned;
                     const isCurrent = rod.id === currentRodLevel;
-                    const isNext = rod.id === currentRodLevel + 1;
+                    const isNext = rod.id === maxRodOwned + 1;
 
                     // 1. Data Analysis
                     const fishInThisTier = FISH_DATA.filter(f => f.rarityId === rod.catchTier);
@@ -49,8 +56,7 @@ const RodShop = ({
                     const isCollectionComplete = fishInThisTier.length > 0 && caughtCount === fishInThisTier.length;
 
                     const isMasteryComplete =
-                        rod.id < currentRodLevel ||
-                        (isCurrent && (rod.masteryReq === 0 || rodProgress >= rod.masteryReq));
+                        isCurrent && (rod.masteryReq === 0 || (rodMastery[currentRodLevel] || 0) >= rod.masteryReq);
 
                     // Final Mastered state: both collection finished AND mastery reached
                     const isFullyCompleted = isCollectionComplete && isMasteryComplete;
@@ -62,7 +68,7 @@ const RodShop = ({
                         const fishInPrevTier = FISH_DATA.filter(f => f.rarityId === prevRod.catchTier);
                         prevCollectionComplete = fishInPrevTier.every(f => discoveredFishIds.has(f.id));
                     }
-                    const isUnlockable = isNext && prevRod && rodProgress >= prevRod.masteryReq && prevCollectionComplete;
+                    const isUnlockable = isNext && prevRod && prevCollectionComplete;
 
                     // 3. UI Helper Data
                     const minTier = Math.max(1, rod.catchTier - 2);
@@ -73,7 +79,7 @@ const RodShop = ({
                     }
 
                     const showMasteryProgress = isCurrent && rod.id < 12;
-                    const masteryPercent = showMasteryProgress ? Math.min(100, (rodProgress / rod.masteryReq) * 100) : 0;
+                    const masteryPercent = showMasteryProgress ? Math.min(100, ((rodMastery[currentRodLevel] || 0) / rod.masteryReq) * 100) : 0;
 
                     const showDiscoveryProgress = isOwned || isUnlockable;
                     const discoveryPercent = fishInThisTier.length > 0 ? (caughtCount / fishInThisTier.length) * 100 : 0;
@@ -102,9 +108,18 @@ const RodShop = ({
 
                             <div className="rod-actions">
                                 {isOwned ? (
-                                    <div className={`status-owned ${isFullyCompleted ? 'mastered-text' : ''}`}>
-                                        {isCurrent ? t.EQUIPPED : t.OWNED}
-                                    </div>
+                                    isCurrent ? (
+                                        <div className={`status-owned ${isFullyCompleted ? 'mastered-text' : ''}`}>
+                                            {t.EQUIPPED}
+                                        </div>
+                                    ) : (
+                                        <button
+                                            className="select-btn"
+                                            onClick={() => handleSelectClick(rod.id)}
+                                        >
+                                            {t.SELECT || 'SELECT'}
+                                        </button>
+                                    )
                                 ) : (
                                     <div className="buy-actions">
                                         {isUnlockable ? (
@@ -138,7 +153,7 @@ const RodShop = ({
                             {showMasteryProgress && (
                                 <div className="rod-progress-section mastery">
                                     <div className="progress-label">
-                                        {t.MASTERY}: {rodProgress} / {rod.masteryReq} {t.FISH}
+                                        {t.MASTERY}: {rodMastery[currentRodLevel] || 0} / {rod.masteryReq} {t.FISH}
                                     </div>
                                     <div className="progress-track">
                                         <div className="progress-fill mastery-fill" style={{ width: `${masteryPercent}%` }}></div>
@@ -149,14 +164,9 @@ const RodShop = ({
                             {/* Lock Reasons */}
                             {!isOwned && !isUnlockable && prevRod && (
                                 <div className="lock-reasons">
-                                    {(rod.id > currentRodLevel + 1 || rodProgress < prevRod.masteryReq) && (
+                                    {(rod.id > maxRodOwned + 1 || !prevCollectionComplete) && (
                                         <div className="lock-reason">
-                                            ❌ {t.MASTER_FIRST_HINT.replace('{name}', t[`rod_${prevRod.id}`] || prevRod.name)}
-                                        </div>
-                                    )}
-                                    {(rod.id > currentRodLevel + 1 || !prevCollectionComplete) && (
-                                        <div className="lock-reason">
-                                            ❌ {t.REQ_CATCH_ALL.replace('{rarity}', t[`RARITY_${prevRod.catchTier}`] || RARITY_TIERS[prevRod.catchTier].name)}
+                                            {t.REQ_CATCH_ALL.replace('{rarity}', t[`RARITY_${prevRod.catchTier}`] || RARITY_TIERS[prevRod.catchTier].name)}
                                         </div>
                                     )}
                                 </div>

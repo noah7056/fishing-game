@@ -60,9 +60,13 @@ const GameScreen = () => {
         const saved = localStorage.getItem('fishing_rod_level');
         return saved ? Number(saved) : 1;
     });
-    const [rodProgress, setRodProgress] = useState(() => {
-        const saved = localStorage.getItem('fishing_rod_progress');
-        return saved ? Number(saved) : 0;
+    const [maxRodOwned, setMaxRodOwned] = useState(() => {
+        const saved = localStorage.getItem('fishing_max_rod_owned');
+        return saved ? Number(saved) : 1;
+    });
+    const [rodMastery, setRodMastery] = useState(() => {
+        const saved = localStorage.getItem('fishing_rod_mastery');
+        return saved ? JSON.parse(saved) : { 1: 0 };
     });
     const [discoveredFishIds, setDiscoveredFishIds] = useState(() => {
         const saved = localStorage.getItem('fishing_discovered');
@@ -274,13 +278,14 @@ const GameScreen = () => {
         localStorage.setItem('fishing_inventory', JSON.stringify(caughtFishIds));
         localStorage.setItem('fishing_wallet', wallet.toString());
         localStorage.setItem('fishing_rod_level', currentRodLevel.toString());
-        localStorage.setItem('fishing_rod_progress', rodProgress.toString());
+        localStorage.setItem('fishing_max_rod_owned', maxRodOwned.toString());
+        localStorage.setItem('fishing_rod_mastery', JSON.stringify(rodMastery));
         localStorage.setItem('fishing_discovered', JSON.stringify([...discoveredFishIds]));
         localStorage.setItem('fishing_redeemed', JSON.stringify([...redeemedFishIds]));
         localStorage.setItem('fishing_sfx_enabled', JSON.stringify(sfxOn));
         localStorage.setItem('fishing_bgm_enabled', JSON.stringify(bgmOn));
         localStorage.setItem('fishing_language', language);
-    }, [caughtFishIds, wallet, currentRodLevel, rodProgress, discoveredFishIds, sfxOn, bgmOn, language]);
+    }, [caughtFishIds, wallet, currentRodLevel, maxRodOwned, rodMastery, discoveredFishIds, sfxOn, bgmOn, language]);
 
     // Periodically sanitize sets to prevent corrupted data (e.g., [null] or mixing types)
     useEffect(() => {
@@ -353,9 +358,20 @@ const GameScreen = () => {
 
     const handleLevelUp = (newLevel) => {
         setCurrentRodLevel(newLevel);
-        setRodProgress(0);
+        setMaxRodOwned(newLevel);
+        setRodMastery(prev => {
+            if (!(newLevel in prev)) {
+                return { ...prev, [newLevel]: 0 };
+            }
+            return prev;
+        });
         showFloatingText(t.ROD_LABEL + " UPGRADED!");
         playSound('buyRod');
+    };
+
+    const handleSelectRod = (rodId) => {
+        setCurrentRodLevel(rodId);
+        playSound('button');
     };
 
     const handleCatch = () => {
@@ -386,7 +402,10 @@ const GameScreen = () => {
             for (let i = 0; i < lootCount; i++) {
                 setCaughtFishIds(prev => [...prev, lastCaughtFish.id]);
             }
-            setRodProgress(prev => prev + 1);
+            setRodMastery(prev => ({
+                ...prev,
+                [currentRodLevel]: (prev[currentRodLevel] || 0) + 1
+            }));
         }
     };
 
@@ -520,21 +539,18 @@ const GameScreen = () => {
 
     // Input handling
     useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (e.code === 'Space') {
-                handleCast();
-            }
-        };
-        const handleMouseDown = () => {
+        const handleMouseDown = (e) => {
             if (gameState === GAME_STATES.HOOKED) {
-                handleHook();
+                // Check if click is on the character area
+                const characterArea = document.querySelector('.character-area');
+                if (characterArea && characterArea.contains(e.target)) {
+                    handleHook();
+                }
             }
         };
 
-        window.addEventListener('keydown', handleKeyDown);
         window.addEventListener('mousedown', handleMouseDown);
         return () => {
-            window.removeEventListener('keydown', handleKeyDown);
             window.removeEventListener('mousedown', handleMouseDown);
         };
     }, [gameState]);
@@ -579,6 +595,14 @@ const GameScreen = () => {
     const handleRedeemFish = (fish) => {
         if (redeemedFishIds.has(fish.id)) return;
 
+        // Chests are not redeemable in catalogue - must be opened in Diary
+        if (fish.rarityId === 13) {
+            setRedeemedFishIds(prev => new Set(prev).add(fish.id));
+            playSound('newItem');
+            showFloatingText("CHEST DISCOVERED!");
+            return;
+        }
+
         // Reward calculation: Base value * Rarity Multiplier * 10? Or just flat based on rarity?
         // Let's do: Fish Value * 5 (A nice bonus)
         const reward = Math.floor(fish.value * 5);
@@ -598,7 +622,8 @@ const GameScreen = () => {
             setCaughtFishIds([]);
             setWallet(0);
             setCurrentRodLevel(1);
-            setRodProgress(0);
+            setMaxRodOwned(1);
+            setRodMastery({ 1: 0 });
             setDiscoveredFishIds(new Set());
             setRedeemedFishIds(new Set());
             setActiveBuffs([]);
@@ -614,7 +639,8 @@ const GameScreen = () => {
             inventory: caughtFishIds,
             wallet: wallet,
             rodLevel: currentRodLevel,
-            rodProgress: rodProgress,
+            maxRodOwned: maxRodOwned,
+            rodMastery: rodMastery,
             discovered: [...discoveredFishIds],
             redeemed: [...redeemedFishIds],
             timestamp: Date.now()
@@ -636,8 +662,8 @@ const GameScreen = () => {
                 setCaughtFishIds(decoded.inventory || []);
                 setWallet(decoded.wallet || 0);
                 setCurrentRodLevel(decoded.rodLevel || 1);
-                setRodProgress(decoded.rodProgress || 0);
-                setRodProgress(decoded.rodProgress || 0);
+                setMaxRodOwned(decoded.maxRodOwned || decoded.rodLevel || 1);
+                setRodMastery(decoded.rodMastery || { 1: 0 });
                 setDiscoveredFishIds(new Set(decoded.discovered || []));
                 setRedeemedFishIds(new Set(decoded.redeemed || []));
                 setImportString('');
@@ -866,13 +892,20 @@ const GameScreen = () => {
             )}
 
             {/* Left Panel - Character & Minigame */}
-            <div className="left-panel">
-                <div className="character-area">
-                    <img src={getPlayerImage()} alt="Player Character" className="character-img" />
-                    {floatingTexts.map(ft => (
-                        <div key={ft.id} className="floating-text">{ft.text}</div>
-                    ))}
-                </div>
+            <div 
+                className="character-area" 
+                onClick={() => {
+                    if (gameState === GAME_STATES.IDLE) {
+                        handleCast();
+                    }
+                }}
+                style={{ cursor: gameState === GAME_STATES.IDLE ? 'pointer' : 'default' }}
+            >
+                <img src={getPlayerImage()} alt="Player Character" className="character-img" />
+                {floatingTexts.map(ft => (
+                    <div key={ft.id} className="floating-text">{ft.text}</div>
+                ))}
+            </div>
 
                 {gameState === GAME_STATES.REELING && lastCaughtFish && (
                     <div className="minigame-container">
@@ -897,7 +930,7 @@ const GameScreen = () => {
                         <p>{t.STATUS}: {t[`STATUS_${gameState}`] || gameState}</p>
                         <p>{t.ROD_LABEL}: {currentRod ? (t[`rod_${currentRod.id}`] || currentRod.name) : 'None'}</p>
                         {activeBuffs.length > 0 && (
-                            <p className="active-buffs-indicator">⚡ {t.BUFFS_LABEL}: {activeBuffs.length}</p>
+                            <p className="active-buffs-indicator">{t.BUFFS_LABEL}: {activeBuffs.length}</p>
                         )}
                     </div>
                 </div>
@@ -990,8 +1023,10 @@ const GameScreen = () => {
                             wallet={wallet}
                             setWallet={setWallet}
                             currentRodLevel={currentRodLevel}
-                            setCurrentRodLevel={handleLevelUp}
-                            rodProgress={rodProgress}
+                            maxRodOwned={maxRodOwned}
+                            onBuyRod={handleLevelUp}
+                            onSelectRod={handleSelectRod}
+                            rodMastery={rodMastery}
                             language={language}
                             discoveredFishIds={discoveredFishIds}
                         />

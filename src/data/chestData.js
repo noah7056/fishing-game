@@ -8,15 +8,15 @@ export const CHEST_DATA = [
         id: 'chest_wood',
         name: 'Wooden Crate',
         rarityId: 13, // Special Rarity
-        rodReq: [1, 5],
-        goldMin: 25,
-        goldMax: 75,
+        rodReq: [2, 5],
+        goldMin: 2,
+        goldMax: 10,
         dropTable: [1, 2, 3], // Dull, Common, Uncommon
         image: woodenCrate,
         description: 'Looks abandoned, but might have something inside.',
         difficulty: 0.5,
         minigameRarity: 1, // Matches lowest fish tier for Rod 1
-        value: 100
+        value: 2
     },
     {
         id: 'chest_iron',

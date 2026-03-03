@@ -33,7 +33,7 @@
 }
 
 .rod-card.owned {
-    border-color: #2ecc71;
+    border-color: #f1c40f;
 }
 
 .rod-card.unlockable {
@@ -47,12 +47,38 @@
 }
 
 .rod-card.mastered {
-    border-color: #f1c40f !important;
-    box-shadow: 0 0 15px rgba(241, 196, 15, 0.45) !important;
+    border-color: #e74c3c !important;
+    background: linear-gradient(135deg, #0a0a15 0%, #150a10 100%) !important;
+    box-shadow: 
+        0 0 20px rgba(231, 76, 60, 0.4),
+        0 0 40px rgba(231, 76, 60, 0.2),
+        inset 0 0 30px rgba(231, 76, 60, 0.05) !important;
+    animation: masteredPulse 3s ease-in-out infinite;
+}
+
+@keyframes masteredPulse {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px rgba(231, 76, 60, 0.4),
+            0 0 40px rgba(231, 76, 60, 0.2),
+            inset 0 0 30px rgba(231, 76, 60, 0.05);
+    }
+    50% {
+        box-shadow: 
+            0 0 30px rgba(231, 76, 60, 0.6),
+            0 0 60px rgba(231, 76, 60, 0.3),
+            inset 0 0 40px rgba(231, 76, 60, 0.1);
+    }
+}
+
+.rod-card.mastered .rod-image-container {
+    background: linear-gradient(135deg, #1a0a0f 0%, #2a1015 100%);
+    border-color: #e74c3c;
 }
 
 .mastered-text {
-    color: #f1c40f !important;
+    color: #e74c3c !important;
+    text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
 }
 
 .rod-info-left {
@@ -152,6 +178,24 @@
     cursor: not-allowed;
     border-color: #444;
     color: #444;
+}
+
+.select-btn {
+    background: transparent;
+    border: 2px solid #3498db;
+    color: #3498db;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: inherit;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.select-btn:hover {
+    background: #3498db;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
 }
 
 /* Progress Sections */
