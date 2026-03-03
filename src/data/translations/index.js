@@ -1,17 +1,25 @@
 import en from './en';
 import zh from './zh';
+import es from './es';
+import ja from './ja';
+import de from './de';
+import ko from './ko';
+import fr from './fr';
+import ar from './ar';
+import hi from './hi';
+import it from './it';
 
 export const TRANSLATIONS = {
-    en,
-    zh,
-    es: en, // Fallback to English - add translation file
-    ja: en, // Fallback to English - add translation file
-    de: en, // Fallback to English - add translation file
-    ko: en, // Fallback to English - add translation file
-    fr: en, // Fallback to English - add translation file
-    ar: en, // Fallback to English - add translation file
-    hi: en, // Fallback to English - add translation file
-    it: en, // Fallback to English - add translation file
+    en: en.en,
+    zh: zh.zh,
+    es: es.es,
+    ja: ja.ja,
+    de: de.de,
+    ko: ko.ko,
+    fr: fr.fr,
+    ar: ar.ar,
+    hi: hi.hi,
+    it: it.it,
 };
 
 export const LANGUAGES = [
